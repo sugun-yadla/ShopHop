@@ -25,9 +25,9 @@ streamlit run frontend/main.py
 
 The backend of this application is built using Django and uses PostgreSQL for the database. To start the backend server, follow the steps:
 
-1. Setup and activate a virtual environment for Python dependencies
+1. Setup and activate a virtual environment for Python dependencies. Navigate to the backend directory.
 ```bash
-cd/backend/shophop
+cd/backend/
 python3 -m venv env
 source env/bin/activate
 ```
@@ -35,7 +35,17 @@ source env/bin/activate
 ```bash
 pip3 install -r requirements.txt
 ```
-3. Run the Django development server
+3. Configure Environment Variables. Navigate to the project directory and create a .env file. Add the following details to the .env file (replace placeholders with actual values).
+```bash
+cd/shophop/
+```
+DB_NAME='your_database_name'
+DB_USER='your_database_user'
+DB_PASSWORD='your_database_password'
+DB_HOST='your_database_host'
+DB_PORT='your_database_port'
+
+4. Run the Django development server
 ```bash
 python3 manage.py runserver
 ```
