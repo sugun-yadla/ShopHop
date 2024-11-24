@@ -31,19 +31,23 @@ cd/backend/
 python3 -m venv env
 source env/bin/activate
 ```
+
 2. Install dependencies
 ```bash
 pip3 install -r requirements.txt
 ```
+
 3. Configure Environment Variables. Navigate to the project directory and create a .env file. Add the following details to the .env file (replace placeholders with actual values).
 ```bash
 cd/shophop/
+```
 ```
 DB_NAME='your_database_name'
 DB_USER='your_database_user'
 DB_PASSWORD='your_database_password'
 DB_HOST='your_database_host'
 DB_PORT='your_database_port'
+```
 
 4. Run the Django development server
 ```bash
