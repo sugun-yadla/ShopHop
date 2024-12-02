@@ -7,7 +7,7 @@ from price_parser import Price
 
 PRODUCT_URL_CSV = "products.csv" #The CSV that contains the target URLs, the csv needs to have two fields, url and alert_price(can be changed accordingly)
 SAVE_TO_CSV = True
-PRICES_CSV = "prices.csv"
+PRICES_CSV = "prices.csv" # if needed, we can make it so that it saves the data to a database instead, I just made it a csv since its easier to work with, but we can edit accordingly
 SEND_MAIL = True
 
 
