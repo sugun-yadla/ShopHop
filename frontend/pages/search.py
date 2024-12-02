@@ -1,5 +1,8 @@
 import streamlit as st
 import utils
+from st_utils import show_sidebar
+
+show_sidebar()
 
 st.markdown('## Find the best deals!')
 

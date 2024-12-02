@@ -7,6 +7,7 @@ The frontend of this application is built using [Streamlit](https://streamlit.io
 
 1. Setup and activate a virtual environment for Python dependencies (using either `virtualenv` or `venv`)
 ```bash
+cd frontend
 virtualenv env -p python3
 source env/bin/activate
 ```
@@ -27,7 +28,7 @@ The backend of this application is built using Django and uses PostgreSQL for th
 
 1. Setup and activate a virtual environment for Python dependencies. Navigate to the backend directory.
 ```bash
-cd/backend/
+cd backend/
 python3 -m venv env
 source env/bin/activate
 ```
@@ -39,7 +40,7 @@ pip3 install -r requirements.txt
 
 3. Configure Environment Variables. Navigate to the project directory and create a .env file. Add the following details to the .env file (replace placeholders with actual values).
 ```bash
-cd/shophop/
+cd shophop/
 ```
 ```
 DB_NAME='your_database_name'
