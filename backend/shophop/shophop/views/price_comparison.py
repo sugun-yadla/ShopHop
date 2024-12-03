@@ -15,7 +15,7 @@ def standardize_quantity(row):
         
         quantity = quantity.lower()
         quantity = quantity.replace("ounce", "oz")
-        match = re.search(r'([\d.]+)\s*(fl oz|gallon|gal|oz|carton|ct|dozen|count|lb)', quantity)
+        match = re.search(r'([\d.]+)\s*(fl oz|gallon|gal|oz|carton|ct|dozen|count|lb|pk|pack)', quantity)
         
         if match:
             value, unit = match.groups()
@@ -25,10 +25,11 @@ def standardize_quantity(row):
                 return f"{value * 128:.2f} oz"
             elif "fl oz" in unit or "oz" in unit:
                 return f"{value:.2f} oz"
-            elif "carton" in unit or "ct" in unit or "dozen" in unit or "count" in unit:
+            elif "carton" in unit or "ct" in unit or "dozen" in unit or "count" in unit or "pk" in unit or "pack" in unit:
                 return f"{value:.2f} ct"
             elif "lb" in unit:
                 return f"{value * 16:.2f} oz"
+
         
         return None
     except Exception as e:
@@ -129,16 +130,29 @@ def fetch_products(request, product):
         dairy_products = [product.strip() for product in product.split(',')] 
         database = []
         walmart_data = []
+        aldi_data = []
 
         for product in dairy_products:
             aldi_details = fetch_aldi_products(product)
-            
+            #print(aldi_details)
             if aldi_details:
                 try:
-                    aldi_df = pd.DataFrame(aldi_details)
-                    aldi_df["Price"] = aldi_df["Price"].str.replace('$', '').astype(float)
-                    aldi_df["Category"] = product
-                    aldi_df["store"] = "Aldi"
+                    for entry in aldi_details:
+                        #print(entry)
+                        name = entry["Product"]
+                        price_str = entry["Price"].replace('$', '')
+                        #print(price_str)
+                        if '/' in price_str:
+                            price_str = price_str.split('/')[0]
+                        
+                        aldi_data.append({
+                            "Product": name,
+                            "Price": price_str,
+                            "Quantity": entry["Quantity"],
+                            "Category": product,
+                            "store": "Aldi"
+                        })
+                    aldi_df = pd.DataFrame(aldi_data)
                     database.append(aldi_df)
                 except Exception as e:
                     print(f"Error processing Aldi data: {e}")
@@ -168,32 +182,24 @@ def fetch_products(request, product):
         if database == []:
             return JsonResponse("No data found", status=500)
         
-        #final_df = pd.concat(dairyDatabase, ignore_index=True)
-
         return data_cleaning(database)
-        
-        #print("final_df: ",final_df)
-
-
-        #final_df['Standardized_Quantity'] = final_df.apply(standardize_quantity, axis=1)
-        #final_df = final_df[final_df['Standardized_Quantity'].notna()]
-
-        #cheapest_group = final_df.loc[final_df.groupby(['Category','Standardized_Quantity'])['Price'].idxmin()]
-        #return JsonResponse(final_df.to_dict(orient='records'), safe=False)
+    
     except Exception as e:
         print(f"Error in fetch_products: {e}")
         return JsonResponse({"error": "An error occurred while processing the request."}, status=500)
 
 def data_cleaning(dairyDatabase):
 
-    #print("dairyDatabase: ",dairyDatabase)
-    #print(dairyDatabase)
     if isinstance(dairyDatabase, list):
         grocery_db = pd.concat(dairyDatabase, ignore_index=True)
     elif isinstance(dairyDatabase, pd.DataFrame):
         grocery_db = dairyDatabase
+
     cleaned_grocery_db = grocery_db.dropna()
     cleaned_grocery_db['Standardized_Quantity'] = cleaned_grocery_db.apply(standardize_quantity, axis=1)
-    #grocery_db = grocery_db[grocery_db['Standardized_Quantity'].notna()]
+    cleaned_grocery_db = cleaned_grocery_db[cleaned_grocery_db['Standardized_Quantity'].notnull()]
 
+    if cleaned_grocery_db.empty:
+        return JsonResponse({'message': 'No valid data after cleaning.'}, status=200)
+    
     return JsonResponse(cleaned_grocery_db.to_dict(orient='records'), safe=False)
