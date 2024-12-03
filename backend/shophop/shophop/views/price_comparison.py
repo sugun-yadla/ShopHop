@@ -44,7 +44,6 @@ def fetch_aldi_products(product):
             "User-Agent": 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36'
         }
         response = requests.get(url, headers=headers)
-        #print(response.text[:1000])
         
         if response.status_code != 200:
             # print(f"Failed to fetch Aldi products: {response.status_code}")
@@ -52,14 +51,10 @@ def fetch_aldi_products(product):
 
         page_soup = BeautifulSoup(response.content, 'html.parser')
         elements = page_soup.find('div', class_="product-grid")
-        if elements and elements.innerHTML.strip() == "":
-            print("The product grid is empty.")
-        else:
-            print("The product grid contains products.")
+        
         if elements:
             count = 0
             for product_tile in elements.find_all("div", class_="product-tile"):
-                print()
                 if count >= 10:
                     break
                 
@@ -89,7 +84,6 @@ def fetch_aldi_products(product):
         return details
     except Exception as e:
         print(f"Error in fetch_aldi_products: {e}")
-        print("Hello")
         return []
 
 
@@ -126,7 +120,6 @@ def fetch_walmart_products(product):
         return details
     except Exception as e:
         print(f"Error in fetch_walmart_products: {e}")
-        print("Hello")
         return []
 
 
@@ -134,29 +127,24 @@ def fetch_walmart_products(product):
 def fetch_products(request, product):
     try:
         dairy_products = [product.strip() for product in product.split(',')] 
-        dairyDatabase = []
-        structured_data = []
+        database = []
+        walmart_data = []
 
         for product in dairy_products:
             aldi_details = fetch_aldi_products(product)
             
-            if aldi_details == "":
-                return aldi_details
             if aldi_details:
-                print("aldi_details: ",aldi_details)
                 try:
-
                     aldi_df = pd.DataFrame(aldi_details)
                     aldi_df["Price"] = aldi_df["Price"].str.replace('$', '').astype(float)
                     aldi_df["Category"] = product
                     aldi_df["store"] = "Aldi"
-                    dairyDatabase.append(aldi_df)
+                    database.append(aldi_df)
                 except Exception as e:
                     print(f"Error processing Aldi data: {e}")
 
             walmart_details = fetch_walmart_products(product)
-            if walmart_details == "":
-                return walmart_details
+            
             if walmart_details:
                 try:
                     for entry in walmart_details:
@@ -164,7 +152,7 @@ def fetch_products(request, product):
                         size = name[::-1].split(",", 1)[0][::-1].strip()
                         price_str = entry["Price"].split("$")[-1]
                         price = float(price_str.strip().replace(",", ""))
-                        structured_data.append({
+                        walmart_data.append({
                             "Product": name.split(",")[0].strip(),
                             "Price": price,
                             "Quantity": size,
@@ -172,19 +160,40 @@ def fetch_products(request, product):
                             "store": "Walmart"
                         })
 
-                    walmart_df = pd.DataFrame(structured_data)
-                    dairyDatabase.append(walmart_df)
+                    walmart_df = pd.DataFrame(walmart_data)
+                    database.append(walmart_df)
                 except Exception as e:
                     print(f"Error processing Walmart data: {e}")
 
-        final_df = pd.concat(dairyDatabase, ignore_index=True)
-        final_df = final_df.dropna()
+        if database == []:
+            return JsonResponse("No data found", status=500)
+        
+        #final_df = pd.concat(dairyDatabase, ignore_index=True)
 
-        final_df['Standardized_Quantity'] = final_df.apply(standardize_quantity, axis=1)
-        final_df = final_df[final_df['Standardized_Quantity'].notna()]
+        return data_cleaning(database)
+        
+        #print("final_df: ",final_df)
+
+
+        #final_df['Standardized_Quantity'] = final_df.apply(standardize_quantity, axis=1)
+        #final_df = final_df[final_df['Standardized_Quantity'].notna()]
 
         #cheapest_group = final_df.loc[final_df.groupby(['Category','Standardized_Quantity'])['Price'].idxmin()]
-        return JsonResponse(final_df.to_dict(orient='records'), safe=False)
+        #return JsonResponse(final_df.to_dict(orient='records'), safe=False)
     except Exception as e:
         print(f"Error in fetch_products: {e}")
         return JsonResponse({"error": "An error occurred while processing the request."}, status=500)
+
+def data_cleaning(dairyDatabase):
+
+    #print("dairyDatabase: ",dairyDatabase)
+    #print(dairyDatabase)
+    if isinstance(dairyDatabase, list):
+        grocery_db = pd.concat(dairyDatabase, ignore_index=True)
+    elif isinstance(dairyDatabase, pd.DataFrame):
+        grocery_db = dairyDatabase
+    cleaned_grocery_db = grocery_db.dropna()
+    cleaned_grocery_db['Standardized_Quantity'] = cleaned_grocery_db.apply(standardize_quantity, axis=1)
+    #grocery_db = grocery_db[grocery_db['Standardized_Quantity'].notna()]
+
+    return JsonResponse(cleaned_grocery_db.to_dict(orient='records'), safe=False)
