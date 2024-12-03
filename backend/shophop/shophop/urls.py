@@ -14,9 +14,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
+
 from django.urls import path
+from shophop.views import *
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('token', get_tokens, name='get-tokens'),
+    path('token/refresh', refresh_tokens, name='refresh-tokens'),
+
+    path('saved_items', get_saved_items, name='get-saved-items')
 ]
