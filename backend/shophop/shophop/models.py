@@ -28,3 +28,15 @@ class SavedItem(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(blank=False, max_length=256)
     price = models.FloatField()
+
+class Product(models.Model):
+    product = models.CharField(max_length=255, null=False, blank=False)
+    category = models.CharField(max_length=100, null=False, blank=False)
+    price = models.FloatField(null=False, blank=False)
+    quantity = models.CharField(max_length=100, null=False, blank=False)
+    standardized_quantity = models.CharField(max_length=100, null=False, blank=False)
+    store = models.CharField(max_length=50, null=False, blank=False)
+
+    def __str__(self):
+        return f"Name: {self.name}, Category: {self.category}, Price: ${self.price}, Standardized Quantity: {self.standardized_quantity}, Store: {self.store}"
+
