@@ -61,10 +61,31 @@ class ProductFetchTests(unittest.TestCase):
 
     # to add
     # check if None getting assigned properly through automation
-    # check standardization
     # comparison
-    # 
+    
+class StandardizeQuantityTests(unittest.TestCase):
 
+    def test_valid_quantities(self):
+        mock_test_data = pd.DataFrame([{'Product': 'Mavuno Harvest Organic Dried Fruit', 'Price': 3.64, 'Quantity': '2 Ozbag', 'Category': 'banana', 'store': 'Walmart', 'expected': '2.00 oz'}, 
+                                 {'Product': 'Nature All Foods Organic Freeze Dried Raw Banana 2.5 oz - Vegan', 'Price': 7.88, 'Quantity': 'Nature All Foods Organic Freeze Dried Raw Banana 2.5 oz - Vegan', 'Category': 'banana', 'store': 'Walmart', 'expected': '2.50 oz'}, 
+                                 {'Product': 'Silk Dairy Free', 'Price': 3.34, 'Quantity': '4 Pack', 'Category': 'milk', 'store': 'Walmart', 'expected':'4.00 ct'}, 
+                                 {'Product': 'sugar', 'Price': 4.97, 'Quantity': '1.5 lb', 'Category': 'sugar', 'store': 'Walmart', 'expected':'24.00 oz'}, 
+                                 {'Product': 'Salt', 'Price': 4.97, 'Quantity': '1 carton', 'Category': 'salt', 'store': 'Walmart', 'expected':'1.00 ct'},
+                                 {'Product': 'Milk', 'Price': 2.98, 'Quantity': '64 fl oz Half Gallon', 'Category': 'milk', 'store': 'Aldi', 'expected': '64.00 oz'}, 
+                                 {'Product': 'Great Value Whole Vitamin D Milk', 'Price': 3.52, 'Quantity': '2 gallons', 'Category': 'milk', 'store': 'Aldi', 'expected': '256.00 oz'},
+                                 {"Product": "Great Value Milk 1 Lowfat Half Gallon Plastic Jug","Price": 2.12, "Quantity": "Great Value Milk 1 Lowfat Half Gallon Plastic Jug","Category": "milk","store": "Walmart","Standardized_Quantity": None}])
+        
+        for _, row in mock_test_data.iterrows():
+            result = price_comparison.standardize_quantity(row)
+            self.assertTrue(pd.isna(result) and pd.isna(row['expected']) or result == row['expected'])
+    
+    def test_standard_quantity_null_drop(self):
+        mock_test_data = pd.DataFrame([{"Product": "Great Value Milk 1 Lowfat Half Gallon Plastic Jug","Price": 2.12,"Quantity": "Great Value Milk 1 Lowfat Half Gallon Plastic Jug","Category": "milk","store": "Walmart"}])
+        clean_data = price_comparison.data_cleaning(mock_test_data)
+        actual_response = json.loads(clean_data.content.decode('utf-8'))
+        expected_response = {"message": "No valid data after cleaning."}
+        self.assertEqual(clean_data.status_code, 200)
+        self.assertEqual(actual_response, expected_response)
+            
 if __name__ == "__main__":
     unittest.main()
-
