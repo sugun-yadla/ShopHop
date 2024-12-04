@@ -6,6 +6,8 @@ import re
 from rest_framework.decorators import api_view
 from shophop.models import Product
 from shophop.views.target_data import get_target_data
+import json
+
 
 def standardize_quantity(row):
     try:
@@ -224,12 +226,12 @@ def fetch_products(request, product):
                         store="Target"
                     )
                     for entry in valid_entries ]
-                    Product.objects.bulk_create(products)
+                    # Product.objects.bulk_create(products)
 
-                    if not Product.objects.filter(product__in=[product.product for product in products]).exists():
-                        raise Exception("Data was not saved to the database.")
+                    # if not Product.objects.filter(product__in=[product.product for product in products]).exists():
+                    #     raise Exception("Data was not saved to the database.")
     
-                    print(f"Successfully saved {len(products)} products to the database.")
+                    # print(f"Successfully saved {len(products)} products to the database.")
 
                 except Exception as e:
                     print(f"Error processing Target data: {e}")
@@ -258,5 +260,21 @@ def data_cleaning(dairyDatabase):
 
     if cleaned_grocery_db.empty:
         return JsonResponse({'message': 'No valid data after cleaning.'}, status=200)
-    
-    return JsonResponse(cleaned_grocery_db.to_dict(orient='records'), safe=False)
+        
+    get_cheapest_products = priceComparison(cleaned_grocery_db)
+    return JsonResponse(get_cheapest_products.to_dict(orient='records'), safe=False)
+
+def priceComparison(database):
+
+    database['Price'] = pd.to_numeric(database['Price'], errors='coerce')
+
+    cheapest_products_sorted = database.sort_values(by=['store', 'Price'], ascending=[True, True])
+
+    # print(json.dumps(cheapest_products_sorted.to_dict(orient='records'), indent=2))
+    return cheapest_products_sorted
+
+
+
+
+
+

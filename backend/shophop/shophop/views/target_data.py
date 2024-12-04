@@ -106,66 +106,54 @@ def get_target_data(item):
 
     if response.status_code == 200:
         results_json = response.json()
-        
         result_items = results_json['data']['search']['products']
         
-        
+        count = 0
         for result in result_items:
-
-          try:
+            if count >= 10:
+                break  
+            try:
             
-
               title = result['item']['product_description']['title']
-            
-              # Decode HTML entities
               decoded_title = html.unescape(title)
-              
-              # Clean title: remove everything after the first " - "
               cleaned_title = re.split(r'\s+-\s+', decoded_title)[0]
-              
-            
               product_title = cleaned_title
-          except:
-            
+            except:
               product_title = None
 
-
-          # price
-          try:
+            try:
             
-            price = result['price']['formatted_current_price'].lstrip('$')
-          except:
+                price = result['price']['formatted_current_price'].lstrip('$')
+            except:
             
-              price = None
-
+                price = None
           # extract quantity
-          try:
-              title_lower = title.lower()
+            try:
+                title_lower = title.lower()
               
               # Check for "each" in the title
-              if "each" in title_lower:
-                #   quantity.append("1 Count")
-                  quantity = "1 Count"
-              else:
-                  # Extract standard quantities like "5lb", "32oz", etc.
-                  #match = re.search(r'(\d+\.?\d*)\s?(oz|lb|g|count|ct|gal|)', title_lower)
-                  match = re.search(r'([\d.]+)\s*(fl oz|gallon|gal|oz|carton|ct|dozen|count|lb|pk|pack)', title_lower)
-                  if match:
-                   
-                        quantity = match.group(0)
-                  else:
-                    # No quantity found
-                        quantity = None
-          except:
-              quantity.append(None)
-          details.append({
-                        "Product": product_title,
-                        "Price": price,
-                        "Quantity": quantity,
-                        "Category": item,
-                        "store": "Target"
-                })
-
+                if "each" in title_lower:
+                    #   quantity.append("1 Count")
+                    quantity = "1 Count"
+                else:
+                    # Extract standard quantities like "5lb", "32oz", etc.
+                    #match = re.search(r'(\d+\.?\d*)\s?(oz|lb|g|count|ct|gal|)', title_lower)
+                    match = re.search(r'([\d.]+)\s*(fl oz|gallon|gal|oz|carton|ct|dozen|count|lb|pk|pack)', title_lower)
+                    if match:
+                            quantity = match.group(0)
+                    else:
+                        # No quantity found
+                            quantity = None
+            except:
+                quantity.append(None)
+            details.append({
+                            "Product": product_title,
+                            "Price": price,
+                            "Quantity": quantity,
+                            "Category": item,
+                            "store": "Target"
+                    })
+            count += 1  
         return details
     
     else:
