@@ -66,24 +66,21 @@ def fetch_aldi_products(product):
                 title = product_tile.find("div", class_="product-tile__name")                    
                 price = product_tile.find("div", class_="base-price base-price--product-tile product-tile__price")
                 size = product_tile.find("div", class_="product-tile__unit-of-measurement")
+                url = product_tile.find("a", class_="base-link product-tile__link")
+                image = product_tile.find("img", class_="base-image")
 
-                if title:
-                    title = title.text.strip()
-                else:
-                    title = None
-                if price:
-                    price = price.text.strip() 
-                else:
-                    price = None
-                if size:
-                    size = size.text.strip()
-                else:
-                    size = None
+                title = title.text.strip() if title else None
+                price = price.text.strip() if price else None
+                size = size.text.strip() if size else None
+                url = 'https://new.aldi.us' + url.get('href') if url else None
+                image = image.get('src') if image else None
 
                 details.append({
                         "Product": title,
                         "Price": price,
-                        "Quantity": size
+                        "Quantity": size,
+                        "URL": url,
+                        "Image": image
                 })
                 count += 1  
         return details
@@ -98,7 +95,7 @@ def fetch_walmart_products(product):
         url = f'https://www.walmart.com/search?q={product}'
         headers = {
             "Referer": "https://www.google.com",
-            "Connection": "Keep-Alive",
+            "Cookie": "adblocked=true",
             "Accept-Language": "en-US,en;q=0.9",
             "Accept-Encoding": "gzip, deflate, br",
             "User-Agent": 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36'
@@ -112,15 +109,22 @@ def fetch_walmart_products(product):
         walmart_soup = BeautifulSoup(response.content, 'html.parser')
         spans = walmart_soup.find_all('span', {'class': 'w_iUH7'})
 
-        current_name = None
+        current_name, current_url = None, None
         for span in spans:
             text = span.text.strip()
             if text.startswith("current price"):
                 if current_name:
-                    details.append({'Product': current_name, 'Price': text, 'Category': f'{product}'})
+                    details.append({'Product': current_name, 'Price': text, 'Category': f'{product}', 'URL': current_url})
                 current_name = None
             else:
                 current_name = text
+                for parent in span.parents:
+                    current_url = "https://walmart.com/" + parent.get('href', '')
+                    break
+
+        product_images = walmart_soup.find_all('img', id=lambda x: x and 'productImage' in x)
+        for i, img in enumerate(product_images):
+            details[i]['Image'] = img.get('src')
 
         return details
     except Exception as e:
@@ -162,7 +166,9 @@ def fetch_products(request, product):
                             "Price": price_str,
                             "Quantity": entry["Quantity"],
                             "Category": product,
-                            "store": "Aldi"
+                            "Store": "Aldi",
+                            "Image": entry["Image"],
+                            "URL": entry["URL"]
                         })
 
                     aldi_df = pd.DataFrame(aldi_data)
@@ -184,7 +190,9 @@ def fetch_products(request, product):
                             "Price": price,
                             "Quantity": size,
                             "Category": entry["Category"],
-                            "store": "Walmart"
+                            "Store": "Walmart",
+                            "Image": entry["Image"],
+                            "URL": entry["URL"]
                         })
                     
                     walmart_df = pd.DataFrame(walmart_data)
@@ -201,7 +209,7 @@ def fetch_products(request, product):
                             "Price": entry["Price"],
                             'Quantity': entry["Quantity"],
                             'Category': entry["Category"],
-                            "store": "Target"
+                            "Store": "Target"
                             })
                          
                     target_df = pd.DataFrame(target_data)
@@ -270,7 +278,7 @@ def priceComparison(database):
 
     database['Price'] = pd.to_numeric(database['Price'], errors='coerce')
 
-    cheapest_products_sorted = database.sort_values(by=['store', 'Price'], ascending=[True, True])
+    cheapest_products_sorted = database.sort_values(by=['Store', 'Price'], ascending=[True, True])
 
     # for index, row in cheapest_products_sorted.iterrows():
     #     product = row['Product']
@@ -278,7 +286,7 @@ def priceComparison(database):
     #     price = row['Price']
     #     quantity = row['Quantity']
     #     standardized_quantity = row['Standardized_Quantity']
-    #     store = row['store']
+    #     store = row['Store']
     #     added_on = datetime.now()  # Set current datetime
 
     #     # Save to the database
@@ -293,6 +301,6 @@ def priceComparison(database):
     #     )
     #     cheapProduct.save()
 
-    #print("Data saved successfully!")
+    # print("Data saved successfully!")
     # print(json.dumps(cheapest_products_sorted.to_dict(orient='records'), indent=2))
     return cheapest_products_sorted
