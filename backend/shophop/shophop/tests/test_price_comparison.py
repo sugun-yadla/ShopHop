@@ -2,7 +2,6 @@ import unittest
 from django.test import Client
 from rest_framework import status
 from django.urls import reverse
-from unittest.mock import patch, Mock
 import pandas as pd
 from ..views import price_comparison
 import json
