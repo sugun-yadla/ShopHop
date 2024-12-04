@@ -5,6 +5,7 @@ import pandas as pd
 import re
 from rest_framework.decorators import api_view
 from shophop.models import Product
+from shophop.views.target_data import get_target_data
 
 def standardize_quantity(row):
     try:
@@ -29,7 +30,6 @@ def standardize_quantity(row):
                 return f"{value:.2f} ct"
             elif "lb" in unit:
                 return f"{value * 16:.2f} oz"
-
         
         return None
     except Exception as e:
@@ -123,6 +123,14 @@ def fetch_walmart_products(product):
         print(f"Error in fetch_walmart_products: {e}")
         return []
 
+def fetch_target_products(product):
+    try:
+        details =  get_target_data(product)
+        return details
+    except Exception as e:
+        print(f"Error in fetch_target_products: {e}")
+        return []
+
 
 @api_view(('GET',))
 def fetch_products(request, product):
@@ -130,21 +138,21 @@ def fetch_products(request, product):
         dairy_products = [product.strip() for product in product.split(',')] 
         database = []
         walmart_data = []
+        target_data = []
         aldi_data = []
 
         for product in dairy_products:
+
             aldi_details = fetch_aldi_products(product)
-            #print(aldi_details)
             if aldi_details:
                 try:
                     for entry in aldi_details:
-                        #print(entry)
                         name = entry["Product"]
                         price_str = entry["Price"].replace('$', '')
-                        #print(price_str)
+
                         if '/' in price_str:
                             price_str = price_str.split('/')[0]
-                        
+
                         aldi_data.append({
                             "Product": name,
                             "Price": price_str,
@@ -152,6 +160,7 @@ def fetch_products(request, product):
                             "Category": product,
                             "store": "Aldi"
                         })
+
                     aldi_df = pd.DataFrame(aldi_data)
                     database.append(aldi_df)
                 except Exception as e:
@@ -173,16 +182,64 @@ def fetch_products(request, product):
                             "Category": entry["Category"],
                             "store": "Walmart"
                         })
-
+                    
                     walmart_df = pd.DataFrame(walmart_data)
-                    database.append(walmart_df)
+                    database.append(walmart_df)   
                 except Exception as e:
                     print(f"Error processing Walmart data: {e}")
+            
+            target_details = fetch_target_products(product)
+            if target_details:
+                try:
+                    for entry in target_details:
+                         target_data.append({
+                            'Product': entry["Product"],
+                            "Price": entry["Price"],
+                            'Quantity': entry["Quantity"],
+                            'Category': entry["Category"],
+                            "store": "Target"
+                            })
+                         
+                    target_df = pd.DataFrame(target_data)
+                    database.append(target_df)
+
+                    # Saving target data to db
+                    valid_entries = [
+                    entry for entry in target_details
+                    if (
+                        entry.get("Product") and
+                        entry.get("Category") and
+                        entry.get("Price") is not None and
+                        entry.get("Quantity") and
+                        standardize_quantity(entry) is not None
+                    )]
+
+                    products = [
+                    Product(
+                        product=entry["Product"],
+                        category=entry["Category"],
+                        price=float(entry["Price"]),
+                        quantity=entry["Quantity"] or None,
+                        standardized_quantity=standardize_quantity(entry) or None,
+                        store="Target"
+                    )
+                    for entry in valid_entries ]
+                    Product.objects.bulk_create(products)
+
+                    if not Product.objects.filter(product__in=[product.product for product in products]).exists():
+                        raise Exception("Data was not saved to the database.")
+    
+                    print(f"Successfully saved {len(products)} products to the database.")
+
+                except Exception as e:
+                    print(f"Error processing Target data: {e}")
 
         if database == []:
             return JsonResponse("No data found", status=500)
         
+        
         return data_cleaning(database)
+        
     
     except Exception as e:
         print(f"Error in fetch_products: {e}")
