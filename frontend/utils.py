@@ -2,7 +2,10 @@ import time
 import json
 import requests
 import streamlit as st
+from streamlit_cookies_controller import CookieController
 
+
+cc = CookieController()
 BACKEND_URL = 'http://127.0.0.1:8000'
 
 
@@ -26,12 +29,9 @@ def search(query):
 
 
 def get(endpoint: str, payload=None):
+    _, access_token, _ = verify_and_get_auth_cookies()
 
     def __get(endpoint: str, payload=None):
-        access_token = st.session_state.get('access_token', None)
-        if not access_token:
-            st.switch_page('main.py')
-
         headers = {
             'Authorization': f'Bearer {access_token}'
         }
@@ -54,6 +54,37 @@ def refresh_token():
     response = requests.get(BACKEND_URL + '/api/token/refresh', data=payload)
     response = json.loads(response.content.decode('utf-8'))
 
-    st.session_state['user'] = response['user']
-    st.session_state['access_token'] = response['access_token']
-    st.session_state['refresh_token'] = response['refresh_token']
+    set_auth_cookies(response['user'], response['access_token'], response['refresh_token'])
+
+
+@st.dialog("Logged out")
+def show_log_out_dialog():
+    # TODO
+    st.switch_page('main.py')
+
+
+def set_auth_cookies(user, access_token, refresh_token):
+    cc.set('shophop-user', json.dumps(user))
+    cc.set('shophop-access-token', access_token)
+    cc.set('shophop-refresh-token', refresh_token)
+
+
+def verify_and_get_auth_cookies():
+    user = cc.get('shophop-user')
+    access_token = cc.get('shophop-access-token')
+    refresh_token = cc.get('shophop-refresh-token')
+
+    if (not user) or (not access_token) or (not refresh_token):
+        remove_auth_cookies()
+        st.toast('Session inactive, please log in again...')
+        st.switch_page('main.py')
+
+    return json.loads(user), access_token, refresh_token
+
+
+def remove_auth_cookies():
+    for cookie in ['shophop-user', 'shophop-access-token', 'shophop-refresh-token']:
+        try:
+            cc.remove(cookie)
+        except KeyError:
+            pass

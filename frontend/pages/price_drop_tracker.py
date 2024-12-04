@@ -1,8 +1,10 @@
 import utils
 import streamlit as st
-from st_utils import show_sidebar
+import utils
+import st_utils
 
-show_sidebar()
+utils.verify_and_get_auth_cookies()
+st_utils.show_sidebar()
 
 st.markdown('## Saved Items')
 st.write('Add items to this list to receive an email notification when we detect a price drop!')
