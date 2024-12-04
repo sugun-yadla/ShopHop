@@ -74,6 +74,7 @@ def fetch_aldi_products(product):
                 size = size.text.strip() if size else None
                 url = 'https://new.aldi.us' + url.get('href') if url else None
                 image = image.get('src') if image else None
+                image = re.sub('/scaleWidth/\d+/', '/scaleWidth/540/', image) if image else None
 
                 details.append({
                         "Product": title,
@@ -124,7 +125,7 @@ def fetch_walmart_products(product):
 
         product_images = walmart_soup.find_all('img', id=lambda x: x and 'productImage' in x)
         for i, img in enumerate(product_images):
-            details[i]['Image'] = img.get('src')
+            details[i]['Image'] = img.get('src').split('?')[0] + '?odnHeight=540&odnWidth=540'
 
         return details
     except Exception as e:

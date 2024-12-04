@@ -5,41 +5,29 @@ import streamlit as st
 
 BACKEND_URL = 'http://127.0.0.1:8000'
 
-def login(email, password):
-    # TODO
-    time.sleep(1)
-    if email == 'adwaitbhope@gmail.com' and password == 'abc':
-        return { 'first_name': 'Adwait', 'last_name': 'Bhope', 'email': email, 'password': password }   # Return user object
 
-    return False
+def search(query):
+    products = get(f'/api/products/{query}')
 
+    def prettify(item: dict):
+        item = item.copy()
+        item['Price'] = f'$ {item["Price"]:.2f}'
+        if 'store' in item:
+            item['Store'] = item['store']
+            del item['store']
+        del item['Image']
+        del item['URL']
+        item['st_quant'] = item['Standardized_Quantity']
+        del item['Standardized_Quantity']
+        return item
 
-def reset_password(user, old_password, new_password):
-    # TODO
-    time.sleep(1.5)
-    if old_password != user['password']:
-        return False, 'current password is incorrect'
-
-    return True, ''
-
-
-def search(user, query):
-    # TODO
-    time.sleep(0.5)
-    return [{
-            'store': 'Walmart',
-            'name': 'Potatoes',
-            'price': 4.99
-        }, {
-            'store': 'ALDI',
-            'name': 'Potatoes',
-            'price': 3.99
-        }
-    ]
+    prettified_products = [prettify(item) for item in products]
+    return products, prettified_products
 
 
-def get(endpoint, payload=None):
-    def __get(endpoint, payload=None):
+def get(endpoint: str, payload=None):
+
+    def __get(endpoint: str, payload=None):
         access_token = st.session_state.get('access_token', None)
         if not access_token:
             st.switch_page('main.py')
