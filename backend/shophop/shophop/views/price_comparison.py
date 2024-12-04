@@ -4,9 +4,10 @@ import requests
 import pandas as pd
 import re
 from rest_framework.decorators import api_view
-from shophop.models import Product
+from shophop.models import Product,cheapProducts
 from shophop.views.target_data import get_target_data
 import json
+from datetime import datetime
 
 
 def standardize_quantity(row):
@@ -270,6 +271,28 @@ def priceComparison(database):
 
     cheapest_products_sorted = database.sort_values(by=['store', 'Price'], ascending=[True, True])
 
+    for index, row in cheapest_products_sorted.iterrows():
+        product = row['Product']
+        category = row['Category']
+        price = row['Price']
+        quantity = row['Quantity']
+        standardized_quantity = row['Standardized_Quantity']
+        store = row['store']
+        added_on = datetime.now()  # Set current datetime
+
+        # Save to the database
+        cheapProduct = cheapProducts(
+            product=product,
+            category=category,
+            price=price,
+            quantity=quantity,
+            standardized_quantity=standardized_quantity,
+            store=store,
+            added_on=added_on
+        )
+        cheapProduct.save()
+
+    print("Data saved successfully!")
     # print(json.dumps(cheapest_products_sorted.to_dict(orient='records'), indent=2))
     return cheapest_products_sorted
 

@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from datetime import datetime
 
 
 class User(AbstractUser):
@@ -39,4 +40,16 @@ class Product(models.Model):
 
     def __str__(self):
         return f"Name: {self.product}, Category: {self.category}, Price: ${self.price}, Standardized Quantity: {self.standardized_quantity}, Store: {self.store}"
+
+class cheapProducts(models.Model):
+    product = models.CharField(max_length=255, null=False, blank=False)
+    category = models.CharField(max_length=100, null=False, blank=False)
+    price = models.FloatField(null=False, blank=False)
+    quantity = models.CharField(max_length=100, null=True, blank=True)
+    standardized_quantity = models.CharField(max_length=100, null=True, blank=True)
+    store = models.CharField(max_length=50, null=False, blank=False)
+    added_on = models.DateTimeField(default=datetime.now, blank=True)
+
+    def __str__(self):
+        return f"Name: {self.product}, Category: {self.category}, Price: ${self.price}, Standardized Quantity: {self.standardized_quantity}, Store: {self.store}, Added On: {self.added_on}"
 
