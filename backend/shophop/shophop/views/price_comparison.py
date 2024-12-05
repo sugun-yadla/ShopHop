@@ -169,7 +169,7 @@ def fetch_products(request, product):
                             "Price": price_str,
                             "Quantity": entry["Quantity"],
                             "Category": product,
-                            "Store": "Aldi",
+                            "store": "Aldi",
                             "Image": entry["Image"],
                             "URL": entry["URL"]
                         })
@@ -193,7 +193,7 @@ def fetch_products(request, product):
                             "Price": price,
                             "Quantity": size,
                             "Category": entry["Category"],
-                            "Store": "Walmart",
+                            "store": "Walmart",
                             "Image": entry["Image"],
                             "URL": entry["URL"]
                         })
@@ -212,7 +212,7 @@ def fetch_products(request, product):
                             "Price": entry["Price"],
                             'Quantity': entry["Quantity"],
                             'Category': entry["Category"],
-                            "Store": "Target",
+                            "store": "Target",
                             "Image": entry["Image"],
                             "URL": entry["URL"]
                         })
@@ -285,7 +285,7 @@ def priceComparison(database):
 
     database['Price'] = pd.to_numeric(database['Price'], errors='coerce')
 
-    cheapest_products_sorted = database.sort_values(by=['Store', 'Price'], ascending=[True, True])
+    cheapest_products_sorted = database.sort_values(by=['store', 'Price'], ascending=[True, True])
 
     # for index, row in cheapest_products_sorted.iterrows():
     #     product = row['Product']
@@ -293,7 +293,7 @@ def priceComparison(database):
     #     price = row['Price']
     #     quantity = row['Quantity']
     #     standardized_quantity = row['Standardized_Quantity']
-    #     store = row['Store']
+    #     store = row['store']
     #     added_on = datetime.now()  # Set current datetime
 
     #     # Save to the database

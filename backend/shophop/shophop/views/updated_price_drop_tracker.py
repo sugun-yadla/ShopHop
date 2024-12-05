@@ -16,21 +16,23 @@ SENDER_EMAIL_PASSWORD = os.getenv('SENDER_EMAIL_PASSWORD')
 
 
 
-# grocery_items = [
-#     "Potato", "Bell Peppers", "Onion", "Avocado", "Cabbage", "Cauliflower", 
-#     "Garlic", "Tomato", "Broccoli", "Spinach", "Brussel Sprouts", "Zucchini", 
-#     "Apple", "Orange", "Banana", "Watermelon", "Cantaloupe", "MuskMelon", 
-#     "Grapes", "Pineapple", "Eggs", "Flour", "Sugar", "Milk", "Vanilla Extract", 
-#     "Butter", "Chocolate Chips", "Salt", "Baking Soda", "Baking Powder"
-# ]
-
 grocery_items = [
-    "Onion", "Garlic", "Eggs", "Tomato", "Broccoli","Potato", "Apple", "Banana", "Orange"
+    "Potato", "Bell Peppers", "Onion", "Avocado", "Cabbage", "Cauliflower", 
+    "Garlic", "Tomato", "Broccoli", "Spinach", "Brussel Sprouts", "Zucchini", 
+    "Apple", "Orange", "Banana", "Watermelon", "Cantaloupe", "MuskMelon", 
+    "Grapes", "Pineapple", "Eggs", "Flour", "Sugar", "Milk", "Vanilla Extract", 
+    "Butter", "Chocolate Chips", "Salt", "Baking Soda", "Baking Powder"
 ]
+
+# grocery_items = ["Apple"]
+
+# grocery_items = [
+#     "Onion", "Garlic", "Eggs", "Tomato", "Broccoli","Potato", "Apple", "Banana", "Orange"
+# ]
 
 def get_cheapest_from_web_scrape_data(items):
 
-    #  fetch cheapest for all the grocery items
+    #  fetch cheapest sfor all the grocery items
     
     # change this endpoint later
     base_url = "http://127.0.0.1:8000/api/products/"
@@ -53,7 +55,7 @@ def get_cheapest_from_web_scrape_data(items):
                 cheapest_prices[item] = {
                     "Product": cheapest_product["Product"],
                     "Current_Price": cheapest_product["Price"],
-                    "Store": cheapest_product["store"]
+                    "store": cheapest_product["store"]
                 }
 
         # Update to cheapest db 
@@ -119,8 +121,6 @@ def update_saved_items_db(mailing_list):
             
 
 def get_mailing_list():
-
-
     try:
         cheapest_prices = get_cheapest_from_web_scrape_data(grocery_items)
         for item, details in cheapest_prices.items():
@@ -154,7 +154,7 @@ def get_mailing_list():
                     "name": item_name,
                     "old_price": saved_price,
                     "new_price": cheapest_price,
-                    "store": cheapest_item["Store"],
+                    "store": cheapest_item["store"],
                     "product": cheapest_item["Product"]
                 })
     # from mailing list users, get the user object. then 
@@ -173,7 +173,7 @@ def send_email(mail_to_user, subject, body):
             smtp.set_debuglevel(1)
             smtp.starttls()
             smtp.login(SENDER_EMAIL_ID, SENDER_EMAIL_PASSWORD)#must initialize the mail_user(usename) and mail_pass(account password) assuming we would get this from login account details, same with the mail_to(email)
-            smtp.sendmail(SENDER_EMAIL_ID, mail_to_user, body)  # Initialise mail_user and mail_pass and figure out subject 
+            smtp.sendmail(SENDER_EMAIL_ID, mail_to_user, f'Subject: {subject}\n\n{body}')  # Initialise mail_user and mail_pass and figure out subject 
             print(f"Email sent successfully to {mail_to_user}")
     except Exception as e:
         print(f"Failed to send email to {mail_to_user}: {e}")
@@ -183,7 +183,7 @@ def notify_users(mailing_list):
 
             subject = "Price Drop Alert!"
             body = f"Hello {user},\n\nWe have some great news! The prices for the following items you saved have dropped:\n\n"
-            
+
             for item in items:
                 body += f"Item: {item['name']}\n"
                 body += f"Old Price: ${item['old_price']}\n"
@@ -198,11 +198,9 @@ def notify_users(mailing_list):
         
 @api_view(('GET',))
 def price_drop_tracker(request):
-    
-
     mailing_list = get_mailing_list()
     print("mailing_list",mailing_list)
-    # notify_users(mailing_list)
+    notify_users(mailing_list)
 
     return JsonResponse(mailing_list, safe=False)
         

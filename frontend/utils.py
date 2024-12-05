@@ -20,9 +20,9 @@ def search(query):
 
     def transform(item: dict):
         item = item.copy()
-        if 'store' in item:
-            item['Store'] = item['store']
-            del item['store']
+        # if 'store' in item:
+            # item['Store'] = item['store']
+            # del item['store']
         # del item['Image']
         # del item['URL']
 
