@@ -1,10 +1,15 @@
 import os
+import utils
 import streamlit as st
 from dotenv import load_dotenv
 
 load_dotenv()
 
 st.title('ShopHop')
+
+user, _, _ = utils.verify_and_get_auth_cookies(auto_logout=False)
+if user:
+    st.switch_page('pages/search.py')
 
 redirect_uri = 'http://localhost:8501/google/'
 client_id = os.getenv('GOOGLE_OAUTH_CLIENT_ID')

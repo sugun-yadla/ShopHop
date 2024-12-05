@@ -69,17 +69,18 @@ def set_auth_cookies(user, access_token, refresh_token):
     cc.set('shophop-refresh-token', refresh_token)
 
 
-def verify_and_get_auth_cookies():
+def verify_and_get_auth_cookies(auto_logout=True):
     user = cc.get('shophop-user')
     access_token = cc.get('shophop-access-token')
     refresh_token = cc.get('shophop-refresh-token')
 
-    if (not user) or (not access_token) or (not refresh_token):
+    if auto_logout and ((not user) or (not access_token) or (not refresh_token)):
+        print('cookies:', user, access_token, refresh_token)
         remove_auth_cookies()
         st.toast('Session inactive, please log in again...')
         st.switch_page('main.py')
 
-    return json.loads(user), access_token, refresh_token
+    return json.loads(user) if user else None, access_token, refresh_token
 
 
 def remove_auth_cookies():
