@@ -70,6 +70,50 @@ def get(endpoint: str, payload=None):
     return json.loads(response.content.decode('utf-8'))
 
 
+def post(endpoint: str, payload=None):
+    print(f'Executing POST on {endpoint}')
+    _, access_token, refresh_token = get_auth_cookies()
+
+    def __post(endpoint: str, access_token, payload=None):
+        headers = {
+            'Authorization': f'Bearer {access_token}',
+            'Content-type': 'application/json',
+        }
+        response = requests.post(BACKEND_URL + endpoint, json=payload, headers=headers)
+        return response
+
+    response = __post(endpoint, access_token, payload)
+
+    if response.status_code == 401:
+        print('POST failed, access_token not valid, getting new access_token')
+        _, access_token, _  = get_new_access_token()
+        response = __post(endpoint, access_token, payload)
+
+    return json.loads(response.content.decode('utf-8'))
+
+
+def delete(endpoint: str, payload=None):
+    print(f'Executing POST on {endpoint}')
+    _, access_token, refresh_token = get_auth_cookies()
+
+    def __delete(endpoint: str, access_token, payload=None):
+        headers = {
+            'Authorization': f'Bearer {access_token}',
+            'Content-type': 'application/json',
+        }
+        response = requests.delete(BACKEND_URL + endpoint, json=payload, headers=headers)
+        return response
+
+    response = __delete(endpoint, access_token, payload)
+
+    if response.status_code == 401:
+        print('POST failed, access_token not valid, getting new access_token')
+        _, access_token, _  = get_new_access_token()
+        response = __delete(endpoint, access_token, payload)
+
+    return json.loads(response.content.decode('utf-8'))
+
+
 def get_new_access_token(auto_logout=True):
     print(f'Fetching new access_token with auto_logout={auto_logout}')
     _, _, refresh_token = get_auth_cookies(auto_logout=auto_logout, validate_token=False)
@@ -93,6 +137,9 @@ def show_log_out_dialog():
 
 def set_auth_cookies(user, access_token, refresh_token):
     print('Setting cookies')
+    st.session_state['user'] = user
+    st.session_state['access_token'] = access_token
+    st.session_state['refresh_token'] = refresh_token
     cc.set('shophop-user', json.dumps(user))
     cc.set('shophop-access-token', access_token)
     cc.set('shophop-refresh-token', refresh_token)
@@ -101,11 +148,15 @@ def set_auth_cookies(user, access_token, refresh_token):
 
 
 def get_auth_cookies(auto_logout=True, validate_token=False, retries=1):
-    # time.sleep(1)
-    user = cc.get('shophop-user')
-    user = json.loads(user) if user else None
-    access_token = cc.get('shophop-access-token')
-    refresh_token = cc.get('shophop-refresh-token')
+    user = st.session_state['user'] if 'user' in st.session_state else None
+    access_token = st.session_state['access_token'] if 'access_token' in st.session_state else None
+    refresh_token = st.session_state['refresh_token'] if 'refresh_token' in st.session_state else None
+
+    if ((not user) or (not access_token) or (not refresh_token)):
+        user = cc.get('shophop-user')
+        user = json.loads(user) if user else None
+        access_token = cc.get('shophop-access-token')
+        refresh_token = cc.get('shophop-refresh-token')
 
     if retries < 3 and ((not user) or (not access_token) or (not refresh_token)):
         print(f'Did not find cookies on retry #{retries}')

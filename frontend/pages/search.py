@@ -8,7 +8,7 @@ print('Opening search.py')
 utils.get_auth_cookies()
 st_utils.show_sidebar()
 
-st.markdown('## Find the best deals!')
+st.title('Find the best deals! 🔍')
 
 def show_results(products, pretty_products):
     st.markdown('#')
