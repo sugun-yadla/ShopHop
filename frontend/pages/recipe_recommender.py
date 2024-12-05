@@ -1,16 +1,15 @@
-#pip install streamlit requests
-#download ollama  https://ollama.com/
+# download ollama  https://ollama.com/
 # install mistral using "ollama pull mistral"
-# use "streamlit run recipe_recommender.py" to run the code
 
-import streamlit as st
 import requests
+import st_utils
+import streamlit as st
 
 def get_recipe_recommendations(ingredients):
     """
     Args:
         ingredients (list)
-    
+
     Returns:
         str: Generated recipe recommendations
     """
@@ -21,12 +20,12 @@ def get_recipe_recommendations(ingredients):
     - Brief description
     - Key ingredients
     - Simple cooking instructions
-    
+
     Aim for diverse and interesting recipe ideas that make the most of these ingredients."""
 
     # Ollama API endpoint for generating text
     url = "http://localhost:11434/api/generate"
-    
+
     payload = {
         "model": "mistral",
         "prompt": prompt,
@@ -37,17 +36,18 @@ def get_recipe_recommendations(ingredients):
         # Send request to Ollama
         response = requests.post(url, json=payload)
         response.raise_for_status()  # Raise an exception for bad responses
-        
+
         # Extract and return the generated text
         return response.json()['response']
-    
+
     except requests.RequestException as e:
         return f"Error generating recipes: {str(e)}"
 
 def main():
     # Set page configuration
     st.set_page_config(page_title="Recipe Recommender", page_icon="🍳")
-    
+    st_utils.show_sidebar()
+
     # Page title and description
     st.title("🍽️ Ingredient-Based Recipe Recommender")
     st.write("Enter the ingredients you have, and get creative recipe suggestions!")
@@ -70,10 +70,9 @@ def main():
         # Generate and display recommendations
         with st.spinner('Generating delicious recipes...'):
             recommendations = get_recipe_recommendations(ingredients)
-    
-    
+
             st.subheader("🥘 Recipe Recommendations")
             st.write(recommendations)
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+main()

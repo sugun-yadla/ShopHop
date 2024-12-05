@@ -30,6 +30,7 @@ class SavedItem(models.Model):
     name = models.CharField(blank=False, max_length=256)
     price = models.FloatField()
 
+
 class Product(models.Model):
     product = models.CharField(max_length=255, null=False, blank=False)
     category = models.CharField(max_length=100, null=False, blank=False)
@@ -40,6 +41,7 @@ class Product(models.Model):
 
     def __str__(self):
         return f"Name: {self.product}, Category: {self.category}, Price: ${self.price}, Standardized Quantity: {self.standardized_quantity}, Store: {self.store}"
+
 
 class productData(models.Model):
     #product = models.CharField(max_length=255, null=False, blank=False)
