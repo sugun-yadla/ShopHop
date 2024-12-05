@@ -66,7 +66,7 @@ def show_results(products, categorized):
                 </a>
             ''')
 
-            c2.image(utils.STORE_LOGO_URLS[product['Store']])
+            c2.image(utils.STORE_LOGO_URLS[product['store']])
             col.write('Effective price: ' + product['price_per_unit_pretty'])
 
         if row == math.floor(len(products) / ITEMS_PER_ROW - 1):
