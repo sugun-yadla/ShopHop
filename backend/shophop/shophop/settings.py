@@ -187,5 +187,5 @@ REST_FRAMEWORK = {
 }
 
 CRONJOBS = [
-    ('*/5 * * * *', 'shophop.cronjob.sendDataToPriceDrop')
+    ('*/3 * * * *', 'shophop.cronjob.sendDataToPriceDrop')
 ]

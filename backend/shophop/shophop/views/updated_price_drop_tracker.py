@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
-from shophop.models import User, SavedItem  
+from shophop.models import User, SavedItem, productData  
 from shophop.views.price_comparison import fetch_products
 from shophop.models import User
 import requests
@@ -14,25 +14,7 @@ load_dotenv()
 SENDER_EMAIL_ID = os.getenv('SENDER_EMAIL_ID')
 SENDER_EMAIL_PASSWORD = os.getenv('SENDER_EMAIL_PASSWORD')
 
-# users_selected_items=[]
-# # user will choose the grocery_items from frontend 
 
-# # Loop through each user and create SavedItems for them
-# for user in User.objects.all():  # Iterate over all users in the database
-#     for item_name in users_selected_items:  # Loop through the grocery items list
-#         # Create a SavedItem instance for each user and item
-#         saved_item = SavedItem(user=user, name=item_name, price=0.0)  # Set a default price of 0.0 or any value
-#         saved_item.save()  # Save the SavedItem to the database
-
-#     print(f"Saved items initialized for {user}")
-
-
-# - user specific list of items(fetch from user db) - do backend code for this 
-# - store cheapest to db (before itself) - done 
-# - run web scraping to fetch data again 
-# - compare the two 
-# - send email 
-# - run cron job daily  
 
 # grocery_items = [
 #     "Potato", "Bell Peppers", "Onion", "Avocado", "Cabbage", "Cauliflower", 
@@ -41,6 +23,7 @@ SENDER_EMAIL_PASSWORD = os.getenv('SENDER_EMAIL_PASSWORD')
 #     "Grapes", "Pineapple", "Eggs", "Flour", "Sugar", "Milk", "Vanilla Extract", 
 #     "Butter", "Chocolate Chips", "Salt", "Baking Soda", "Baking Powder"
 # ]
+
 grocery_items = [
     "Onion", "Garlic", "Eggs", "Tomato", "Broccoli","Potato", "Apple", "Banana", "Orange"
 ]
@@ -72,8 +55,21 @@ def get_cheapest_from_web_scrape_data(items):
                     "Current_Price": cheapest_product["Price"],
                     "Store": cheapest_product["store"]
                 }
-        # saved to cheapest db 
-        
+
+        # Update to cheapest db 
+        for category, details in cheapest_prices.items():
+            try:
+                # Check if the category exists in the database
+                product = productData.objects.get(category=category)
+                product.price = details["Current_Price"]
+                product.save()
+                print(f"Updated {category} with new price: ${details['Current_Price']}")
+                      
+            except productData.DoesNotExist:
+                # If the product does not exist, create a new entry
+                new_product = productData.objects.create( category=category, price=details["Current_Price"])
+                print(f"Added new product: {category} with price: ${details['Current_Price']}")
+
         return cheapest_prices
 
     except requests.exceptions.RequestException as e:
@@ -92,6 +88,36 @@ def get_users_saved_data():
 
     return user_saved_items_info
 
+def update_saved_items_db(mailing_list):
+    for email, items in mailing_list.items():
+        try:
+        # Get the user object for the given email
+            user = User.objects.get(email=email)
+            for item in items:
+                duplicates = SavedItem.objects.filter(user=user, name=item["name"])
+                print(duplicates)
+                if duplicates.exists():
+                # If duplicates exist, keep the first one and delete the rest
+                    first_item = duplicates.first()
+                    duplicates.exclude(id=first_item.id).delete()
+                    
+                    # Update the remaining record
+                    first_item.price = item["new_price"]
+                    first_item.save()
+                    print(f"Updated duplicate item: {first_item.name}, Price: {first_item.price} for user: {user.email}")
+                else:
+                # If no duplicates exist, create a new entry
+                    new_item = SavedItem.objects.create(
+                        user=user,
+                        name=item["name"],
+                        price=item["new_price"]
+                    )
+                    print(f"Created new item: {new_item.name}, Price: {new_item.price} for user: {user.email}")
+
+        except User.DoesNotExist:
+            print(f"User with email {email} does not exist.")
+            
+
 def get_mailing_list():
 
 
@@ -103,11 +129,7 @@ def get_mailing_list():
         print(f"Error fetching cheapest data: {e}")
         return {} 
 
-    # user_saved_items_info = [
-    # {"id": 1, "user": "vdaber@umass.edu", "name": "Eggs", "price": 150.99},
-    # {"id": 2, "user": "vdaber@umass.edu", "name": "Onion", "price": 19.99},
-    # {"id": 3, "user": "vaishu.daber@gmail.com", "name": "Tomato", "price": 12.50}
-    # ] 
+
     user_saved_items_info = get_users_saved_data()
     print("Saved Items in User DB",user_saved_items_info)
     # creating a mailing list 
@@ -135,21 +157,12 @@ def get_mailing_list():
                     "store": cheapest_item["Store"],
                     "product": cheapest_item["Product"]
                 })
-                # update to saved items 
-
+    # from mailing list users, get the user object. then 
+    # update to saved items 
+    update_saved_items_db(mailing_list)
+                
     return mailing_list
 
-    # fetch items and their price from the user db  
-    # Adding the cheapest price to the saved item using scraping
-
-
-    # do it for all users 
-
-    # for user in User.objects.all():
-    #     # fetch users from saved_items 
-
-    #     for item_name in user_saved_items_info:
-    #         # check item and price, and check from the made up dictionary 
 
 def send_email(mail_to_user, subject, body):
     try:
@@ -186,8 +199,6 @@ def notify_users(mailing_list):
 @api_view(('GET',))
 def price_drop_tracker(request):
     
-    # print("SENDER_EMAIL_ID", SENDER_EMAIL_ID)
-    # print("SENDER_EMAIL_PASSWORD", SENDER_EMAIL_PASSWORD)
 
     mailing_list = get_mailing_list()
     print("mailing_list",mailing_list)
