@@ -13,13 +13,39 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
-
+import logging
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
 
 BASE_FRONTEND_URL = 'http://localhost:8501'
+# APP_LOG_FILENAME = os.path.join(BASE_DIR, 'logs/app.log')
+# ERROR_LOG_FILENAME = os.path.join(BASE_DIR, 'logs/error.log')
 
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": False,
+#     "formatters": {
+#         "console": {
+#             "format": "{levelname} {asctime} {module} {process:d} {thread:d} {message}",
+#         },
+#         "file": {
+#             "format": "{levelname} {message}",
+#         },
+#     },
+#     "handlers": {
+#         "console": {
+#             "class": "logging.StreamHandler",
+#             "formatter": "console",
+#         },
+#         "file": {
+#             "level": "DEBUG",
+#             "class": "logging.FileHandler",
+#             "formatter": "file",
+#             "filename": APP_LOG_FILENAME,
+#         },
+#     },
+# }
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
@@ -38,6 +64,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'django_crontab',
     'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -158,3 +185,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
+
+CRONJOBS = [
+    ('*/5 * * * *', 'shophop.cronjob.sendDataToPriceDrop')
+]
