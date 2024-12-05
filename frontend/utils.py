@@ -29,32 +29,34 @@ def search(query):
 
 
 def get(endpoint: str, payload=None):
-    _, access_token, _ = verify_and_get_auth_cookies()
+    _, access_token, refresh_token = get_auth_cookies()
 
-    def __get(endpoint: str, payload=None):
+    def __get(endpoint: str, access_token, payload=None):
         headers = {
             'Authorization': f'Bearer {access_token}'
         }
         response = requests.get(BACKEND_URL + endpoint, data=payload, headers=headers)
         return response
 
-    response = __get(endpoint, payload)
+    response = __get(endpoint, access_token, payload)
 
     if response.status_code == 401:
-        refresh_token()
-        response = __get(endpoint, payload)
+        _, access_token, _  = get_new_access_token(refresh_token)
+        response = __get(endpoint, access_token, payload)
 
     return json.loads(response.content.decode('utf-8'))
 
 
-def refresh_token():
-    payload = {
-        'refresh_token': st.session_state['refresh_token']
-    }
-    response = requests.get(BACKEND_URL + '/api/token/refresh', data=payload)
-    response = json.loads(response.content.decode('utf-8'))
+def get_new_access_token(auto_logout=True):
+    _, _, refresh_token = get_auth_cookies(auto_logout=auto_logout, validate_token=False)
+    response = requests.get(BACKEND_URL + '/api/token/refresh', data={ 'refresh_token': refresh_token })
 
-    set_auth_cookies(response['user'], response['access_token'], response['refresh_token'])
+    if response.status_code == 401 and auto_logout:
+        remove_auth_cookies()
+        st.switch_page('main.py')
+
+    response = json.loads(response.content.decode('utf-8'))
+    return set_auth_cookies(response['user'], response['access_token'], response['refresh_token'])
 
 
 @st.dialog("Logged out")
@@ -67,10 +69,12 @@ def set_auth_cookies(user, access_token, refresh_token):
     cc.set('shophop-user', json.dumps(user))
     cc.set('shophop-access-token', access_token)
     cc.set('shophop-refresh-token', refresh_token)
+    return user, access_token, refresh_token
 
 
-def verify_and_get_auth_cookies(auto_logout=True):
+def get_auth_cookies(auto_logout=True, validate_token=False):
     user = cc.get('shophop-user')
+    user = json.loads(user) if user else None
     access_token = cc.get('shophop-access-token')
     refresh_token = cc.get('shophop-refresh-token')
 
@@ -80,7 +84,10 @@ def verify_and_get_auth_cookies(auto_logout=True):
         st.toast('Session inactive, please log in again...')
         st.switch_page('main.py')
 
-    return json.loads(user) if user else None, access_token, refresh_token
+    if refresh_token and validate_token:
+        user, access_token, refresh_token = get_new_access_token(auto_logout=auto_logout)
+
+    return user, access_token, refresh_token
 
 
 def remove_auth_cookies():

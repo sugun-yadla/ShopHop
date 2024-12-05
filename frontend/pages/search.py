@@ -3,7 +3,7 @@ import utils
 import st_utils
 import streamlit as st
 
-utils.verify_and_get_auth_cookies()
+utils.get_auth_cookies()
 st_utils.show_sidebar()
 
 st.markdown('## Find the best deals!')

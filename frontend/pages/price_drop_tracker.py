@@ -3,7 +3,7 @@ import streamlit as st
 import utils
 import st_utils
 
-utils.verify_and_get_auth_cookies()
+utils.get_auth_cookies()
 st_utils.show_sidebar()
 
 st.markdown('## Saved Items')

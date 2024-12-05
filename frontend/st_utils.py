@@ -3,7 +3,7 @@ import streamlit as st
 
 
 def show_sidebar():
-    user, _, _ = utils.verify_and_get_auth_cookies()
+    user, _, _ = utils.get_auth_cookies()
     st.sidebar.write(f'Welcome, {user["first_name"]}!')
 
     st.sidebar.page_link('pages/search.py', label='Search', icon=":material/search:")
