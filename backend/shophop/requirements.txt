@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 # Django>=4.0,<5.0
 # django-allauth==65.3.0
 # djangorestframework==3.15.2
@@ -8,6 +9,8 @@
 # beautifulsoup4
 # pandas
 # djangorestframework-simplejwt
+=======
+>>>>>>> Stashed changes
 beautifulsoup4
 pandas
 asgiref==3.8.1
@@ -26,4 +29,8 @@ PyJWT==2.10.1
 python-dotenv==1.0.1
 sqlparse==0.5.2
 typing_extensions==4.12.2
+<<<<<<< Updated upstream
 urllib3==2.2.3
+=======
+urllib3==2.2.3
+>>>>>>> Stashed changes
