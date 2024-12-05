@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, SavedItem
+from .models import User, SavedItem, productData
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -13,3 +13,8 @@ class SavedItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = SavedItem
         fields = ['name', 'price']
+
+class ProductDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = productData
+        fields = ['id', 'category', 'price']

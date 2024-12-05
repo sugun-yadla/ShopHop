@@ -17,12 +17,12 @@ Including another URLconf
 
 from django.urls import path
 from shophop.views import *
-
 urlpatterns = [
     path('token', get_tokens, name='get-tokens'),
     path('token/refresh', refresh_tokens, name='refresh-tokens'),
 
     path('saved_items', get_saved_items, name='get-saved-items'),
     path('products/<str:product>', fetch_products, name='fetch-products'),
+    path('products/', get_products_data, name='product-data'),
 
 ]
