@@ -42,7 +42,7 @@ SENDER_EMAIL_PASSWORD = os.getenv('SENDER_EMAIL_PASSWORD')
 #     "Butter", "Chocolate Chips", "Salt", "Baking Soda", "Baking Powder"
 # ]
 grocery_items = [
-    "Onion", "Garlic", "Eggs", "Tomato", "Broccoli","Potato"
+    "Onion", "Garlic", "Eggs", "Tomato", "Broccoli","Potato", "Apple", "Banana", "Orange"
 ]
 
 def get_cheapest_from_web_scrape_data(items):
@@ -80,33 +80,50 @@ def get_cheapest_from_web_scrape_data(items):
         print(f"Error fetching data: {e}")
         return {} 
 
+def get_users_saved_data():
+    saved_items_data = SavedItem.objects.all()
+    user_saved_items_info = []
+    for item in saved_items_data:
+        user_saved_items_info.append({
+            "user": item.user.email,  # Use the user's email
+            "name": item.name,  # Add the grocery item name
+            "price": item.price,  # Add the price of the grocery item
+        })
+
+    return user_saved_items_info
 
 def get_mailing_list():
+
 
     try:
         cheapest_prices = get_cheapest_from_web_scrape_data(grocery_items)
         for item, details in cheapest_prices.items():
-            print(f"{item}: {details}")
+            print(f"Cheapest {item}: {details}")
     except requests.exceptions.RequestException as e:
         print(f"Error fetching cheapest data: {e}")
         return {} 
 
-    user_saved_items_info = [
-    {"id": 1, "user": "vdaber@umass.edu", "name": "Eggs", "price": 150.99},
-    {"id": 2, "user": "vdaber@umass.edu", "name": "Onion", "price": 19.99},
-    {"id": 3, "user": "vaishu.daber@gmail.com", "name": "Tomato", "price": 12.50}
-    ] 
-
-    # create mailing list 
+    # user_saved_items_info = [
+    # {"id": 1, "user": "vdaber@umass.edu", "name": "Eggs", "price": 150.99},
+    # {"id": 2, "user": "vdaber@umass.edu", "name": "Onion", "price": 19.99},
+    # {"id": 3, "user": "vaishu.daber@gmail.com", "name": "Tomato", "price": 12.50}
+    # ] 
+    user_saved_items_info = get_users_saved_data()
+    print("Saved Items in User DB",user_saved_items_info)
+    # creating a mailing list 
     mailing_list = {}
     
     for item in user_saved_items_info:
+        
         user = item["user"]
         item_name = item["name"]
         saved_price = item["price"]
+        
+
         if item_name in cheapest_prices:
             cheapest_item = cheapest_prices[item_name]
             cheapest_price = cheapest_item["Current_Price"]
+
             if cheapest_price < saved_price:
                 if user not in mailing_list:
                     mailing_list[user] = []
@@ -168,33 +185,12 @@ def notify_users(mailing_list):
         
 @api_view(('GET',))
 def price_drop_tracker(request):
-    print("here")
-    print("SENDER_EMAIL_ID", SENDER_EMAIL_ID)
-    print("SENDER_EMAIL_PASSWORD", SENDER_EMAIL_PASSWORD)
-    mail_to_user="vaishu.daber@gmail.com"
-    try:
-        HOST = "smtp.gmail.com"
-        PORT = 587
-        MESSAGE = """Subject: Hi How are you """
+    
+    # print("SENDER_EMAIL_ID", SENDER_EMAIL_ID)
+    # print("SENDER_EMAIL_PASSWORD", SENDER_EMAIL_PASSWORD)
 
-        smtp = smtplib.SMTP(HOST, PORT)
-
-        status_code, response = smtp.ehlo()
-        print(f"[*] Echoing the server: {status_code} {response}")
-
-        status_code, response = smtp.starttls()
-        print(f"[*] Starting TLS connection: {status_code} {response}")
-
-        status_code, response = smtp.login(SENDER_EMAIL_ID, SENDER_EMAIL_PASSWORD)
-        print(f"[*] Logging in: {status_code} {response}")
-
-        smtp.sendmail(SENDER_EMAIL_ID, mail_to_user, MESSAGE)
-    except Exception as e:
-        print(f"Failed to send email to {mail_to_user}: {e}")
-    return JsonResponse([], safe=False)
-
-    # mailing_list = get_mailing_list()
-    # print(mailing_list)
+    mailing_list = get_mailing_list()
+    print("mailing_list",mailing_list)
     # notify_users(mailing_list)
 
     return JsonResponse(mailing_list, safe=False)
