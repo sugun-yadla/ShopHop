@@ -20,7 +20,8 @@ def standardize_quantity(row):
         quantity = quantity.lower()
         quantity = quantity.replace("ounce", "oz")
         match = re.search(r'([\d.]+)\s*(fl oz|gallon|gal|oz|carton|ct|dozen|count|lb|pk|pack)', quantity)
-        
+        # match = re.search(r'(\d+(\.\d+)?)\s*(fl oz|gallon|gal|oz|carton|ct|dozen|count|lb|pk|pack)', quantity)
+
         if match:
             value, unit = match.groups()
             value = float(value)
@@ -295,9 +296,3 @@ def priceComparison(database):
     #print("Data saved successfully!")
     # print(json.dumps(cheapest_products_sorted.to_dict(orient='records'), indent=2))
     return cheapest_products_sorted
-
-
-
-
-
-
