@@ -8,8 +8,6 @@ import requests
 
 def get_recipe_recommendations(ingredients):
     """
-    Generate recommendations using Ollama Mistral
-    
     Args:
         ingredients (list)
     
