@@ -4,6 +4,7 @@ import re
 import html
 
 import requests
+import requests
 
 cookies = {
     'TealeafAkaSid': '8nWV8V2AZBTi0p1XP8Dueq2fvnOiRWmX',
@@ -18,24 +19,25 @@ cookies = {
     '_gcl_au': '1.1.2012358250.1732301679',
     'sddStore': 'DSI_1839|DSN_Hadley|DSZ_01002',
     'crl8.fpcuid': 'd2c248d8-173e-4bc8-9ad8-bd1d06e8f2d7',
-    'accessToken': 'eyJraWQiOiJlYXMyIiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIwZGFiMmVhZi03NjM1LTRjY2UtYmVmYS0yYTIzMTJkYzNiMmMiLCJpc3MiOiJNSTYiLCJleHAiOjE3MzMzMzc1ODYsImlhdCI6MTczMzI1MTE4NiwianRpIjoiVEdULjgxOWRkYmZjNGVlZDQzMDhhZjViYzVmZmU4ZjIyODBiLWwiLCJza3kiOiJlYXMyIiwic3V0IjoiRyIsImRpZCI6IjhmMDRjMzAyMTZkYjRmMjk1MWFkNDJjYjA4ZGI5MWYwMDhkNjU4OWM0OWRhOWM3MWNiMjlkZWM3YTM2NGQ4YjkiLCJzY28iOiJlY29tLm5vbmUsb3BlbmlkIiwiY2xpIjoiZWNvbS13ZWItMS4wLjAiLCJhc2wiOiJMIn0.DhTE485f5JK-fHKTiM_VeHrE4H77OPo9rAQWZz4tJiwdN3STQukUOlWRDzJ0tz9H1Ht4YKamk5zTBVBpN6C6cMH9SJ67TkjfM64-o9rKINYuH8SwqCzKSpOq75hGkMYUxVop7fXX44xJWElwGll20DoKVM-u-5PETEtOIQo6RoJkuHtRUdqmGgjdqqe6oXN5iCSMVs8L7ZTS361fWheoDMXqTC9RCv4rb5xVMaqv2U3PkbsLKoJQ9tGSkYP2po75FmcAq1wPUM-yYic4OiZMz-jkssm_fW5HoM8wLFnld313S-Tf7FwJCf1e9atRko6xy0HZ6xkM5GqgZg335THeOg',
-    'idToken': 'eyJhbGciOiJub25lIn0.eyJzdWIiOiIwZGFiMmVhZi03NjM1LTRjY2UtYmVmYS0yYTIzMTJkYzNiMmMiLCJpc3MiOiJNSTYiLCJleHAiOjE3MzMzMzc1ODYsImlhdCI6MTczMzI1MTE4NiwiYXNzIjoiTCIsInN1dCI6IkciLCJjbGkiOiJlY29tLXdlYi0xLjAuMCIsInBybyI6eyJmbiI6bnVsbCwiZW0iOm51bGwsInBoIjpmYWxzZSwibGVkIjpudWxsLCJsdHkiOmZhbHNlLCJzdCI6Ik1BIn19.',
-    'refreshToken': 'ovx-rN-VTxOLONyo7GuYzftiGBJ18PhkXbfN9CDfIKjg3cX9X8U-6SujpAvg20nkvUJOss9tEQ3s6Dt-bG3VlA',
+    '_tgt_session': 'db2fad20e205496d80794350df9eeab9.bf843eed4aa549dfb6ffaaa5c95519bf6e97ef6b3fdc2a66bc9d5c9c04f1e1f3489f79d3293253c9bb0522191504ef41b5352104c426653957e12c88e1453b40aa5610330cb51a7fd7cf87eed6ee9faf6d323ff2ec9e1272203f31479c9481f1a686457e24803e31fcbb8686e1a061e49ec9aae1bff81db51172f82cf90bcd6cf39c009108956aa4a5a1a79c696b052e9446b9d295c082960813a533a6dd9128bf35af5bcb04f1044d8ac066365873d6de6330b2924099a0549dc6a1715762943273a400c7fe78981b76af4bcc939323335daa8c4cc9e3c3ed96debf15bfdf1be1.0x3e84f502b5e8288e43aef44c85da1f739750ec483e7b082c2ea83dc78a94a965',
+    'ffsession': '{%22sessionHash%22:%221798ca28b988a1732596335177%22%2C%22prevPageName%22:%22search:%20search%20results%22%2C%22prevPageType%22:%22search:%20search%20results%22%2C%22prevPageUrl%22:%22https://www.target.com/s?searchTerm=tomatoes%22%2C%22sessionHit%22:51%2C%22prevSearchTerm%22:%22tomatoes%22}',
+    '__gads': 'ID=5d5b4437689ceec9:T=1732301677:RT=1733292333:S=ALNI_MZKlJPLUNuLX5CJNSJXItRWwOAO_w',
+    '__gpi': 'UID=00000e9edab5b505:T=1732301677:RT=1733292333:S=ALNI_MbwwnDgPIZgwWG9RGUorX-pVVvmgw',
+    '__eoi': 'ID=a209cbcf5b46c1e5:T=1732301677:RT=1733292333:S=AA-AfjaGDrPLkX5i0HKy8s_pypma',
+    'egsSessionId': '733c5963-31dd-467a-af97-f79f61c32657',
+    'accessToken': 'eyJraWQiOiJlYXMyIiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIwZGFiMmVhZi03NjM1LTRjY2UtYmVmYS0yYTIzMTJkYzNiMmMiLCJpc3MiOiJNSTYiLCJleHAiOjE3MzM0Mzg2MTMsImlhdCI6MTczMzM1MjIxMywianRpIjoiVEdULjgxYTFkOGY3MTA3MzRiYzg5YTY2ZGYyYTkxMWE0OTllLWwiLCJza3kiOiJlYXMyIiwic3V0IjoiRyIsImRpZCI6IjhmMDRjMzAyMTZkYjRmMjk1MWFkNDJjYjA4ZGI5MWYwMDhkNjU4OWM0OWRhOWM3MWNiMjlkZWM3YTM2NGQ4YjkiLCJzY28iOiJlY29tLm5vbmUsb3BlbmlkIiwiY2xpIjoiZWNvbS13ZWItMS4wLjAiLCJhc2wiOiJMIn0.JMiAkPqf4zTbvlsA23mkLxh2XbZL1rk3_BPs0I98WuylhtDGDfmAAeX2q7Dmc6DFB_FlUZ7RI4e4dJU8c7ekiOnUAboBIxfHy0IDIBDfA8bPIqzG7ymlueIEPZtFGbz56PPiUH0b5WOWAjYzYBeUlP9L2PuN4YlGmaCUcoQZDbc_HeaB0DSU_fO1QHMH5ck8NCKoX_TUfDWthFCrhVAC8MFx9Q14ETuMcpqMgj4WjvhUwNt0QcZWrr5lGCcYQQiFB8EN1Ps1bVVu2wx_fX_j-1EluCSSwc0vjyRfR7x6UIxUSmPnAWy6V6B2606ESXoFI8gNefsumP6pP2WXOM7FrA',
+    'idToken': 'eyJhbGciOiJub25lIn0.eyJzdWIiOiIwZGFiMmVhZi03NjM1LTRjY2UtYmVmYS0yYTIzMTJkYzNiMmMiLCJpc3MiOiJNSTYiLCJleHAiOjE3MzM0Mzg2MTMsImlhdCI6MTczMzM1MjIxMywiYXNzIjoiTCIsInN1dCI6IkciLCJjbGkiOiJlY29tLXdlYi0xLjAuMCIsInBybyI6eyJmbiI6bnVsbCwiZW0iOm51bGwsInBoIjpmYWxzZSwibGVkIjpudWxsLCJsdHkiOmZhbHNlLCJzdCI6Ik1BIn19.',
+    'refreshToken': 'gn5ItQpAJQ5AWfEqXrv1wYKpyPVL7ucS0JD0PauMI6u2qMPLF9pwV_yGKTVrtQqJOO3UBk0kNYKXtcoJpFtW5g',
     'adScriptData': 'MA',
-    '_tgt_session': '6b970f9751234d6bb5ac00ba985b8877.371fdca32d11277b1839a51fd5a1c97ae9b0ca11e49ec4f862a598cca665c9825487a48a79a5cc4c5e7a0f955d57f38ac1f569e73dbd640c5dda0b9025ae2d811a29a0a3cf1e14772347a3fc96f93ea5bb0fbf19bd3474fda7211a29ef1fc80594f9f255a6eae903f9646d69284fe637a9f8285cf932bccd4f195ce3a59e59475415ffb339116e68cf098169c1e18906de4dc424ae3ec311733c540c032d7493e544286ff0a941372d759e5a1c7dc4b0d4be57cf9b10c69a1658b3f3f0a26bc086afb37cc48c1cfd11142bdd924fee25ba9325f90e857c3e30ac502cbddaa03a0f.0xe8c9820293c7fbe6950eadede26eaea6a4161716cf6950195cdf25000ec1de47',
-    '__gads': 'ID=5d5b4437689ceec9:T=1732301677:RT=1733274723:S=ALNI_MZKlJPLUNuLX5CJNSJXItRWwOAO_w',
-    '__gpi': 'UID=00000e9edab5b505:T=1732301677:RT=1733274723:S=ALNI_MbwwnDgPIZgwWG9RGUorX-pVVvmgw',
-    '__eoi': 'ID=a209cbcf5b46c1e5:T=1732301677:RT=1733274723:S=AA-AfjaGDrPLkX5i0HKy8s_pypma',
-    'ffsession': '{%22sessionHash%22:%221798ca28b988a1732596335177%22%2C%22prevPageName%22:%22search:%20search%20results%22%2C%22prevPageType%22:%22search:%20search%20results%22%2C%22prevPageUrl%22:%22https://www.target.com/s?searchTerm=tomato&tref=typeahead%257Cterm%257Ctomato%257C%257C%257Chistory%22%2C%22sessionHit%22:49%2C%22prevSearchTerm%22:%22tomato%22}',
 }
 
 headers = {
     'accept': 'application/json',
     'accept-language': 'en-US,en;q=0.9',
-    # 'cookie': 'TealeafAkaSid=8nWV8V2AZBTi0p1XP8Dueq2fvnOiRWmX; visitorId=01935539DD6E020186FDC2C4E8530B8D; sapphire=1; UserLocation=01002|42.350|-72.530|MA|US; fiatsCookie=DSI_1839|DSN_Hadley|DSZ_01035; ci_pixmgr=dcs; _gcl_aw=GCL.1732301679.CjwKCAiA9IC6BhA3EiwAsbltOIEhj1QugyX-PArJIeD1xfl_mzhVW6ZMH4Bm_0Tiq8vtWatpKx3H2hoCByoQAvD_BwE; _gcl_dc=GCL.1732301679.CjwKCAiA9IC6BhA3EiwAsbltOIEhj1QugyX-PArJIeD1xfl_mzhVW6ZMH4Bm_0Tiq8vtWatpKx3H2hoCByoQAvD_BwE; _gcl_gs=2.1.k1$i1732301675$u85450396; _gcl_au=1.1.2012358250.1732301679; sddStore=DSI_1839|DSN_Hadley|DSZ_01002; crl8.fpcuid=d2c248d8-173e-4bc8-9ad8-bd1d06e8f2d7; accessToken=eyJraWQiOiJlYXMyIiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIwZGFiMmVhZi03NjM1LTRjY2UtYmVmYS0yYTIzMTJkYzNiMmMiLCJpc3MiOiJNSTYiLCJleHAiOjE3MzMzMzc1ODYsImlhdCI6MTczMzI1MTE4NiwianRpIjoiVEdULjgxOWRkYmZjNGVlZDQzMDhhZjViYzVmZmU4ZjIyODBiLWwiLCJza3kiOiJlYXMyIiwic3V0IjoiRyIsImRpZCI6IjhmMDRjMzAyMTZkYjRmMjk1MWFkNDJjYjA4ZGI5MWYwMDhkNjU4OWM0OWRhOWM3MWNiMjlkZWM3YTM2NGQ4YjkiLCJzY28iOiJlY29tLm5vbmUsb3BlbmlkIiwiY2xpIjoiZWNvbS13ZWItMS4wLjAiLCJhc2wiOiJMIn0.DhTE485f5JK-fHKTiM_VeHrE4H77OPo9rAQWZz4tJiwdN3STQukUOlWRDzJ0tz9H1Ht4YKamk5zTBVBpN6C6cMH9SJ67TkjfM64-o9rKINYuH8SwqCzKSpOq75hGkMYUxVop7fXX44xJWElwGll20DoKVM-u-5PETEtOIQo6RoJkuHtRUdqmGgjdqqe6oXN5iCSMVs8L7ZTS361fWheoDMXqTC9RCv4rb5xVMaqv2U3PkbsLKoJQ9tGSkYP2po75FmcAq1wPUM-yYic4OiZMz-jkssm_fW5HoM8wLFnld313S-Tf7FwJCf1e9atRko6xy0HZ6xkM5GqgZg335THeOg; idToken=eyJhbGciOiJub25lIn0.eyJzdWIiOiIwZGFiMmVhZi03NjM1LTRjY2UtYmVmYS0yYTIzMTJkYzNiMmMiLCJpc3MiOiJNSTYiLCJleHAiOjE3MzMzMzc1ODYsImlhdCI6MTczMzI1MTE4NiwiYXNzIjoiTCIsInN1dCI6IkciLCJjbGkiOiJlY29tLXdlYi0xLjAuMCIsInBybyI6eyJmbiI6bnVsbCwiZW0iOm51bGwsInBoIjpmYWxzZSwibGVkIjpudWxsLCJsdHkiOmZhbHNlLCJzdCI6Ik1BIn19.; refreshToken=ovx-rN-VTxOLONyo7GuYzftiGBJ18PhkXbfN9CDfIKjg3cX9X8U-6SujpAvg20nkvUJOss9tEQ3s6Dt-bG3VlA; adScriptData=MA; _tgt_session=6b970f9751234d6bb5ac00ba985b8877.371fdca32d11277b1839a51fd5a1c97ae9b0ca11e49ec4f862a598cca665c9825487a48a79a5cc4c5e7a0f955d57f38ac1f569e73dbd640c5dda0b9025ae2d811a29a0a3cf1e14772347a3fc96f93ea5bb0fbf19bd3474fda7211a29ef1fc80594f9f255a6eae903f9646d69284fe637a9f8285cf932bccd4f195ce3a59e59475415ffb339116e68cf098169c1e18906de4dc424ae3ec311733c540c032d7493e544286ff0a941372d759e5a1c7dc4b0d4be57cf9b10c69a1658b3f3f0a26bc086afb37cc48c1cfd11142bdd924fee25ba9325f90e857c3e30ac502cbddaa03a0f.0xe8c9820293c7fbe6950eadede26eaea6a4161716cf6950195cdf25000ec1de47; __gads=ID=5d5b4437689ceec9:T=1732301677:RT=1733274723:S=ALNI_MZKlJPLUNuLX5CJNSJXItRWwOAO_w; __gpi=UID=00000e9edab5b505:T=1732301677:RT=1733274723:S=ALNI_MbwwnDgPIZgwWG9RGUorX-pVVvmgw; __eoi=ID=a209cbcf5b46c1e5:T=1732301677:RT=1733274723:S=AA-AfjaGDrPLkX5i0HKy8s_pypma; ffsession={%22sessionHash%22:%221798ca28b988a1732596335177%22%2C%22prevPageName%22:%22search:%20search%20results%22%2C%22prevPageType%22:%22search:%20search%20results%22%2C%22prevPageUrl%22:%22https://www.target.com/s?searchTerm=tomato&tref=typeahead%257Cterm%257Ctomato%257C%257C%257Chistory%22%2C%22sessionHit%22:49%2C%22prevSearchTerm%22:%22tomato%22}',
+    # 'cookie': 'TealeafAkaSid=8nWV8V2AZBTi0p1XP8Dueq2fvnOiRWmX; visitorId=01935539DD6E020186FDC2C4E8530B8D; sapphire=1; UserLocation=01002|42.350|-72.530|MA|US; fiatsCookie=DSI_1839|DSN_Hadley|DSZ_01035; ci_pixmgr=dcs; _gcl_aw=GCL.1732301679.CjwKCAiA9IC6BhA3EiwAsbltOIEhj1QugyX-PArJIeD1xfl_mzhVW6ZMH4Bm_0Tiq8vtWatpKx3H2hoCByoQAvD_BwE; _gcl_dc=GCL.1732301679.CjwKCAiA9IC6BhA3EiwAsbltOIEhj1QugyX-PArJIeD1xfl_mzhVW6ZMH4Bm_0Tiq8vtWatpKx3H2hoCByoQAvD_BwE; _gcl_gs=2.1.k1$i1732301675$u85450396; _gcl_au=1.1.2012358250.1732301679; sddStore=DSI_1839|DSN_Hadley|DSZ_01002; crl8.fpcuid=d2c248d8-173e-4bc8-9ad8-bd1d06e8f2d7; _tgt_session=db2fad20e205496d80794350df9eeab9.bf843eed4aa549dfb6ffaaa5c95519bf6e97ef6b3fdc2a66bc9d5c9c04f1e1f3489f79d3293253c9bb0522191504ef41b5352104c426653957e12c88e1453b40aa5610330cb51a7fd7cf87eed6ee9faf6d323ff2ec9e1272203f31479c9481f1a686457e24803e31fcbb8686e1a061e49ec9aae1bff81db51172f82cf90bcd6cf39c009108956aa4a5a1a79c696b052e9446b9d295c082960813a533a6dd9128bf35af5bcb04f1044d8ac066365873d6de6330b2924099a0549dc6a1715762943273a400c7fe78981b76af4bcc939323335daa8c4cc9e3c3ed96debf15bfdf1be1.0x3e84f502b5e8288e43aef44c85da1f739750ec483e7b082c2ea83dc78a94a965; ffsession={%22sessionHash%22:%221798ca28b988a1732596335177%22%2C%22prevPageName%22:%22search:%20search%20results%22%2C%22prevPageType%22:%22search:%20search%20results%22%2C%22prevPageUrl%22:%22https://www.target.com/s?searchTerm=tomatoes%22%2C%22sessionHit%22:51%2C%22prevSearchTerm%22:%22tomatoes%22}; __gads=ID=5d5b4437689ceec9:T=1732301677:RT=1733292333:S=ALNI_MZKlJPLUNuLX5CJNSJXItRWwOAO_w; __gpi=UID=00000e9edab5b505:T=1732301677:RT=1733292333:S=ALNI_MbwwnDgPIZgwWG9RGUorX-pVVvmgw; __eoi=ID=a209cbcf5b46c1e5:T=1732301677:RT=1733292333:S=AA-AfjaGDrPLkX5i0HKy8s_pypma; egsSessionId=733c5963-31dd-467a-af97-f79f61c32657; accessToken=eyJraWQiOiJlYXMyIiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIwZGFiMmVhZi03NjM1LTRjY2UtYmVmYS0yYTIzMTJkYzNiMmMiLCJpc3MiOiJNSTYiLCJleHAiOjE3MzM0Mzg2MTMsImlhdCI6MTczMzM1MjIxMywianRpIjoiVEdULjgxYTFkOGY3MTA3MzRiYzg5YTY2ZGYyYTkxMWE0OTllLWwiLCJza3kiOiJlYXMyIiwic3V0IjoiRyIsImRpZCI6IjhmMDRjMzAyMTZkYjRmMjk1MWFkNDJjYjA4ZGI5MWYwMDhkNjU4OWM0OWRhOWM3MWNiMjlkZWM3YTM2NGQ4YjkiLCJzY28iOiJlY29tLm5vbmUsb3BlbmlkIiwiY2xpIjoiZWNvbS13ZWItMS4wLjAiLCJhc2wiOiJMIn0.JMiAkPqf4zTbvlsA23mkLxh2XbZL1rk3_BPs0I98WuylhtDGDfmAAeX2q7Dmc6DFB_FlUZ7RI4e4dJU8c7ekiOnUAboBIxfHy0IDIBDfA8bPIqzG7ymlueIEPZtFGbz56PPiUH0b5WOWAjYzYBeUlP9L2PuN4YlGmaCUcoQZDbc_HeaB0DSU_fO1QHMH5ck8NCKoX_TUfDWthFCrhVAC8MFx9Q14ETuMcpqMgj4WjvhUwNt0QcZWrr5lGCcYQQiFB8EN1Ps1bVVu2wx_fX_j-1EluCSSwc0vjyRfR7x6UIxUSmPnAWy6V6B2606ESXoFI8gNefsumP6pP2WXOM7FrA; idToken=eyJhbGciOiJub25lIn0.eyJzdWIiOiIwZGFiMmVhZi03NjM1LTRjY2UtYmVmYS0yYTIzMTJkYzNiMmMiLCJpc3MiOiJNSTYiLCJleHAiOjE3MzM0Mzg2MTMsImlhdCI6MTczMzM1MjIxMywiYXNzIjoiTCIsInN1dCI6IkciLCJjbGkiOiJlY29tLXdlYi0xLjAuMCIsInBybyI6eyJmbiI6bnVsbCwiZW0iOm51bGwsInBoIjpmYWxzZSwibGVkIjpudWxsLCJsdHkiOmZhbHNlLCJzdCI6Ik1BIn19.; refreshToken=gn5ItQpAJQ5AWfEqXrv1wYKpyPVL7ucS0JD0PauMI6u2qMPLF9pwV_yGKTVrtQqJOO3UBk0kNYKXtcoJpFtW5g; adScriptData=MA',
     'origin': 'https://www.target.com',
     'priority': 'u=1, i',
-    'referer': 'https://www.target.com/s?searchTerm=tomatoes&category=0%7CAll%7Cmatchallpartial%7Call+categories&tref=typeahead%7Cterm%7C0%7Ctomatoes%7Ctomatoes%7C%7C%7Cservice%7C%7C%7C%7C%7Ccontext&searchTermRaw=tomato',
+    'referer': 'https://www.target.com/s?searchTerm=tomatoes&tref=typeahead%7Cterm%7Ctomatoes%7C%7C%7Chistory',
     'sec-ch-ua': '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
     'sec-ch-ua-mobile': '?0',
     'sec-ch-ua-platform': '"macOS"',
@@ -65,22 +67,6 @@ params = {
     'visitor_id': '01935539DD6E020186FDC2C4E8530B8D',
     'zip': '01002',
 }
-
-response = requests.get(
-    'https://redsky.target.com/redsky_aggregations/v1/web/plp_search_v2',
-    params=params,
-    cookies=cookies,
-    headers=headers,
-)
-
-
-response = requests.get(
-    'https://redsky.target.com/redsky_aggregations/v1/web/plp_search_v2',
-    params=params,
-    cookies=cookies,
-    headers=headers,
-)
-
 
 
 def get_target_data(item):
