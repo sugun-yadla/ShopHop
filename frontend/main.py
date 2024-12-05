@@ -7,6 +7,7 @@ load_dotenv()
 
 st.title('ShopHop')
 
+print('Opening main.py')
 user, _, _ = utils.get_auth_cookies(auto_logout=False, validate_token=True)
 if user:
     st.switch_page('pages/search.py')

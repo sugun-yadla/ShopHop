@@ -3,6 +3,8 @@ import utils
 import st_utils
 import streamlit as st
 
+print('Opening search.py')
+
 utils.get_auth_cookies()
 st_utils.show_sidebar()
 
@@ -19,7 +21,8 @@ def show_results(products, pretty_products):
                 break
 
             product = products[i]
-            product["URL"] = product["URL"].split('?')[0] + '?odnHeight=540&odnWidth=540'
+            product["URL"] = product["URL"].split('?')[0]
+            print(product)
 
             col.image(product['Image'], use_container_width=True)
 
@@ -34,21 +37,27 @@ def show_results(products, pretty_products):
             </style>
             '''
 
-            col.html(css_style + f'''
+            c1, c2 = col.columns([0.8, 0.2])
+
+            c1.html(css_style + f'''
                 <a href="{product["URL"]}">
-                    <div>{product["Product"]}
-                        <br>
+                    <div>
+                        {product["Product"]}<br>
+                        {product["Quantity"]}<br>
                         $ {product["Price"]:.2f}
                     </div>
                 </a>
             ''')
+
+            c2.image(utils.STORE_LOGO_URLS[product['Store']])
+            col.write('Effective price: ' + product['price_per_unit_pretty'])
 
         if row == math.floor(len(products) / ITEMS_PER_ROW - 1):
             break
 
         st.divider()
 
-    # st.table(pretty_products)
+    st.table(pretty_products)
 
 col1, col2 = st.columns([0.8, 0.2], vertical_alignment='bottom')
 

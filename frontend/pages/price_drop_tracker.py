@@ -1,7 +1,6 @@
 import utils
-import streamlit as st
-import utils
 import st_utils
+import streamlit as st
 
 utils.get_auth_cookies()
 st_utils.show_sidebar()

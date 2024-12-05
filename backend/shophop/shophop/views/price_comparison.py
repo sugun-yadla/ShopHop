@@ -30,11 +30,13 @@ def standardize_quantity(row):
                 return f"{value * 128:.2f} oz"
             elif "fl oz" in unit or "oz" in unit:
                 return f"{value:.2f} oz"
-            elif "carton" in unit or "ct" in unit or "dozen" in unit or "count" in unit or "pk" in unit or "pack" in unit:
+            elif "carton" in unit or "ct" in unit or "count" in unit or "pk" in unit or "pack" in unit:
                 return f"{value:.2f} ct"
             elif "lb" in unit:
                 return f"{value * 16:.2f} oz"
-        
+            elif "dozen" in unit:
+                return f"{value * 12} ct"
+
         return None
     except Exception as e:
         print(f"Error in standardize_quantity: {e}")
@@ -120,7 +122,7 @@ def fetch_walmart_products(product):
             else:
                 current_name = text
                 for parent in span.parents:
-                    current_url = "https://walmart.com/" + parent.get('href', '')
+                    current_url = "https://walmart.com" + parent.get('href', '')
                     break
 
         product_images = walmart_soup.find_all('img', id=lambda x: x and 'productImage' in x)
@@ -163,7 +165,7 @@ def fetch_products(request, product):
                             price_str = price_str.split('/')[0]
 
                         aldi_data.append({
-                            "Product": name,
+                            "Product": name.split(",")[0].strip(),
                             "Price": price_str,
                             "Quantity": entry["Quantity"],
                             "Category": product,
@@ -210,7 +212,9 @@ def fetch_products(request, product):
                             "Price": entry["Price"],
                             'Quantity': entry["Quantity"],
                             'Category': entry["Category"],
-                            "Store": "Target"
+                            "Store": "Target",
+                            "Image": "image",
+                            "URL": "url"
                             })
                          
                     target_df = pd.DataFrame(target_data)
