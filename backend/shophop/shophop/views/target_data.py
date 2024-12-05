@@ -76,9 +76,7 @@ params = {
 
 
 def get_target_data(item):
-
     details = []
-
     cookies['ffsession'] = f'{{"sessionHash":"1798ca28b988a1732596335177","prevPageName":"search: search results","prevPageType":"search: search results","prevPageUrl":"https://www.target.com/s?searchTerm={item}","sessionHit":41,"prevSearchTerm":"{item}"}}'
 
     params['keyword'] = item  # Update the keyword for each grocery item
@@ -95,7 +93,6 @@ def get_target_data(item):
       headers=headers,
     )
 
-
     if response.status_code == 200:
         results_json = response.json()
         result_items = results_json['data']['search']['products']
@@ -104,48 +101,65 @@ def get_target_data(item):
         for result in result_items:
             if count >= 10:
                 break  
-            try:
-            
-              title = result['item']['product_description']['title']
-              decoded_title = html.unescape(title)
-              cleaned_title = re.split(r'\s+-\s+', decoded_title)[0]
-              product_title = cleaned_title
-            except:
-              product_title = None
 
             try:
-            
+                title = result['item']['product_description']['title']
+                decoded_title = html.unescape(title)
+                cleaned_title = re.split(r'\s+-\s+', decoded_title)[0]
+                product_title = cleaned_title
+            except:
+                product_title = None
+
+            try:
                 price = result['price']['formatted_current_price'].lstrip('$')
             except:
-            
                 price = None
-          # extract quantity
+
+            print('keys:', result.keys())
+
+            try:
+                image = result['item']['enrichment']['images']['primary_image_url']
+            except:
+                print(result['item']['enrichment']['images'])
+                image = None
+
+            try:
+                url = result['item']['enrichment']['buy_url']
+            except:
+                print(result['item']['enrichment']['buy_url'])
+                url = None
+
+            # extract quantity
             try:
                 title_lower = title.lower()
-              
-              # Check for "each" in the title
+                # Check for "each" in the title
                 if "each" in title_lower:
                     #   quantity.append("1 Count")
                     quantity = "1 Count"
                 else:
                     # Extract standard quantities like "5lb", "32oz", etc.
-                    #match = re.search(r'(\d+\.?\d*)\s?(oz|lb|g|count|ct|gal|)', title_lower)
+                    # match = re.search(r'(\d+\.?\d*)\s?(oz|lb|g|count|ct|gal|)', title_lower)
                     match = re.search(r'([\d.]+)\s*(fl oz|gallon|gal|oz|carton|ct|dozen|count|lb|pk|pack)', title_lower)
                     if match:
-                            quantity = match.group(0)
+                        quantity = match.group(0)
                     else:
                         # No quantity found
-                            quantity = None
+                        quantity = None
             except:
                 quantity.append(None)
+
             details.append({
-                            "Product": product_title,
-                            "Price": price,
-                            "Quantity": quantity,
-                            "Category": item,
-                            "store": "Target"
-                    })
+                "Product": product_title,
+                "Price": price,
+                "Quantity": quantity,
+                "Category": item,
+                "Store": "Target",
+                "Image": image,
+                "URL": url
+            })
             count += 1
+
+        print('target data:', details)
         return details
     
     else:

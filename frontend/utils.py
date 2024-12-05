@@ -10,7 +10,8 @@ BACKEND_URL = 'http://127.0.0.1:8000'
 
 STORE_LOGO_URLS = {
     'Aldi': 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/AldiWorldwideLogo.svg/400px-AldiWorldwideLogo.svg.png',
-    'Walmart': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Walmart_Spark.svg/451px-Walmart_Spark.svg.png'
+    'Walmart': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Walmart_Spark.svg/451px-Walmart_Spark.svg.png',
+    'Target': 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9a/Target_logo.svg/361px-Target_logo.svg.png',
 }
 
 def search(query):

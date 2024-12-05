@@ -202,20 +202,20 @@ def fetch_products(request, product):
                     database.append(walmart_df)   
                 except Exception as e:
                     print(f"Error processing Walmart data: {e}")
-            
+
             target_details = fetch_target_products(product)
             if target_details:
                 try:
                     for entry in target_details:
-                         target_data.append({
+                        target_data.append({
                             'Product': entry["Product"],
                             "Price": entry["Price"],
                             'Quantity': entry["Quantity"],
                             'Category': entry["Category"],
                             "Store": "Target",
-                            "Image": "image",
-                            "URL": "url"
-                            })
+                            "Image": entry["Image"],
+                            "URL": entry["URL"]
+                        })
                          
                     target_df = pd.DataFrame(target_data)
                     database.append(target_df)
@@ -262,6 +262,7 @@ def fetch_products(request, product):
         print(f"Error in fetch_products: {e}")
         return JsonResponse({"error": "An error occurred while processing the request."}, status=500)
 
+
 def data_cleaning(dairyDatabase):
 
     if isinstance(dairyDatabase, list):
@@ -278,6 +279,7 @@ def data_cleaning(dairyDatabase):
         
     get_cheapest_products = priceComparison(cleaned_grocery_db)
     return JsonResponse(get_cheapest_products.to_dict(orient='records'), safe=False)
+
 
 def priceComparison(database):
 
