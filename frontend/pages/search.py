@@ -10,8 +10,25 @@ st_utils.show_sidebar()
 
 st.title('Find the best deals! 🔍')
 
-def show_results(products, pretty_products):
-    st.markdown('#')
+def show_results(products, categorized):
+    st.text('')
+
+    filter = st.selectbox(
+        "Filter your results",
+        list(categorized.keys()),
+        index=None,
+        placeholder="Select type...",
+    )
+
+    if filter:
+        products = sorted(categorized[filter], key=lambda x: x['price_per_unit'])
+
+    # cols = st.columns(len(categorized))
+    # keys = list(categorized.keys())
+    # for i, col in enumerate(cols):
+    #     if col.button(f'Type {i + 1} - {keys[i]}', use_container_width=True):
+    #         products = categorized[keys[i]]
+
     ITEMS_PER_ROW = 3
 
     for row in range(math.ceil(len(products) / ITEMS_PER_ROW - 1)):
@@ -57,7 +74,7 @@ def show_results(products, pretty_products):
 
         st.divider()
 
-    st.table(pretty_products)
+    # st.table(pretty_products)
 
 col1, col2 = st.columns([0.8, 0.2], vertical_alignment='bottom')
 
@@ -69,6 +86,6 @@ with col2:
 
 if search_query:
     with st.spinner(f'Searching for {search_query}...'):
-        products, prettified_products = utils.search(search_query)
+        products, categorized = utils.search(search_query)
 
-    show_results(products, prettified_products)
+    show_results(products, categorized)

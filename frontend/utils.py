@@ -16,6 +16,7 @@ STORE_LOGO_URLS = {
 
 def search(query):
     products = get(f'/api/products/{query}')
+    categorized = {}
 
     def transform(item: dict):
         item = item.copy()
@@ -42,11 +43,17 @@ def search(query):
 
         # item['Price'] = f'$ {item["Price"]:.2f}'
         # del item['Standardized_Quantity']
+
+        if item['st_unit'] in categorized:
+            categorized[item['st_unit']].append(item)
+        else:
+            categorized[item['st_unit']] = [item]
+
         return item
 
     products = [transform(item) for item in products]
     products.sort(key=lambda x: x['price_per_unit'])
-    return products, products
+    return products, categorized
 
 
 def get(endpoint: str, payload=None):
@@ -180,9 +187,14 @@ def get_auth_cookies(auto_logout=True, validate_token=False, retries=1):
 
 
 def remove_auth_cookies():
-    print('Removing cookies (why?)')
+    for cookie in ['user', 'access_token', 'refresh_token']:
+        try:
+            del st.session_state[cookie]
+        except KeyError:
+            print(f'Tried deleting {cookie} from st.session_state but it wasn\'t there!')
+
     for cookie in ['shophop-user', 'shophop-access-token', 'shophop-refresh-token']:
         try:
             cc.remove(cookie)
         except KeyError:
-            print(f'Tried deleting {cookie} but it wasn\'t there!')
+            print(f'Tried deleting {cookie} from CC but it wasn\'t there!')
