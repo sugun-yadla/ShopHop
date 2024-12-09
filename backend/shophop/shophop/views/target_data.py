@@ -7,43 +7,40 @@ import requests
 import requests
 
 cookies = {
-    'TealeafAkaSid': '8nWV8V2AZBTi0p1XP8Dueq2fvnOiRWmX',
-    'visitorId': '01935539DD6E020186FDC2C4E8530B8D',
+    'TealeafAkaSid': '079Apk3fD13FyApI3rXFaddt2MME4N6F',
+    'visitorId': '01938389D1260201900F001E95FE9EA6',
     'sapphire': '1',
-    'UserLocation': '01002|42.350|-72.530|MA|US',
+    'UserLocation': '01002|42.370|-72.500|MA|US',
     'fiatsCookie': 'DSI_1839|DSN_Hadley|DSZ_01035',
-    'ci_pixmgr': 'dcs',
-    '_gcl_aw': 'GCL.1732301679.CjwKCAiA9IC6BhA3EiwAsbltOIEhj1QugyX-PArJIeD1xfl_mzhVW6ZMH4Bm_0Tiq8vtWatpKx3H2hoCByoQAvD_BwE',
-    '_gcl_dc': 'GCL.1732301679.CjwKCAiA9IC6BhA3EiwAsbltOIEhj1QugyX-PArJIeD1xfl_mzhVW6ZMH4Bm_0Tiq8vtWatpKx3H2hoCByoQAvD_BwE',
-    '_gcl_gs': '2.1.k1$i1732301675$u85450396',
-    '_gcl_au': '1.1.2012358250.1732301679',
-    'sddStore': 'DSI_1839|DSN_Hadley|DSZ_01002',
-    'crl8.fpcuid': 'd2c248d8-173e-4bc8-9ad8-bd1d06e8f2d7',
-    'accessToken': 'eyJraWQiOiJlYXMyIiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIwZGFiMmVhZi03NjM1LTRjY2UtYmVmYS0yYTIzMTJkYzNiMmMiLCJpc3MiOiJNSTYiLCJleHAiOjE3MzM0Mzg2MTMsImlhdCI6MTczMzM1MjIxMywianRpIjoiVEdULjgxYTFkOGY3MTA3MzRiYzg5YTY2ZGYyYTkxMWE0OTllLWwiLCJza3kiOiJlYXMyIiwic3V0IjoiRyIsImRpZCI6IjhmMDRjMzAyMTZkYjRmMjk1MWFkNDJjYjA4ZGI5MWYwMDhkNjU4OWM0OWRhOWM3MWNiMjlkZWM3YTM2NGQ4YjkiLCJzY28iOiJlY29tLm5vbmUsb3BlbmlkIiwiY2xpIjoiZWNvbS13ZWItMS4wLjAiLCJhc2wiOiJMIn0.JMiAkPqf4zTbvlsA23mkLxh2XbZL1rk3_BPs0I98WuylhtDGDfmAAeX2q7Dmc6DFB_FlUZ7RI4e4dJU8c7ekiOnUAboBIxfHy0IDIBDfA8bPIqzG7ymlueIEPZtFGbz56PPiUH0b5WOWAjYzYBeUlP9L2PuN4YlGmaCUcoQZDbc_HeaB0DSU_fO1QHMH5ck8NCKoX_TUfDWthFCrhVAC8MFx9Q14ETuMcpqMgj4WjvhUwNt0QcZWrr5lGCcYQQiFB8EN1Ps1bVVu2wx_fX_j-1EluCSSwc0vjyRfR7x6UIxUSmPnAWy6V6B2606ESXoFI8gNefsumP6pP2WXOM7FrA',
-    'idToken': 'eyJhbGciOiJub25lIn0.eyJzdWIiOiIwZGFiMmVhZi03NjM1LTRjY2UtYmVmYS0yYTIzMTJkYzNiMmMiLCJpc3MiOiJNSTYiLCJleHAiOjE3MzM0Mzg2MTMsImlhdCI6MTczMzM1MjIxMywiYXNzIjoiTCIsInN1dCI6IkciLCJjbGkiOiJlY29tLXdlYi0xLjAuMCIsInBybyI6eyJmbiI6bnVsbCwiZW0iOm51bGwsInBoIjpmYWxzZSwibGVkIjpudWxsLCJsdHkiOmZhbHNlLCJzdCI6Ik1BIn19.',
-    'refreshToken': 'gn5ItQpAJQ5AWfEqXrv1wYKpyPVL7ucS0JD0PauMI6u2qMPLF9pwV_yGKTVrtQqJOO3UBk0kNYKXtcoJpFtW5g',
+    'ci_pixmgr': 'other',
+    '_gcl_au': '1.1.2132203859.1733078676',
+    'egsSessionId': '9ee10197-8f76-458f-8b87-1b0f15f7eac3',
+    'accessToken': 'eyJraWQiOiJlYXMyIiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIyMzEwZGMwYS04ZTRlLTQ3OTYtYTAwZi1hOGFlZmJlODQ2ZDAiLCJpc3MiOiJNSTYiLCJleHAiOjE3MzM4NjA4NzIsImlhdCI6MTczMzc3NDQ3MiwianRpIjoiVEdULjQwZjQwZTAwMDEzMzRjODY5YmE2YmJiZWZmZDA1MWZkLWwiLCJza3kiOiJlYXMyIiwic3V0IjoiRyIsImRpZCI6ImZiYzk0YzVkNGJhMTYxMjM4Njc5YjUzNjFjZDk2MDJjNWM1MTgxZTQ2M2JhN2RkZDg1ZDEwMDRiN2I1YjhiMzUiLCJzY28iOiJlY29tLm5vbmUsb3BlbmlkIiwiY2xpIjoiZWNvbS13ZWItMS4wLjAiLCJhc2wiOiJMIn0.huIcuCcWB1x3HB7QQ_I755PJW0OXX4w6nP5NZGN6zqamChgjCgyPVl1QLMt6bglUYJbxExkwCNdNZzwwpkwMB-GKKN7J5w0qGoeAJonu_kCafXw_Ib0fEWU7F9vo5BXan1cXyIDfETLVy839iWJ1QeqGBgAojXZTseiAkNBlIeqaR-Pp4SmiHnX-4yvA6y5miCtmgOiwBzheclDHMukLaGrH3n_kGqq4HfMbxoKH8XJMrfBBPr78_prT7CznWoB_23DouGDE4xCgGrRlAfVclK4KUV0S2ko_P3RuAtnLrQyxztK7jcfa-gcLuH8tw-MjI3g2i52o65PVFUs3JmqInA',
+    'idToken': 'eyJhbGciOiJub25lIn0.eyJzdWIiOiIyMzEwZGMwYS04ZTRlLTQ3OTYtYTAwZi1hOGFlZmJlODQ2ZDAiLCJpc3MiOiJNSTYiLCJleHAiOjE3MzM4NjA4NzIsImlhdCI6MTczMzc3NDQ3MiwiYXNzIjoiTCIsInN1dCI6IkciLCJjbGkiOiJlY29tLXdlYi0xLjAuMCIsInBybyI6eyJmbiI6bnVsbCwiZW0iOm51bGwsInBoIjpmYWxzZSwibGVkIjpudWxsLCJsdHkiOmZhbHNlLCJzdCI6Ik1BIn19.',
+    'refreshToken': '66HgEqlILxnaVKWbLG-IKj7Rq58Zu3sTIvupjGnrUEnV81WIbU_XUnvAnySTbEpfICTEOsmE0732UDYpBcXTQg',
     'adScriptData': 'MA',
-    '_tgt_session': '864a129140904b06a7e316cd601bad50.6f902a3e42cff74b45f208c3b4165f422e8ab2547fd540424737373c5abff0e5da6be7ff739f7d2e21afba33948e75ff20af28f1159ef8ec4471abeb4a17c76bf56ad84b3e3de443f3d6125294bd7a31ca1fe6c13feccff887a522beb3e9d32eadbc08ec2aa47e0ed952c915bc84695af3af0c199e4af28dcef84e6a0efae070882c1145a15939b6bfaf84acde762b85d72cc7d4dbf32ccf87bfc1151a92de5901f74c13c5f0344cdd216ea5e1bf8c792e4d4df6ad622b06b6a978e63f43e6989f1c7e31cfc4c0b5ee8e351d15ab54e1ea524d29c7919d9b5dbba0197dafa701cb.0x1536f349938309b38069d954ecb7dd99ddc837f0fef9f47f04574108236f4927',
-    'ffsession': '{%22sessionHash%22:%221798ca28b988a1732596335177%22%2C%22prevPageName%22:%22search:%20search%20results%22%2C%22prevPageType%22:%22search:%20search%20results%22%2C%22prevPageUrl%22:%22https://www.target.com/s?searchTerm=tomatoes&tref=typeahead%257Cterm%257Ctomatoes%257C%257C%257Chistory%22%2C%22sessionHit%22:54%2C%22prevSearchTerm%22:%22tomatoes%22}',
-    '__gads': 'ID=5d5b4437689ceec9:T=1732301677:RT=1733411273:S=ALNI_MZKlJPLUNuLX5CJNSJXItRWwOAO_w',
-    '__gpi': 'UID=00000e9edab5b505:T=1732301677:RT=1733411273:S=ALNI_MbwwnDgPIZgwWG9RGUorX-pVVvmgw',
-    '__eoi': 'ID=a209cbcf5b46c1e5:T=1732301677:RT=1733411273:S=AA-AfjaGDrPLkX5i0HKy8s_pypma',
+    'sddStore': 'DSI_1839|DSN_Hadley|DSZ_01002',
+    '__gads': 'ID=94645fefedabe027:T=1733078672:RT=1733774934:S=ALNI_MYjQ4D2JnplW9H03wlaTQij3swfEA',
+    '__gpi': 'UID=00000ea4f1c5663d:T=1733078672:RT=1733774934:S=ALNI_Maa1OC__DTdPBQ8GOduDrHsLL4pow',
+    '__eoi': 'ID=ac11fe5589fcc23f:T=1733078672:RT=1733774934:S=AA-AfjavZcdU32pyiPiQXH_bhR1G',
+    '_tgt_session': 'c90fb9d39baa421eb5c0048706769814.fdbfb71e65341ec6fb0474aeef9a5cbfdc92b9e2be1d18fc0ac02ea429d074dad01fc307a258be5a62288b83b3bf8b054a273b5f8136093fba66c70ed06b7cf269156561a6c85641cfa2e94328aec73cb21476036939e28871882b550e875dc6a3e41a12d8ed2dbb60c82870452a8aa81d198e39d8b581b6cca42e5d53c8c12cba2fb355b53ac7ff1e19de22d26bd036d572e3e5fb67f4d237d2aad0f97bc42588b909a2bd7930bba64bf16139f4e8233b66d17f0103b77da89f40d8bf86a34fc769cbe929a9b471e9ad5ddad6b1830cc253c57d949b0cc9e75da838f82a9b3a16.0x61b73c245b297eb7fb00215d4456d1f150549a616eb48af0af3ef736f491b1e3',
+    'ffsession': '{%22sessionHash%22:%22480cdc799c3c41733774471579%22%2C%22prevPageName%22:%22search:%20search%20results%22%2C%22prevPageType%22:%22search:%20search%20results%22%2C%22prevPageUrl%22:%22https://www.target.com/s?searchTerm=tomatoes&category=0%257CAll%257Cmatchallpartial%257Call+categories&tref=typeahead%257Cterm%257C0%257Ctomatoes%257Ctomatoes%257C%257C%257Cservice%257C%257C%257C%257C%257Ccontext%257Efacets_sb&searchTermRaw=tom%22%2C%22prevSearchTerm%22:%22tomatoes%22%2C%22sessionHit%22:8}',
 }
 
 headers = {
     'accept': 'application/json',
-    'accept-language': 'en-US,en;q=0.9',
-    # 'cookie': 'TealeafAkaSid=8nWV8V2AZBTi0p1XP8Dueq2fvnOiRWmX; visitorId=01935539DD6E020186FDC2C4E8530B8D; sapphire=1; UserLocation=01002|42.350|-72.530|MA|US; fiatsCookie=DSI_1839|DSN_Hadley|DSZ_01035; ci_pixmgr=dcs; _gcl_aw=GCL.1732301679.CjwKCAiA9IC6BhA3EiwAsbltOIEhj1QugyX-PArJIeD1xfl_mzhVW6ZMH4Bm_0Tiq8vtWatpKx3H2hoCByoQAvD_BwE; _gcl_dc=GCL.1732301679.CjwKCAiA9IC6BhA3EiwAsbltOIEhj1QugyX-PArJIeD1xfl_mzhVW6ZMH4Bm_0Tiq8vtWatpKx3H2hoCByoQAvD_BwE; _gcl_gs=2.1.k1$i1732301675$u85450396; _gcl_au=1.1.2012358250.1732301679; sddStore=DSI_1839|DSN_Hadley|DSZ_01002; crl8.fpcuid=d2c248d8-173e-4bc8-9ad8-bd1d06e8f2d7; accessToken=eyJraWQiOiJlYXMyIiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIwZGFiMmVhZi03NjM1LTRjY2UtYmVmYS0yYTIzMTJkYzNiMmMiLCJpc3MiOiJNSTYiLCJleHAiOjE3MzM0Mzg2MTMsImlhdCI6MTczMzM1MjIxMywianRpIjoiVEdULjgxYTFkOGY3MTA3MzRiYzg5YTY2ZGYyYTkxMWE0OTllLWwiLCJza3kiOiJlYXMyIiwic3V0IjoiRyIsImRpZCI6IjhmMDRjMzAyMTZkYjRmMjk1MWFkNDJjYjA4ZGI5MWYwMDhkNjU4OWM0OWRhOWM3MWNiMjlkZWM3YTM2NGQ4YjkiLCJzY28iOiJlY29tLm5vbmUsb3BlbmlkIiwiY2xpIjoiZWNvbS13ZWItMS4wLjAiLCJhc2wiOiJMIn0.JMiAkPqf4zTbvlsA23mkLxh2XbZL1rk3_BPs0I98WuylhtDGDfmAAeX2q7Dmc6DFB_FlUZ7RI4e4dJU8c7ekiOnUAboBIxfHy0IDIBDfA8bPIqzG7ymlueIEPZtFGbz56PPiUH0b5WOWAjYzYBeUlP9L2PuN4YlGmaCUcoQZDbc_HeaB0DSU_fO1QHMH5ck8NCKoX_TUfDWthFCrhVAC8MFx9Q14ETuMcpqMgj4WjvhUwNt0QcZWrr5lGCcYQQiFB8EN1Ps1bVVu2wx_fX_j-1EluCSSwc0vjyRfR7x6UIxUSmPnAWy6V6B2606ESXoFI8gNefsumP6pP2WXOM7FrA; idToken=eyJhbGciOiJub25lIn0.eyJzdWIiOiIwZGFiMmVhZi03NjM1LTRjY2UtYmVmYS0yYTIzMTJkYzNiMmMiLCJpc3MiOiJNSTYiLCJleHAiOjE3MzM0Mzg2MTMsImlhdCI6MTczMzM1MjIxMywiYXNzIjoiTCIsInN1dCI6IkciLCJjbGkiOiJlY29tLXdlYi0xLjAuMCIsInBybyI6eyJmbiI6bnVsbCwiZW0iOm51bGwsInBoIjpmYWxzZSwibGVkIjpudWxsLCJsdHkiOmZhbHNlLCJzdCI6Ik1BIn19.; refreshToken=gn5ItQpAJQ5AWfEqXrv1wYKpyPVL7ucS0JD0PauMI6u2qMPLF9pwV_yGKTVrtQqJOO3UBk0kNYKXtcoJpFtW5g; adScriptData=MA; _tgt_session=864a129140904b06a7e316cd601bad50.6f902a3e42cff74b45f208c3b4165f422e8ab2547fd540424737373c5abff0e5da6be7ff739f7d2e21afba33948e75ff20af28f1159ef8ec4471abeb4a17c76bf56ad84b3e3de443f3d6125294bd7a31ca1fe6c13feccff887a522beb3e9d32eadbc08ec2aa47e0ed952c915bc84695af3af0c199e4af28dcef84e6a0efae070882c1145a15939b6bfaf84acde762b85d72cc7d4dbf32ccf87bfc1151a92de5901f74c13c5f0344cdd216ea5e1bf8c792e4d4df6ad622b06b6a978e63f43e6989f1c7e31cfc4c0b5ee8e351d15ab54e1ea524d29c7919d9b5dbba0197dafa701cb.0x1536f349938309b38069d954ecb7dd99ddc837f0fef9f47f04574108236f4927; ffsession={%22sessionHash%22:%221798ca28b988a1732596335177%22%2C%22prevPageName%22:%22search:%20search%20results%22%2C%22prevPageType%22:%22search:%20search%20results%22%2C%22prevPageUrl%22:%22https://www.target.com/s?searchTerm=tomatoes&tref=typeahead%257Cterm%257Ctomatoes%257C%257C%257Chistory%22%2C%22sessionHit%22:54%2C%22prevSearchTerm%22:%22tomatoes%22}; __gads=ID=5d5b4437689ceec9:T=1732301677:RT=1733411273:S=ALNI_MZKlJPLUNuLX5CJNSJXItRWwOAO_w; __gpi=UID=00000e9edab5b505:T=1732301677:RT=1733411273:S=ALNI_MbwwnDgPIZgwWG9RGUorX-pVVvmgw; __eoi=ID=a209cbcf5b46c1e5:T=1732301677:RT=1733411273:S=AA-AfjaGDrPLkX5i0HKy8s_pypma',
+    'accept-language': 'en-GB,en-US;q=0.9,en;q=0.8',
+    # 'cookie': 'TealeafAkaSid=079Apk3fD13FyApI3rXFaddt2MME4N6F; visitorId=01938389D1260201900F001E95FE9EA6; sapphire=1; UserLocation=01002|42.370|-72.500|MA|US; fiatsCookie=DSI_1839|DSN_Hadley|DSZ_01035; ci_pixmgr=other; _gcl_au=1.1.2132203859.1733078676; egsSessionId=9ee10197-8f76-458f-8b87-1b0f15f7eac3; accessToken=eyJraWQiOiJlYXMyIiwiYWxnIjoiUlMyNTYifQ.eyJzdWIiOiIyMzEwZGMwYS04ZTRlLTQ3OTYtYTAwZi1hOGFlZmJlODQ2ZDAiLCJpc3MiOiJNSTYiLCJleHAiOjE3MzM4NjA4NzIsImlhdCI6MTczMzc3NDQ3MiwianRpIjoiVEdULjQwZjQwZTAwMDEzMzRjODY5YmE2YmJiZWZmZDA1MWZkLWwiLCJza3kiOiJlYXMyIiwic3V0IjoiRyIsImRpZCI6ImZiYzk0YzVkNGJhMTYxMjM4Njc5YjUzNjFjZDk2MDJjNWM1MTgxZTQ2M2JhN2RkZDg1ZDEwMDRiN2I1YjhiMzUiLCJzY28iOiJlY29tLm5vbmUsb3BlbmlkIiwiY2xpIjoiZWNvbS13ZWItMS4wLjAiLCJhc2wiOiJMIn0.huIcuCcWB1x3HB7QQ_I755PJW0OXX4w6nP5NZGN6zqamChgjCgyPVl1QLMt6bglUYJbxExkwCNdNZzwwpkwMB-GKKN7J5w0qGoeAJonu_kCafXw_Ib0fEWU7F9vo5BXan1cXyIDfETLVy839iWJ1QeqGBgAojXZTseiAkNBlIeqaR-Pp4SmiHnX-4yvA6y5miCtmgOiwBzheclDHMukLaGrH3n_kGqq4HfMbxoKH8XJMrfBBPr78_prT7CznWoB_23DouGDE4xCgGrRlAfVclK4KUV0S2ko_P3RuAtnLrQyxztK7jcfa-gcLuH8tw-MjI3g2i52o65PVFUs3JmqInA; idToken=eyJhbGciOiJub25lIn0.eyJzdWIiOiIyMzEwZGMwYS04ZTRlLTQ3OTYtYTAwZi1hOGFlZmJlODQ2ZDAiLCJpc3MiOiJNSTYiLCJleHAiOjE3MzM4NjA4NzIsImlhdCI6MTczMzc3NDQ3MiwiYXNzIjoiTCIsInN1dCI6IkciLCJjbGkiOiJlY29tLXdlYi0xLjAuMCIsInBybyI6eyJmbiI6bnVsbCwiZW0iOm51bGwsInBoIjpmYWxzZSwibGVkIjpudWxsLCJsdHkiOmZhbHNlLCJzdCI6Ik1BIn19.; refreshToken=66HgEqlILxnaVKWbLG-IKj7Rq58Zu3sTIvupjGnrUEnV81WIbU_XUnvAnySTbEpfICTEOsmE0732UDYpBcXTQg; adScriptData=MA; sddStore=DSI_1839|DSN_Hadley|DSZ_01002; __gads=ID=94645fefedabe027:T=1733078672:RT=1733774934:S=ALNI_MYjQ4D2JnplW9H03wlaTQij3swfEA; __gpi=UID=00000ea4f1c5663d:T=1733078672:RT=1733774934:S=ALNI_Maa1OC__DTdPBQ8GOduDrHsLL4pow; __eoi=ID=ac11fe5589fcc23f:T=1733078672:RT=1733774934:S=AA-AfjavZcdU32pyiPiQXH_bhR1G; _tgt_session=c90fb9d39baa421eb5c0048706769814.fdbfb71e65341ec6fb0474aeef9a5cbfdc92b9e2be1d18fc0ac02ea429d074dad01fc307a258be5a62288b83b3bf8b054a273b5f8136093fba66c70ed06b7cf269156561a6c85641cfa2e94328aec73cb21476036939e28871882b550e875dc6a3e41a12d8ed2dbb60c82870452a8aa81d198e39d8b581b6cca42e5d53c8c12cba2fb355b53ac7ff1e19de22d26bd036d572e3e5fb67f4d237d2aad0f97bc42588b909a2bd7930bba64bf16139f4e8233b66d17f0103b77da89f40d8bf86a34fc769cbe929a9b471e9ad5ddad6b1830cc253c57d949b0cc9e75da838f82a9b3a16.0x61b73c245b297eb7fb00215d4456d1f150549a616eb48af0af3ef736f491b1e3; ffsession={%22sessionHash%22:%22480cdc799c3c41733774471579%22%2C%22prevPageName%22:%22search:%20search%20results%22%2C%22prevPageType%22:%22search:%20search%20results%22%2C%22prevPageUrl%22:%22https://www.target.com/s?searchTerm=tomatoes&category=0%257CAll%257Cmatchallpartial%257Call+categories&tref=typeahead%257Cterm%257C0%257Ctomatoes%257Ctomatoes%257C%257C%257Cservice%257C%257C%257C%257C%257Ccontext%257Efacets_sb&searchTermRaw=tom%22%2C%22prevSearchTerm%22:%22tomatoes%22%2C%22sessionHit%22:8}',
     'origin': 'https://www.target.com',
     'priority': 'u=1, i',
-    'referer': 'https://www.target.com/s?searchTerm=tomatoes&tref=typeahead%7Cterm%7Ctomatoes%7C%7C%7Chistory',
-    'sec-ch-ua': '"Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"',
+    'referer': 'https://www.target.com/s?searchTerm=tomatoes&category=0%7CAll%7Cmatchallpartial%7Call+categories&tref=typeahead%7Cterm%7C0%7Ctomatoes%7Ctomatoes%7C%7C%7Cservice%7C%7C%7C%7C%7Ccontext%7Efacets_sb&searchTermRaw=tom',
+    'sec-ch-ua': '"Chromium";v="130", "Google Chrome";v="130", "Not?A_Brand";v="99"',
     'sec-ch-ua-mobile': '?0',
     'sec-ch-ua-platform': '"macOS"',
     'sec-fetch-dest': 'empty',
     'sec-fetch-mode': 'cors',
     'sec-fetch-site': 'same-site',
-    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+    'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
 }
 
 params = {
@@ -59,11 +56,10 @@ params = {
     'page': '/s/tomatoes',
     'platform': 'desktop',
     'pricing_store_id': '1839',
-    'scheduled_delivery_store_id': '1839',
     'spellcheck': 'true',
     'store_ids': '1839,1232,1255,2213,2127',
-    'useragent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
-    'visitor_id': '01935539DD6E020186FDC2C4E8530B8D',
+    'useragent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36',
+    'visitor_id': '01938389D1260201900F001E95FE9EA6',
     'zip': '01002',
 }
 
@@ -108,18 +104,18 @@ def get_target_data(item):
             except:
                 price = None
 
-            print('keys:', result.keys())
+            #print('keys:', result.keys())
 
             try:
                 image = result['item']['enrichment']['images']['primary_image_url']
             except:
-                print(result['item']['enrichment']['images'])
+                #print(result['item']['enrichment']['images'])
                 image = None
 
             try:
                 url = result['item']['enrichment']['buy_url']
             except:
-                print(result['item']['enrichment']['buy_url'])
+                #print(result['item']['enrichment']['buy_url'])
                 url = None
 
             # extract quantity
@@ -152,9 +148,9 @@ def get_target_data(item):
             })
             count += 1
 
-        print('target data:', details)
+        #print('target data:', details)
         return details
     
     else:
-        print(f"Failed to fetch data for {item}, status code: {response.status_code}")
+        #print(f"Failed to fetch data for {item}, status code: {response.status_code}")
         return []
