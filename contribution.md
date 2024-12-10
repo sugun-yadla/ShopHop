@@ -1,13 +1,14 @@
 # Contributions by Team Members  
 Our project, ShopHop, is a price comparison and product tracking platform built with a comprehensive tech stack. The following technologies were used:  
-1. Backend - Django  
+1. Backend - Django 
 2. Frontend: Streamlit  
 3. Database: PostgreSQL  
 4. Task Scheduling: Django-cron  
 5. Web Scraping: BeautifulSoup  
 6. Testing: Unittest  
 7. Programming Language: Python  
-8. Others: LLM integration, SMTP for email notifications, Chrome extension development
+8. Chrome extension development - Javascript, HTML
+8. Others: LLM integration, SMTP for email notifications
 
 We collaborated by dividing the features and configuration tasks to leverage individual strengths while ensuring seamless integration across components. Below is a detailed summary of each member's contributions:
 

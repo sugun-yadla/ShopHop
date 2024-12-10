@@ -5,7 +5,7 @@ A seamless and secure sign-in experience using Google OAuth, ensuring quick acce
 2. Grocery Price Comparison:  
 Users can search for grocery items, and ShopHop will compare the per-unit prices across three major stores—Aldi, Walmart, and Target. The results are displayed in ascending order, with the lowest price highlighted for easy decision-making.  
 3. Price Tracking and Alerts:  
-Add grocery items to your price tracking list, and our weekly cron job will monitor price changes for these products. If a price drop is detected, users are promptly notified via email, ensuring they never miss a deal.  
+Add grocery items to your price tracking list, and our weekly (every Sunday) cron job will monitor price changes for these products. If a price drop is detected, users are promptly notified via email, ensuring they never miss a deal.  
 4. Recipe Recommendations:  
 Mention the ingredients you have, and ShopHop will generate recipe ideas using advanced Large Language Models (LLM). This feature offers creative and personalized cooking suggestions based on the ingredients you specify.  
 5. Chrome Extension:  
