@@ -89,4 +89,28 @@ When there is a price drop for items in the price tracking list, the respective 
 ![Product Screenshot](images/mail.jpeg)  
 
 ## Key test for Recipe Recommendation:  
-[frontend/pages/test_recipe_recommender.py](frontend/pages/test_recipe_recommender.py)
+[frontend/pages/test/test_recipe_recommender.py](frontend/pages/test/test_recipe_recommender.py)
+
+## Key test for Price Tracking DB:  
+[backend/shophop/shophop/tests/test_price_drop_tracker.py](backend/shophop/shophop/tests/test_price_drop_tracker.py)    
+
+1. Updating Saved items list for users:  
+    Objective: To test the function update_saved_items_db and ensure that it correctly updates the saved items' prices in the database based on the mailing list  
+    Tested by: `test_update_saved_items_db`  
+    Checks:  
+    &nbsp;Verify that the price of "Potato" for user1 is updated from 2.0 to 1.5.  
+    &nbsp;Verify that the price of "Tomato" for user1 is updated from 3.0 to 2.5.  
+    &nbsp;Ensure the database reflects these updates.
+
+2. Fetching Saved Items for users from the db:  
+    Objective: To test the function get_users_saved_data and ensure that it returns the correct saved data for all users in the expected format.  
+    Tested by: `test_get_users_saved_data`  
+    Checks:  
+    &nbsp;Verify that the result contains all the saved items with correct user associations.  
+    &nbsp;Ensure the returned result matches the expected structure with user email, item name, and price.  
+
+All tests - 
+![Product Screenshot](images/pricedroptest.png)  
+  
+## Key test for User Authentication and Authorization:  
+[frontend/test/test_utils.py](frontend/test/test_utils.py)  

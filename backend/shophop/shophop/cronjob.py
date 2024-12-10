@@ -1,6 +1,10 @@
 import os
 import requests
 
+'''
+create a cron_test.log file in backend/shophop/shophop
+'''
+
 current_dir = os.path.dirname(os.path.abspath(__file__))  # Path to 'cronjob.py'
 log_file_path = os.path.join(current_dir, "cron_test.log")
 
