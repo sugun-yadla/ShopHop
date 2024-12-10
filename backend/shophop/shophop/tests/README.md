@@ -83,3 +83,6 @@ When there are no updates (i.e., no price drops or cheaper products found), the 
 
 The price comparison for the price drop tracker runs automatically every 3 minutes via a cron job, and logs are generated in the cron_test.log file. It checks for price drops, updates the mailing list, and sends notifications only when a price change is detected. If no price drops are found, no emails are sent.  
 ![Product Screenshot](../../../../images/logfile.png)  
+
+When there is a price drop for items in the price tracking list, the respective users will receive a notification email.  
+![Product Screenshot](../../../../images/mail.jpeg)  
