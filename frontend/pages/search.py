@@ -39,7 +39,6 @@ def show_results(products, categorized):
 
             product = products[i]
             product["URL"] = product["URL"].split('?')[0]
-            print(product)
 
             col.image(product['Image'], use_container_width=True)
 
@@ -67,7 +66,8 @@ def show_results(products, categorized):
             ''')
 
             c2.image(utils.STORE_LOGO_URLS[product['store']])
-            col.write('Effective price: ' + product['price_per_unit_pretty'])
+            # col.write('Effective price: ' + product['price_per_unit_pretty'])
+            col.write(f"Effective price: {product["price_per_unit"]} per {product['st_unit']}")
 
         if row == math.floor(len(products) / ITEMS_PER_ROW - 1):
             break

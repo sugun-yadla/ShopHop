@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from rest_framework.response import Response
 from bs4 import BeautifulSoup
 import requests
 import pandas as pd
@@ -41,6 +42,28 @@ def standardize_quantity(row):
     except Exception as e:
         print(f"Error in standardize_quantity: {e}")
         return None
+
+
+def get_price_per_unit(row):
+    price_per_unit_numeric = float(row['Price']) / row['st_val']
+
+    if price_per_unit_numeric < 1:
+        return pd.Series(["¢", price_per_unit_numeric * 100])
+
+    return pd.Series(["$", price_per_unit_numeric])
+
+
+def split_sq(value):
+    # Split the value by space
+    parts = value.split(' ')
+
+    # Ensure that we have exactly two parts: value and unit
+    if len(parts) == 2:
+        st_val = float(parts[0])  # Convert the numeric part to float
+        st_unit = parts[1]        # The second part is the unit (string)
+        return pd.Series([st_val, st_unit])
+    else:
+        return pd.Series([None, None])  # In case the value is not as expected
 
 
 def fetch_aldi_products(product):
@@ -143,8 +166,16 @@ def fetch_target_products(product):
         return []
 
 
-@api_view(('GET',))
+@api_view(('GET', 'OPTIONS'))
 def fetch_products(request, product):
+    if request.method == 'OPTIONS':
+        return Response(headers={
+            'Allow': 'OPTIONS, GET',
+            'Access-Control-Allow-Origin': '*'
+        })
+
+    print('GET called on products')
+
     try:
         dairy_products = [product.strip() for product in product.split(',')] 
         database = []
@@ -283,18 +314,22 @@ def data_cleaning(groceryDatabase):
     cleaned_grocery_db['Standardized_Quantity'] = cleaned_grocery_db.apply(standardize_quantity, axis=1)
     cleaned_grocery_db = cleaned_grocery_db[cleaned_grocery_db['Standardized_Quantity'].notnull()]
 
+    cleaned_grocery_db[['st_val', 'st_unit']] = cleaned_grocery_db['Standardized_Quantity'].apply(split_sq)
+    cleaned_grocery_db[['price_currency', 'price_per_unit']] = cleaned_grocery_db.apply(get_price_per_unit, axis=1)
+
     if cleaned_grocery_db.empty:
-        return JsonResponse({'message': 'No valid data after cleaning.'}, status=200,  safe=False)
-        
+        return JsonResponse({'message': 'No valid data after cleaning.'}, status=200)
+
     get_cheapest_products = priceComparison(cleaned_grocery_db)
-    return JsonResponse(get_cheapest_products.to_dict(orient='records'), safe=False)
+
+    return Response(get_cheapest_products.to_dict(orient='records'), headers={
+        'Access-Control-Allow-Origin': '*'
+    })
 
 
 def priceComparison(database):
-
     database['Price'] = pd.to_numeric(database['Price'], errors='coerce')
-
-    cheapest_products_sorted = database.sort_values(by=['store', 'Price'], ascending=[True, True])
+    cheapest_products_sorted = database.sort_values(by=['store', 'price_per_unit'], ascending=[True, True])
 
     # for index, row in cheapest_products_sorted.iterrows():
     #     product = row['Product']

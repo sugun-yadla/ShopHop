@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopHop</title>
+    <script src="popup.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #0074d9;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        #results-container {
+            padding: 15px;
+        }
+
+        a, a:visited {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        a:hover {
+            color: blue;
+        }
+
+        .result-item {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        .result-item img {
+            width: 80px;
+            height: auto;
+            margin-right: 15px;
+            border-radius: 5px;
+        }
+
+        .result-details {
+            flex-grow: 1;
+        }
+
+        .result-details h3 {
+            margin: 0 0 5px;
+            font-size: 1.2rem;
+            color: #0074d9;
+        }
+
+        .result-details p {
+            margin: 3px 0;
+            font-size: 0.9rem;
+        }
+
+        .result-details a {
+            display: inline-block;
+            margin-top: 5px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #0074d9;
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 0.9rem;
+        }
+
+        .result-details a:hover {
+            background-color: #005bb5;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f1f1f1;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h2>ShopHop</h2>
+    </header>
+
+    <div id="results-container">
+        Found cheaper prices, loading...
+    </div>
+
+    <footer>
+        <p>&copy; ShopHop 2024. All rights reserved.</p>
+    </footer>
+</body>
+</html>
