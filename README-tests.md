@@ -1,7 +1,7 @@
 The tests in this module ensure that all the feature is functioning correctly by testing different functionalities of the price comparison process.
 
 ## Key tests for Price Comparison:  
-(backend/shophop/shophop/tests/test_price_comparison.py)
+[backend/shophop/shophop/tests/test_price_comparison.py](backend/shophop/shophop/tests/test_price_comparison.py)
 1. Basic API Check:
 
     Objective: Verify that the price comparison API returns a successful response when queried with a product name.  
@@ -87,3 +87,6 @@ The price comparison for the price drop tracker runs automatically every 3 minut
 
 When there is a price drop for items in the price tracking list, the respective users will receive a notification email.  
 ![Product Screenshot](images/mail.jpeg)  
+
+## Key test for Recipe Recommendation:  
+[recipe_test](recipe_test)
