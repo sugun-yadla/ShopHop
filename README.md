@@ -124,7 +124,7 @@ This table stores information about products that users have selected for price 
     - Simple cooking instructions
     
     Aim for diverse and interesting recipe ideas that make the most of these ingredients."""
-  We use a prompt that specifies the format in which the output should be generated, so that the outputs remains consistent among multiple different inputs.
+  We use a prompt that specifies the format in which the output should be generated, so that the outputs remains consistent among multiple different inputs.  
   We also specify what information we want from the recipe itself.
   
   ### 2. Input Transformation:
@@ -142,13 +142,13 @@ This table stores information about products that users have selected for price 
 Uses Ollama's local API endpoint and specifies the Mistral model.
 'stream: False' means the entire response is generated at once
  ### 4. Mistral Model Specs
- a.  Model Type: Large Language Model (LLM)
- b.  Parameters: 7 Billion parameters
- c.  Architecture: Transformer-based
- d.  Provider: Ollama
+ a.  Model Type: Large Language Model (LLM)  
+ b.  Parameters: 7 Billion parameters  
+ c.  Architecture: Transformer-based  
+ d.  Provider: Ollama  
  
 ### 5. Installation
-Visit https://ollama.com/ and download the application
+Visit https://ollama.com/ and download the application  
 Install the Mistral model by running:
 ```ollama pull mistral```
 
