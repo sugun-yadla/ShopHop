@@ -5,6 +5,30 @@ import requests
 import st_utils
 import streamlit as st
 
+
+def validate_ingredients(ingredient_input):
+    """
+    Robust ingredient validation with multiple security checks
+    """
+    # Split and initial cleaning
+    ingredients = [
+        ingredient.strip() 
+        for ingredient in ingredient_input.split(',') 
+        if ingredient.strip()
+    ]
+    
+    # Advanced filtering
+    validated_ingredients = []
+    for ingredient in ingredients:
+        # Skip single character or purely numeric/symbol inputs
+        if (len(ingredient) > 2 and 
+            not ingredient.isnumeric() and 
+            not all(char in string.punctuation for char in ingredient)):
+            validated_ingredients.append(ingredient)
+    
+    # Remove duplicates while preserving order
+    return list(dict.fromkeys(validated_ingredients))
+
 def get_recipe_recommendations(ingredients):
     """
     Args:
