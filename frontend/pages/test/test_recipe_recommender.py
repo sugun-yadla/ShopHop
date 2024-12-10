@@ -11,7 +11,7 @@ from recipe_recommender import get_recipe_recommendations, validate_ingredients
 
 def test_get_function_successful():
 
-    # Prepare test ingredients
+
     test_ingredients = ['chicken', 'tomatoes', 'pasta']
     
     # Mock the requests.post method to simulate API response
@@ -201,7 +201,7 @@ def test_max_ingredient_limit():
     too_many_ingredients = [f"ingredient{i}" for i in range(50)]
     result = validate_ingredients(', '.join(too_many_ingredients))
     
-    # Assert a reasonable maximum number of ingredients
+    # Assert a reasonable number of ingredients
     assert len(result) <= 20  
 
 # Additional edge case handling
