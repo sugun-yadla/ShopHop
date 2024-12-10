@@ -108,5 +108,8 @@ This table stores information about products that users have selected for price 
     
     This table helps track the products each user is interested in for price monitoring and allows users to see the price history of their saved items.  
 
+* Purpose:  
+    This table plays a crucial role in the weekly price tracking process. When the weekly cron job runs, it checks the prices of all the items saved in the `shophop_saveditem` table. The cron job compares the current price of each product with the saved price. If there is a price drop for any item, the system notifies the respective user about the updated price. This ensures users are always alerted to any changes in the prices of the products they are monitoring.
+
 # AI models
    
