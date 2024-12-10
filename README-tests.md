@@ -89,4 +89,4 @@ When there is a price drop for items in the price tracking list, the respective 
 ![Product Screenshot](images/mail.jpeg)  
 
 ## Key test for Recipe Recommendation:  
-[recipe_test](recipe_test)
+[frontend/pages/test_recipe_recommender.py](frontend/pages/test_recipe_recommender.py)
