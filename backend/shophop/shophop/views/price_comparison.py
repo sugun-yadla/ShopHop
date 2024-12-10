@@ -284,7 +284,7 @@ def data_cleaning(groceryDatabase):
     cleaned_grocery_db = cleaned_grocery_db[cleaned_grocery_db['Standardized_Quantity'].notnull()]
 
     if cleaned_grocery_db.empty:
-        return JsonResponse({'message': 'No valid data after cleaning.'}, status=20,  safe=False)
+        return JsonResponse({'message': 'No valid data after cleaning.'}, status=200,  safe=False)
         
     get_cheapest_products = priceComparison(cleaned_grocery_db)
     return JsonResponse(get_cheapest_products.to_dict(orient='records'), safe=False)
