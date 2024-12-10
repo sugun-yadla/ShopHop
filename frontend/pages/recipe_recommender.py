@@ -4,6 +4,7 @@
 import requests
 import st_utils
 import streamlit as st
+import string
 
 
 def validate_ingredients(ingredient_input):
@@ -65,7 +66,8 @@ def get_recipe_recommendations(ingredients):
         return response.json()['response']
 
     except requests.RequestException as e:
-        return f"Error generating recipes: {str(e)}"
+        st.error(f"Could not generate recipes. Please check your Ollama server. Error: {e}")
+        return "Sorry, recipe generation is currently unavailable. Please try again later."
 
 def main():
     # Set page configuration
@@ -98,5 +100,5 @@ def main():
             st.subheader("🥘 Recipe Recommendations")
             st.write(recommendations)
 
-# if __name__ == "__main__":
-main()
+if __name__ == "__main__":
+    main()
