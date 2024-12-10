@@ -115,7 +115,7 @@ This table stores information about products that users have selected for price 
 
   In our recipe recommender, the AI model (Mistral) is utilized through a key function get_recipe_recommendations(). 
   
-  # 1. Prompt Engineering
+  ### 1. Prompt Engineering
   prompt = f"""Please suggest some creative and delicious recipes using the following ingredients: {', '.join(ingredients)}. 
   For each recipe, provide:
   - Recipe name
@@ -125,12 +125,12 @@ This table stores information about products that users have selected for price 
     
   Aim for diverse and interesting recipe ideas that make the most of these ingredients."""
   
-  # 2. Input Transformation:
+  ### 2. Input Transformation:
 
   The user's raw ingredient list is converted into a structured prompt, which then guides the AI to generate specific, structured recipe recommendations.
   The prompt includes clear instructions about the desired output format
   
-  # 3. API Communication
+  ### 3. API Communication
     payload = {
     "model": "mistral",
     "prompt": prompt,
@@ -138,10 +138,10 @@ This table stores information about products that users have selected for price 
     }
 Uses Ollama's local API endpoint and specifies the Mistral 7B model.
 'stream: False' means the entire response is generated at once
- # 4. Mistral Model Specs
-  Model Type: Large Language Model (LLM)
-  Parameters: 7 Billion parameters
-  Architecture: Transformer-based
-  Provider: Ollama
+ ### 4. Mistral Model Specs
+ a.  Model Type: Large Language Model (LLM)
+ b.  Parameters: 7 Billion parameters
+ c.  Architecture: Transformer-based
+ d.  Provider: Ollama
 
 
