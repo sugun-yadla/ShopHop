@@ -12,7 +12,7 @@ Mention the ingredients you have, and ShopHop will generate recipe ideas using a
 Enhance your shopping experience with our Chrome extension, allowing you to access ShopHop’s features directly while browsing the web. Quickly check prices, track items, and get recipe recommendations without leaving your browser.  
   
 # Installation and Configuration  
-### Frontend
+## Frontend
 
 The frontend of this application is built using [Streamlit](https://streamlit.io/), a Python library. To start the frontend server, follow the steps:
 
@@ -38,7 +38,14 @@ GOOGLE_OAUTH_CLIENT_ID='your_GOOGLE_OAUTH_CLIENT_ID'
 streamlit run main.py
 ```
 
-### Backend
+### Testing
+
+```bash
+cd frontend/test
+pytest
+```
+
+## Backend
 
 The backend of this application is built using Django and uses PostgreSQL for the database. To start the backend server, follow the steps:
 
@@ -75,7 +82,7 @@ CLIENT_SECRET='your_client_secret'
 python3 manage.py runserver
 ```  
 
-### Chrome Extension
+## Chrome Extension
 
 As the Chrome Extension is not published to the Chrome Marketplace, it needs to be added to Chrome be enabling Developer Options.
 
