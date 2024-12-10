@@ -221,26 +221,26 @@ def fetch_products(request, product):
                     database.append(target_df)
 
                     # Saving target data to db
-                    valid_entries = [
-                    entry for entry in target_details
-                    if (
-                        entry.get("Product") and
-                        entry.get("Category") and
-                        entry.get("Price") is not None and
-                        entry.get("Quantity") and
-                        standardize_quantity(entry) is not None
-                    )]
+                    # valid_entries = [
+                    # entry for entry in target_details
+                    # if (
+                    #     entry.get("Product") and
+                    #     entry.get("Category") and
+                    #     entry.get("Price") is not None and
+                    #     entry.get("Quantity") and
+                    #     standardize_quantity(entry) is not None
+                    # )]
 
-                    products = [
-                    Product(
-                        product=entry["Product"],
-                        category=entry["Category"],
-                        price=float(entry["Price"]),
-                        quantity=entry["Quantity"] or None,
-                        standardized_quantity=standardize_quantity(entry) or None,
-                        store="Target"
-                    )
-                    for entry in valid_entries ]
+                    # products = [
+                    # Product(
+                    #     product=entry["Product"],
+                    #     category=entry["Category"],
+                    #     price=float(entry["Price"]),
+                    #     quantity=entry["Quantity"] or None,
+                    #     standardized_quantity=standardize_quantity(entry) or None,
+                    #     store="Target"
+                    # )
+                    # for entry in valid_entries ]
                     # Product.objects.bulk_create(products)
 
                     # if not Product.objects.filter(product__in=[product.product for product in products]).exists():
@@ -252,10 +252,19 @@ def fetch_products(request, product):
                     print(f"Error processing Target data: {e}")
 
         if database == []:
-            return JsonResponse("No data found", status=500)
-        
-        
-        return data_cleaning(database)
+            return JsonResponse("No data found", status=200, safe=False)
+        else:
+            # seen = set()
+            # unique_records = []
+            # for item in database:
+            #     product = str(item['Product']).strip()
+            #     if product not in seen:
+            #         unique_records.append(item)
+            #         seen.add(product)
+
+            # print("unique_records: ",unique_records)    
+            
+            return data_cleaning(database)
         
     
     except Exception as e:
@@ -263,19 +272,19 @@ def fetch_products(request, product):
         return JsonResponse({"error": "An error occurred while processing the request."}, status=500)
 
 
-def data_cleaning(dairyDatabase):
-
-    if isinstance(dairyDatabase, list):
-        grocery_db = pd.concat(dairyDatabase, ignore_index=True)
-    elif isinstance(dairyDatabase, pd.DataFrame):
-        grocery_db = dairyDatabase
+def data_cleaning(groceryDatabase):
+    
+    if isinstance(groceryDatabase, list):
+        grocery_db = pd.concat(groceryDatabase, ignore_index=True)
+    elif isinstance(groceryDatabase, pd.DataFrame):
+        grocery_db = groceryDatabase
 
     cleaned_grocery_db = grocery_db.dropna()
     cleaned_grocery_db['Standardized_Quantity'] = cleaned_grocery_db.apply(standardize_quantity, axis=1)
     cleaned_grocery_db = cleaned_grocery_db[cleaned_grocery_db['Standardized_Quantity'].notnull()]
 
     if cleaned_grocery_db.empty:
-        return JsonResponse({'message': 'No valid data after cleaning.'}, status=200)
+        return JsonResponse({'message': 'No valid data after cleaning.'}, status=20,  safe=False)
         
     get_cheapest_products = priceComparison(cleaned_grocery_db)
     return JsonResponse(get_cheapest_products.to_dict(orient='records'), safe=False)

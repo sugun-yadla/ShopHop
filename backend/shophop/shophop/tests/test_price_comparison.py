@@ -5,6 +5,10 @@ from django.urls import reverse
 import pandas as pd
 from ..views import price_comparison
 import json
+import pandas as pd
+import pandas.testing as pd_testing
+
+pd.options.mode.chained_assignment = None
 
 class ProductFetchTests(unittest.TestCase):
     
@@ -23,16 +27,17 @@ class ProductFetchTests(unittest.TestCase):
         
         aldi_products = [item for item in response_data if item['store'] == 'Aldi']
         walmart_products = [item for item in response_data if item['store'] == 'Walmart']
+        target_products = [item for item in response_data if item['store'] == 'Target']
 
         self.assertGreater(len(aldi_products), 0, "No Aldi products found")
         self.assertGreater(len(walmart_products), 0, "No Walmart products found")
+        self.assertGreater(len(target_products), 0, "No Target products found")
     
     def test_fetch_single_product_with_nonexisting_data(self):
         
         product_query = "birthfydy"
         response = self.client.get(reverse('fetch-products', args=[product_query]))
         response_data = response.json()
-        #print(response.status_code)
         self.assertEqual(response.status_code,status.HTTP_200_OK)
     
     def test_multiple_products(self):
@@ -56,10 +61,7 @@ class ProductFetchTests(unittest.TestCase):
         filtered_data = price_comparison.data_cleaning(mock_test_data)
         response_data = json.loads(filtered_data.content) 
         filtered_data_df = pd.DataFrame(response_data)
-        self.assertEqual(filtered_data_df.isnull().sum().sum() == 0, "Filtered data contains None or NaN values")
-
-    # to add
-    # check if None getting assigned properly through automation
+        self.assertEqual(filtered_data_df.isnull().sum().sum(),0)
     
 class StandardizeQuantityTests(unittest.TestCase):
     def setUp(self):
@@ -88,6 +90,8 @@ class StandardizeQuantityTests(unittest.TestCase):
     
     def test_price_comparison(self):
         sorted_data = price_comparison.priceComparison(self.mock_test_data)
-        print(sorted_data)
+        expected_result = self.mock_test_data.sort_values(by=['store', 'Price'], ascending=[True, True])
+        pd_testing.assert_frame_equal(sorted_data, expected_result)
+    
 if __name__ == "__main__":
     unittest.main()
