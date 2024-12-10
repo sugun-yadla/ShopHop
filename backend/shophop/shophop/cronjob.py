@@ -11,7 +11,7 @@ def sendDataToPriceDrop():
             
             response = requests.get(url)
             with open(log_file_path, "a") as f:
-                f.write(f"Request sent. Response status code: {response.status_code, response.json}\n")
+                f.write(f"Request sent. Response status code: {response.status_code, response.text}\n")
         except requests.exceptions.RequestException as e:
             with open(log_file_path, "a") as f:
                 f.write(f"Error: {e}\n")
