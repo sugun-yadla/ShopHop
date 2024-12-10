@@ -7,11 +7,7 @@ from unittest.mock import patch
 from your_module import get_recipe_recommendations
 
 def test_get_recipe_recommendations_successful():
-    """
-    Test successful recipe recommendation generation
-    - Verifies function works with valid ingredients
-    - Checks that the response is a non-empty string
-    """
+
     # Prepare test ingredients
     test_ingredients = ['chicken', 'tomatoes', 'pasta']
     
@@ -35,10 +31,7 @@ def test_get_recipe_recommendations_successful():
         assert 'pasta' in result.lower()
 
 def test_get_recipe_recommendations_empty_ingredients():
-    """
-    Test function behavior with empty ingredient list
-    - Ensures function handles empty list gracefully
-    """
+
     result = get_recipe_recommendations([])
     assert 'Error' in result
 
@@ -59,20 +52,13 @@ def test_get_recipe_recommendations_single_ingredient():
         assert len(result) > 0
 
 def test_get_recipe_recommendations_api_error():
-    """
-    Test error handling when Ollama API fails
-    - Simulates network error or API unavailability
-    """
+
     with patch('requests.post', side_effect=requests.RequestException("API Error")):
         result = get_recipe_recommendations(['chicken', 'rice'])
         assert 'Error generating recipes' in result
 
 def test_get_recipe_recommendations_input_sanitization():
-    """
-    Test function handles various input formats
-    - Checks ingredients with extra spaces
-    - Verifies case insensitivity
-    """
+
     with patch('requests.post') as mock_post:
         mock_response = mock_post.return_value
         mock_response.json.return_value = {
@@ -86,10 +72,7 @@ def test_get_recipe_recommendations_input_sanitization():
         assert len(result) > 0
 
 def test_get_recipe_recommendations_special_characters():
-    """
-    Test function behavior with special characters in ingredients
-    - Ensures robust handling of unusual input
-    """
+
     with patch('requests.post') as mock_post:
         mock_response = mock_post.return_value
         mock_response.json.return_value = {
