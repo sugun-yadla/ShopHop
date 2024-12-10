@@ -18,24 +18,10 @@ def search(query):
     products = get(f'/api/products/{query}')
     categorized = {}
 
+    if not products:
+        return [], []
+
     def transform(item: dict):
-        item = item.copy()
-
-        if item['Standardized_Quantity1']:
-            item['st_val'] = float(item['Standardized_Quantity'].split(' ')[0])
-            item['st_unit'] = item['Standardized_Quantity'].split(' ')[1]
-
-            price_per_unit = item['Price'] / item['st_val']
-            if price_per_unit < 0.1:
-                price_per_unit = f"¢ {(price_per_unit * 100):.2f}"
-            elif price_per_unit < 1:
-                price_per_unit = f"¢ {round(price_per_unit * 100)}"
-            else:
-                price_per_unit = f"$ {price_per_unit:.2f}"
-
-            item['price_per_unit'] = item['Price'] / item['st_val']
-            # item['price_per_unit_pretty'] = f"{price_per_unit} per {item['st_unit']}"
-
         if item['st_unit'] in categorized:
             categorized[item['st_unit']].append(item)
         else:
@@ -43,8 +29,8 @@ def search(query):
 
         return item
 
+    print('products', products)
     products = [transform(item) for item in products]
-    # products.sort(key=lambda x: x['Price'] / x['st_val'])
     return products, categorized
 
 
@@ -52,6 +38,7 @@ def get(endpoint: str, payload=None):
     print(f'Executing GET on {endpoint}')
     _, access_token, refresh_token = get_auth_cookies()
 
+    # @st.cache_data(show_spinner=False, persist='disk')
     def __get(endpoint: str, access_token, payload=None):
         headers = {
             'Authorization': f'Bearer {access_token}'
@@ -65,6 +52,9 @@ def get(endpoint: str, payload=None):
         print('GET failed, access_token not valid, getting new access_token')
         _, access_token, _  = get_new_access_token()
         response = __get(endpoint, access_token, payload)
+
+        if response.status_code == 401:
+            return None
 
     return json.loads(response.content.decode('utf-8'))
 
@@ -122,6 +112,7 @@ def get_new_access_token(auto_logout=True):
         print('Auto logging out, refresh_token not valid')
         remove_auth_cookies()
         st.switch_page('main.py')
+        return None, None, None
 
     print('Retrieved new access_token')
     response = json.loads(response.content.decode('utf-8'))
@@ -147,7 +138,7 @@ def set_auth_cookies(user, access_token, refresh_token):
 
 
 def get_auth_cookies(auto_logout=True, validate_token=False, retries=1):
-   
+    print('calling real function')
     user = st.session_state['user'] if 'user' in st.session_state else None
     access_token = st.session_state['access_token'] if 'access_token' in st.session_state else None
     refresh_token = st.session_state['refresh_token'] if 'refresh_token' in st.session_state else None
