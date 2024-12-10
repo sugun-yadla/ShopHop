@@ -19,7 +19,7 @@ pip3 install -r requirements.txt
 
 3. Run the app
 ```bash
-streamlit run frontend/main.py
+streamlit run main.py
 ```
 
 ## Backend
