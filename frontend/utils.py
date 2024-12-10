@@ -20,13 +20,8 @@ def search(query):
 
     def transform(item: dict):
         item = item.copy()
-        # if 'store' in item:
-            # item['Store'] = item['store']
-            # del item['store']
-        # del item['Image']
-        # del item['URL']
 
-        if item['Standardized_Quantity']:
+        if item['Standardized_Quantity1']:
             item['st_val'] = float(item['Standardized_Quantity'].split(' ')[0])
             item['st_unit'] = item['Standardized_Quantity'].split(' ')[1]
 
@@ -39,10 +34,7 @@ def search(query):
                 price_per_unit = f"$ {price_per_unit:.2f}"
 
             item['price_per_unit'] = item['Price'] / item['st_val']
-            item['price_per_unit_pretty'] = f"{price_per_unit} per {item['st_unit']}"
-
-        # item['Price'] = f'$ {item["Price"]:.2f}'
-        # del item['Standardized_Quantity']
+            # item['price_per_unit_pretty'] = f"{price_per_unit} per {item['st_unit']}"
 
         if item['st_unit'] in categorized:
             categorized[item['st_unit']].append(item)
@@ -52,7 +44,7 @@ def search(query):
         return item
 
     products = [transform(item) for item in products]
-    products.sort(key=lambda x: x['price_per_unit'])
+    # products.sort(key=lambda x: x['Price'] / x['st_val'])
     return products, categorized
 
 
