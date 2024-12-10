@@ -6,7 +6,6 @@ from streamlit_cookies_controller import CookieController
 
 
 cc = CookieController()
-print("cc: ",cc)
 BACKEND_URL = 'http://127.0.0.1:8000'
 
 STORE_LOGO_URLS = {
@@ -158,13 +157,11 @@ def set_auth_cookies(user, access_token, refresh_token):
 def get_auth_cookies(auto_logout=True, validate_token=False, retries=1):
    
     user = st.session_state['user'] if 'user' in st.session_state else None
-    print("user: ", user)
     access_token = st.session_state['access_token'] if 'access_token' in st.session_state else None
     refresh_token = st.session_state['refresh_token'] if 'refresh_token' in st.session_state else None
 
     if ((not user) or (not access_token) or (not refresh_token)):
         user = cc.get('shophop-user')
-        print("user: ",user)
         user = json.loads(user) if user else None
         access_token = cc.get('shophop-access-token')
         refresh_token = cc.get('shophop-refresh-token')
