@@ -9,7 +9,7 @@ The tests in this module ensure that all the feature is functioning correctly by
     &nbsp;Returns a 200 OK status.  
     &nbsp;Response is in the form of a list.  
     &nbsp;Verifies that products from Aldi, Walmart and Target are present.
-    ![Product Screenshot](../../../../images/apitesting.png)
+    ![Product Screenshot](images/apitesting.png)
 
 
 2. Handling Non-Existing Product Query:
@@ -19,7 +19,7 @@ The tests in this module ensure that all the feature is functioning correctly by
     Checks:  
     &nbsp;Returns a 200 OK status and 'No product found' response body.  
     &nbsp;Ensures the API can handle queries with no results without errors.
-    ![Product Screenshot](../../../../images/nodata.png)
+    ![Product Screenshot](images/nodata.png)
 
 3. Multiple Products Query:
 
@@ -46,7 +46,7 @@ The tests in this module ensure that all the feature is functioning correctly by
     &nbsp;Ensures that product quantities are correctly standardized.  
     &nbsp;Ensures that rows with invalid or missing quantities are appropriately handled.  
     Example: Converting 'gal' to 'oz'  
-    ![Product Screenshot](../../../../images/quantity.png)
+    ![Product Screenshot](images/quantity.png)
 
 6. Price Sorting and Comparison:
 
@@ -57,32 +57,32 @@ The tests in this module ensure that all the feature is functioning correctly by
     &nbsp;Uses pandas.testing.assert_frame_equal to compare the sorted data with the expected result.
 
 Running all test cases -
-![Product Screenshot](../../../../images/all_tests.png)
+![Product Screenshot](images/all_tests.png)
 
 
 ## Key test for Price Drop Tracker:  
 We implemented a cron job scheduled to run weekly, designed to monitor and notify users of any price drops on their saved items being tracked.  
 
 Database of user's saved items -   
-![Product Screenshot](../../../../images/BeforeSaveItem.png)    
+![Product Screenshot](images/BeforeSaveItem.png)    
 
 For testing purposes, we scheduled the cron job to run every 3 minutes and manually updated the database by increasing the price of a specific item.  
-![Product Screenshot](../../../../images/UpdateSaveItem.png)  
+![Product Screenshot](images/UpdateSaveItem.png)  
 
 User table - To determine the mailing list for notifying users about price drops, we analyze the User table.  
-![Product Screenshot](../../../../images/user.png)  
+![Product Screenshot](images/user.png)  
 
 Since the price of "Banana" is higher for User ID 1, the mailing list should include data for User ID 1, as shown in the provided Mailing List screenshot. This ensures that only relevant users, such as User ID 1 in this case, are notified based on their saved item price changes. 
-![Product Screenshot](../../../../images/UserSendEmail.png)  
+![Product Screenshot](images/UserSendEmail.png)  
 
 Lastly, database of user's saved item gets updated with new cheap price -  
-![Product Screenshot](../../../../images/UpdatelowestPrice.png)  
+![Product Screenshot](images/UpdatelowestPrice.png)  
 
 When there are no updates (i.e., no price drops or cheaper products found), the mailing list will be empty, meaning no users will receive notifications.  
-![Product Screenshot](../../../../images/empty.png)  
+![Product Screenshot](images/empty.png)  
 
 The price comparison for the price drop tracker runs automatically every 3 minutes via a cron job, and logs are generated in the cron_test.log file. It checks for price drops, updates the mailing list, and sends notifications only when a price change is detected. If no price drops are found, no emails are sent.  
-![Product Screenshot](../../../../images/logfile.png)  
+![Product Screenshot](images/logfile.png)  
 
 When there is a price drop for items in the price tracking list, the respective users will receive a notification email.  
-![Product Screenshot](../../../../images/mail.jpeg)  
+![Product Screenshot](images/mail.jpeg)  
