@@ -124,24 +124,31 @@ This table stores information about products that users have selected for price 
     - Simple cooking instructions
     
     Aim for diverse and interesting recipe ideas that make the most of these ingredients."""
+  We use a prompt that specifies the format in which the output should be generated, so that the outputs remains consistent among multiple different inputs.
+  We also specify what information we want from the recipe itself.
   
   ### 2. Input Transformation:
 
-  The user's raw ingredient list is converted into a structured prompt, which then guides the AI to generate specific, structured recipe recommendations.
-  The prompt includes clear instructions about the desired output format
+  The user's ingredient list is then converted into a structured prompt that is separated by commas, which then guides the AI to generate specific, structured recipe 
+  recommendations. The prompt includes clear instructions about the desired output format.
   
   ### 3. API Communication
+    url = "http://localhost:11434/api/generate"
     payload = {
     "model": "mistral",
     "prompt": prompt,
     "stream": False
     }
-Uses Ollama's local API endpoint and specifies the Mistral 7B model.
+Uses Ollama's local API endpoint and specifies the Mistral model.
 'stream: False' means the entire response is generated at once
  ### 4. Mistral Model Specs
  a.  Model Type: Large Language Model (LLM)
  b.  Parameters: 7 Billion parameters
  c.  Architecture: Transformer-based
  d.  Provider: Ollama
-
+ 
+### 5. Installation
+Visit https://ollama.com/ and download the application
+Install the Mistral model by running:
+```ollama pull mistral```
 
