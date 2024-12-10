@@ -112,31 +112,36 @@ This table stores information about products that users have selected for price 
     This table plays a crucial role in the weekly price tracking process. When the weekly cron job runs, it checks the prices of all the items saved in the `shophop_saveditem` table. The cron job compares the current price of each product with the saved price. If there is a price drop for any item, the system notifies the respective user about the updated price. This ensures users are always alerted to any changes in the prices of the products they are monitoring.
 
 # AI models
+
   In our recipe recommender, the AI model (Mistral) is utilized through a key function get_recipe_recommendations(). 
+  
   # 1. Prompt Engineering
-    prompt = f"""Please suggest some creative and delicious recipes using the following ingredients: {', '.join(ingredients)}. 
-    For each recipe, provide:
-    - Recipe name
-    - Brief description
-    - Key ingredients
-    - Simple cooking instructions
+  prompt = f"""Please suggest some creative and delicious recipes using the following ingredients: {', '.join(ingredients)}. 
+  For each recipe, provide:
+  - Recipe name
+  - Brief description
+  - Key ingredients
+  - Simple cooking instructions
     
-    Aim for diverse and interesting recipe ideas that make the most of these ingredients."""
+  Aim for diverse and interesting recipe ideas that make the most of these ingredients."""
+  
   # 2. Input Transformation:
 
-    The user's raw ingredient list is converted into a structured prompt, which then guides the AI to generate specific, structured recipe recommendations.
-    The prompt includes clear instructions about the desired output format
+  The user's raw ingredient list is converted into a structured prompt, which then guides the AI to generate specific, structured recipe recommendations.
+  The prompt includes clear instructions about the desired output format
+  
   # 3. API Communication
     payload = {
     "model": "mistral",
     "prompt": prompt,
     "stream": False
     }
-Uses Ollama's local API endpoint and specifies the Mistral model.
+Uses Ollama's local API endpoint and specifies the Mistral 7B model.
 'stream: False' means the entire response is generated at once
  # 4. Mistral Model Specs
   Model Type: Large Language Model (LLM)
   Parameters: 7 Billion parameters
   Architecture: Transformer-based
+  Provider: Ollama
 
 
