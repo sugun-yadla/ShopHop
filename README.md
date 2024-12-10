@@ -116,14 +116,14 @@ This table stores information about products that users have selected for price 
   In our recipe recommender, the AI model (Mistral) is utilized through a key function get_recipe_recommendations(). 
   
   ### 1. Prompt Engineering
-  prompt = f"""Please suggest some creative and delicious recipes using the following ingredients: {', '.join(ingredients)}. 
-  For each recipe, provide:
-  - Recipe name
-  - Brief description
-  - Key ingredients
-  - Simple cooking instructions
+    prompt = f"""Please suggest some creative and delicious recipes using the following ingredients: {', '.join(ingredients)}. 
+    For each recipe, provide:
+    - Recipe name
+    - Brief description
+    - Key ingredients
+    - Simple cooking instructions
     
-  Aim for diverse and interesting recipe ideas that make the most of these ingredients."""
+    Aim for diverse and interesting recipe ideas that make the most of these ingredients."""
   
   ### 2. Input Transformation:
 
