@@ -6,9 +6,8 @@ import random
 from unittest.mock import patch
 
 
-# Import the function to test
-from recipe_recommender.py import get_recipe_recommendations
-from recipe_recommender.py import validate_ingredients
+# Importing the functions for testing
+from recipe_recommender import get_recipe_recommendations, validate_ingredients
 
 def test_get_function_successful():
 
@@ -194,6 +193,16 @@ def test_unicode_characters():
     
     assert len(validated) == 4
     assert all(ingredient for ingredient in validated)
+
+def test_max_ingredient_limit():
+    """
+    Test handling of excessive number of ingredients
+    """
+    too_many_ingredients = [f"ingredient{i}" for i in range(50)]
+    result = validate_ingredients(', '.join(too_many_ingredients))
+    
+    # Assert a reasonable maximum number of ingredients
+    assert len(result) <= 20  
 
 # Additional edge case handling
 def test_empty_or_whitespace():
