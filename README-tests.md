@@ -1,6 +1,7 @@
 The tests in this module ensure that all the feature is functioning correctly by testing different functionalities of the price comparison process.
 
-## Key tests for Price Comparison:
+## Key tests for Price Comparison:  
+(backend/shophop/shophop/tests/test_price_comparison.py)
 1. Basic API Check:
 
     Objective: Verify that the price comparison API returns a successful response when queried with a product name.  
