@@ -44,7 +44,7 @@ The backend of this application is built using Django and uses PostgreSQL for th
 
 1. Setup and activate a virtual environment for Python dependencies. Navigate to the backend directory.
 ```bash
-cd backend/
+cd backend/shophop/
 python3 -m venv env
 source env/bin/activate
 ```
@@ -74,8 +74,19 @@ CLIENT_SECRET='your_client_secret'
 ```bash
 python3 manage.py runserver
 ```  
-  
-# Dataset  
+
+### Chrome Extension
+
+As the Chrome Extension is not published to the Chrome Marketplace, it needs to be added to Chrome be enabling Developer Options.
+
+1. Go to `chrome://extensions`
+
+2. Enable Developer Mode by clicking the toggle switch next to Developer mode
+
+3. Click the Load unpacked button and select the extension directory (which is `ShopHop/chrome-extension/`)
+
+
+# Database  
 The application uses two primary PostgreSQL tables to manage and store data:  
 `shophop_user` and `shophop_saveditem`.  
 These tables are designed to track user information and the products they wish to monitor for price changes.  
