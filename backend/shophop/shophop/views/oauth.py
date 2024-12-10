@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from shophop.serializers import UserSerializer
 from rest_framework.renderers import JSONRenderer
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.exceptions import TokenError
 from shophop.utils import google_get_access_token, google_get_user_info, generate_tokens_for_user
 from rest_framework.decorators import api_view, renderer_classes
 
@@ -53,7 +54,14 @@ def refresh_tokens(request):
     if 'refresh_token' not in request.data:
         return Response({'info': 'refresh_token not found'}, status=400)       # TODO: improve response
 
-    token_data = RefreshToken(request.data['refresh_token'])
+    try:
+        token_data = RefreshToken(request.data['refresh_token'])
+    except TokenError:
+        return Response({
+            'message': 'invalid or expired token'
+        }, status=401)
+
+
     user_id = token_data.payload['user_id']
     user = User.objects.get(id=user_id)
 
