@@ -91,6 +91,199 @@ When there is a price drop for items in the price tracking list, the respective 
 ## Key test for Recipe Recommendation:  
 [frontend/pages/test/test_recipe_recommender.py](frontend/pages/test/test_recipe_recommender.py)
 
+### 1. test_get_function_successful()
+Checks for a successful recipe recommendation generation
+It creates a mock test with ingredients such as chicken, tomatoes, and pasta ans tt uses patch() to simulate a successful API response. It will simulate the Ollama API call to return a predefined recipe response. It ensures that the core functionality of recipe generation works correctly under normal conditions.
+
+Assertions:
+It checks that the result is not an empty string.
+It verifies that all the inputted ingredients are mentioned in the result.
+ 
+
+### 2. test_empty_ingredients()
+Tests behavior when no ingredients are provided
+Calls get_recipe_recommendations() with an empty list and validates error handling for edge cases with no input
+
+Assertions:
+Expects an error message to be present in the result
+
+
+### 3. test_single_ingredient()
+Checks functionality with minimal input (single ingredient)
+Mocks API response for a single ingredient (chicken) and simulates recipe generation with just one ingredient. It ensures the system can handle minimal input scenarios
+
+Assertions:
+Verifies the result is a non-empty string
+
+### 4. test_api_error()
+Validates error handling when the API call fails
+Simulates an API request exception and  uses side_effect to raise a RequestException. It ensures proper handling of external service failures
+
+Assertions:
+Checks for an error message in the returned result
+
+
+### 5. test_input_sanitization()
+Tests input cleaning and normalization
+Provides ingredients with extra spaces and mixed case and mocks an API response. It ensures proper handling of inconsistent input formatting
+
+Assertions:
+Verifies the result is a valid, non-empty string
+
+### 6. test_special_characters()
+Checks handling of ingredients with special characters
+Provides ingredients with special characters (chicken!, tomato@, pasta#) and mocks an API response. 
+
+Assertions:
+Verifies the result is a valid, non-empty string
+
+
+### 7. test_single_character_ingredients()
+Ensures single-character "ingredients" are filtered out
+Provides input with single-character entries and a valid ingredient using validate_ingredients() function. It prevents potentially malicious inputs or inputs that dont make sense
+
+Assertions:
+Checks that only valid ingredients remain
+Verifies only 'chicken' is retained
+
+8. test_numeric_ingredients()
+Purpose: Filters out numeric-only inputs
+
+What it does:
+
+Provides input with numeric strings and a valid ingredient
+
+
+
+Assertions:
+
+Ensures only 'chicken' is retained
+
+
+
+Why it's important: Prevents irrelevant numeric inputs from being processed
+
+9. test_symbol_ingredients()
+Purpose: Removes entries that are purely symbols
+
+What it does:
+
+Provides input with symbol-only entries and a valid ingredient
+
+
+
+Assertions:
+
+Verifies only 'chicken' is retained
+
+
+Why it's important: Protects against possibly malicious or nonsensical inputs
+
+10. test_repeated_ingredients()
+Purpose: Handles repeated entries of ingredients
+
+What it does:
+
+Provides input with repeated ingredients
+
+Assertions:
+
+Checks that duplicates have been removed
+Checks correct number and set of unique ingredients
+
+Why it's important: Ensures clean, unique ingredient lists
+
+11. test_extreme_length()
+Purpose: Tests very long ingredient inputs
+
+What it does:
+
+Creates a really long random ingredient
+Appends a valid ingredient to the randomly generated ingredient
+
+Assertions:
+
+Checks that only valid ingredients are retained
+
+
+Why it's important: Prevents buffer overflow or performance issues from happening.
+
+12. test_malicious_prompt_injection()
+Purpose: Prevents possible prompt injection attacks
+
+What it does:
+
+Provides inputs containing suspicious phrases
+Tries to inject malicious commands
+
+Assertions:
+
+Ensures no suspicious inputs pass through
+Removes potentially dangerous input elements
+
+Why it's important: Adds a security layer against potential AI manipulations via prompts
+
+13. test_whitespace_variations()
+Purpose: Handles different whitespace cases
+
+What it does:
+
+Ingredients are provided with irregular spacing
+
+Assertions:
+
+Checks the right extraction of ingredients
+Checks that spacing is handled accordingly
+
+
+Why it's important: Ensures robust input parsing
+
+14. test_case_sensitivity()
+Purpose: Test case handling of ingredients
+
+What it does:
+
+Provide ingredients in mixed case
+
+Assertions:
+
+Original casing is maintained
+
+Why it's important: Ensuring input fidelity during processing
+
+15. test_unicode_characters()
+Purpose: Test non-ASCII character support
+
+What it does:
+
+Provide ingredients with unicode and special characters
+
+Assertions:
+
+All valid ingredients are retained
+
+Why it's important: Ensuring international and diverse input support
+
+16. test_max_ingredient_limit()
+Purpose: Test handling for too many ingredients provided
+
+What it does:
+
+Generates a huge number of ingredients
+
+Assertions:
+
+Ensures a decent maximum limit is enforced
+
+Why it's important: Prevents resource exhaustion and maintains performance
+17. test_empty_or_whitespace()
+Purpose: Completely empty or whitespace-only inputs
+What it does:
+Provides various empty or whitespace inputs
+Assertions:
+Verifies that no ingredients are extracted
+Why it's important: Robust handling of null or empty inputs
+
 ## Key test for Price Tracking DB:  
 [backend/shophop/shophop/tests/test_price_drop_tracker.py](backend/shophop/shophop/tests/test_price_drop_tracker.py)    
 
