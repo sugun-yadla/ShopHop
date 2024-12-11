@@ -9,7 +9,7 @@ import string
 
 def validate_ingredients(ingredient_input):
     """
-    Robust ingredient validation with multiple security checks
+    Ingredient validation with multiple security checks
     """
     # Split and initial cleaning
     ingredients = [
