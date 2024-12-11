@@ -143,7 +143,6 @@ def get_auth_cookies(auto_logout=True, validate_token=False, retries=1):
     user = st.session_state['user'] if 'user' in st.session_state else None
     access_token = st.session_state['access_token'] if 'access_token' in st.session_state else None
     refresh_token = st.session_state['refresh_token'] if 'refresh_token' in st.session_state else None
-    # return {'first_name': 'Logitech'}, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMzODc0NDc5LCJpYXQiOjE3MzM4NzQwODIsImp0aSI6IjYyMjNmMDFhMWU1NTRlOWJhYmEyOGIxZWYyOTI4MWVmIiwidXNlcl9pZCI6MX0.YocRA8J3eO5KIuFf-QiC0IxRSjLIcNodhGmksjObPfQ' ,'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTczMzk2MDQ4MiwiaWF0IjoxNzMzODc0MDgyLCJqdGkiOiIwOWZkYzA1NmM3ZTM0ZGIyYTY5MTM5M2FhNTBiYjlmOSIsInVzZXJfaWQiOjF9.ryLe6ZMy6PNraiHQuRFlqjoUREVuOFdQ-Zt4m0QJGDY'
 
     if ((not user) or (not access_token) or (not refresh_token)):
         user = cc.get('shophop-user')
