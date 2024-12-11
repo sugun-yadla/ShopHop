@@ -224,7 +224,7 @@ Verifies that no null or empty inputs ingredients are extracted/parsed
 
 ## Key test for Price Tracking DB:  
 [backend/shophop/shophop/tests/test_price_drop_tracker.py](backend/shophop/shophop/tests/test_price_drop_tracker.py)  
-command: python manage.py test shophop.tests.test_price_drop_tracker
+command: `python manage.py test shophop.tests.test_price_drop_tracker`
 
 1. Updating Saved items list for users:  
     Objective: To test the function update_saved_items_db and ensure that it correctly updates the saved items' prices in the database based on the mailing list  
