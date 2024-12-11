@@ -8,7 +8,7 @@ Our project, ShopHop, is a price comparison and product tracking platform built 
 6. Testing: Unittest  
 7. Programming Language: Python  
 8. Chrome extension development - Javascript, HTML
-8. Others: LLM integration, SMTP for email notifications
+8. Recipe Recommender Tech Stack: Mistral (via Ollama), Python, Requests, Api: local inference through Ollama, Pytest(testing)
 
 We collaborated by dividing the features and configuration tasks to leverage individual strengths while ensuring seamless integration across components. Below is a detailed summary of each member's contributions:
 
@@ -54,13 +54,14 @@ We collaborated by dividing the features and configuration tasks to leverage ind
 
 4. `Sugun Yadla`  
     * Responsibilities:  
-            a. Developed the recipe recommendation system using LLM integration to suggest recipes based on  ingredients mentioned by the user.   
+            a. Developed the front and back end for recipe recommendation system using LLM integration to suggest recipes based on  ingredients mentioned by the user.  
+            b. Developed the code for the price drop tracker with the smtp library for sending mail notifications for when the price of an item drops.
 
     * Collaboration:  
-            a. Collaborated with Adwait to ensure that recipe recommendations were displayed interactively on the frontend. 
+            a. Collaborated with Adwait to ensure that recipe recommendations were displayed interactively on the frontend.  
 
     * Testing:  
-            a. Conducted integration testing for the recipe recommendation system to ensure smooth functionality and accurate recommendations based on user input.
+            a. Conducted integration testing for the recipe recommendation system to ensure smooth functionality and accurate recommendations based on user input.  
             b. Conducted SMTP testing to ensure successful email notifications were sent to users for price changes and other alerts.
 
 
