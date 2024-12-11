@@ -22,6 +22,15 @@ def search(query):
         return [], []
 
     def transform(item: dict):
+        if item['price_per_unit'] < 0.1:
+            item['price_currency'] = '¢'
+            item['price_per_unit_pretty'] = f"{(100 * item['price_per_unit']):.2f}"
+        elif item['price_per_unit'] < 1:
+            item['price_currency'] = '¢'
+            item['price_per_unit_pretty'] = f"{(100 * item['price_per_unit']):.2f}"
+        else:
+            item['price_per_unit_pretty'] = f"{item['price_per_unit']:.2f}"
+
         if item['st_unit'] in categorized:
             categorized[item['st_unit']].append(item)
         else:
@@ -29,16 +38,13 @@ def search(query):
 
         return item
 
-    print('products', products)
     products = [transform(item) for item in products]
     return products, categorized
 
 
 def get(endpoint: str, payload=None):
-    print(f'Executing GET on {endpoint}')
     _, access_token, refresh_token = get_auth_cookies()
 
-    # @st.cache_data(show_spinner=False, persist='disk')
     def __get(endpoint: str, access_token, payload=None):
         headers = {
             'Authorization': f'Bearer {access_token}'
@@ -49,7 +55,6 @@ def get(endpoint: str, payload=None):
     response = __get(endpoint, access_token, payload)
 
     if response.status_code == 401:
-        print('GET failed, access_token not valid, getting new access_token')
         _, access_token, _  = get_new_access_token()
         response = __get(endpoint, access_token, payload)
 
@@ -60,7 +65,6 @@ def get(endpoint: str, payload=None):
 
 
 def post(endpoint: str, payload=None):
-    print(f'Executing POST on {endpoint}')
     _, access_token, refresh_token = get_auth_cookies()
 
     def __post(endpoint: str, access_token, payload=None):
@@ -74,7 +78,6 @@ def post(endpoint: str, payload=None):
     response = __post(endpoint, access_token, payload)
 
     if response.status_code == 401:
-        print('POST failed, access_token not valid, getting new access_token')
         _, access_token, _  = get_new_access_token()
         response = __post(endpoint, access_token, payload)
 
@@ -126,48 +129,58 @@ def show_log_out_dialog():
 
 
 def set_auth_cookies(user, access_token, refresh_token):
-    print('Setting cookies')
+    # print('Setting cookies')
     st.session_state['user'] = user
     st.session_state['access_token'] = access_token
     st.session_state['refresh_token'] = refresh_token
     cc.set('shophop-user', json.dumps(user))
     cc.set('shophop-access-token', access_token)
     cc.set('shophop-refresh-token', refresh_token)
-    print(cc.getAll())
     return user, access_token, refresh_token
 
 
 def get_auth_cookies(auto_logout=True, validate_token=False, retries=1):
-    print('calling real function')
     user = st.session_state['user'] if 'user' in st.session_state else None
     access_token = st.session_state['access_token'] if 'access_token' in st.session_state else None
     refresh_token = st.session_state['refresh_token'] if 'refresh_token' in st.session_state else None
 
     if ((not user) or (not access_token) or (not refresh_token)):
         user = cc.get('shophop-user')
-        user = json.loads(user) if user else None
+
+        if type(user) == str:
+            user = json.loads(user)
+        elif type(user) == dict:
+            user = user
+        else:
+            user = None
+
         access_token = cc.get('shophop-access-token')
         refresh_token = cc.get('shophop-refresh-token')
 
     if retries < 3 and ((not user) or (not access_token) or (not refresh_token)):
-        print(f'Did not find cookies on retry #{retries}')
+        # print(f'Did not find cookies on retry #{retries}')
         return get_auth_cookies(auto_logout=auto_logout, validate_token=validate_token, retries=retries + 1)
 
-    if auto_logout and ((not user) or (not access_token) or (not refresh_token)):
-        print(f'Did not find cookies on retry #{retries}')
-        print('Auth Cookie not set:', user, access_token, refresh_token)
+    if auto_logout and ((not access_token) or (not refresh_token)):
+        # print(f'Did not find cookies on retry #{retries}')
+        # print('Auth Cookie not set:', user, access_token, refresh_token)
         print('Auto logging out')
         remove_auth_cookies()
         st.toast('Session inactive, please log in again...')
         st.switch_page('main.py')
 
-    print(f'Retry #{retries}. validate_token={validate_token}, refresh_token={refresh_token}')
+    # print(f'Retry #{retries}. validate_token={validate_token}, refresh_token={refresh_token}')
 
     if refresh_token and validate_token:
         print('Validating token')
         user, access_token, refresh_token = get_new_access_token(auto_logout=auto_logout)
 
+    # print()
+    # print('user:', user)
+    # print('access_token:', access_token)
+    # print('refresh_token:', refresh_token)
     return user, access_token, refresh_token
+    # return set_auth_cookies(user, access_to2ken, refresh_token)
 
 
 def remove_auth_cookies():

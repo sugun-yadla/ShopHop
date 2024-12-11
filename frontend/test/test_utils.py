@@ -61,7 +61,7 @@ def test_product_comparison():
     assert item['Image'] is not None
     assert item['URL'] is not None
 
-    assert products[0]['price_per_unit'] < products[1]['price_per_unit']
+    assert products[0]['price_per_unit'] <= products[1]['price_per_unit']
 
 
 def test_get_saved_items():

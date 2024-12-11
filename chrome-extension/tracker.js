@@ -73,11 +73,6 @@ async function fetchSearchResults(searchQuery) {
 
 
 async function showResults(results, currentWebsite) {
-    results = results.map(item => {
-        item.price_per_unit = parseFloat(item.price_per_unit).toFixed(2);
-        return item;
-    });
-
     console.log('Results:', results);
 
     // This condition means it's cheaper elsewhere
@@ -92,8 +87,7 @@ async function showResults(results, currentWebsite) {
 document.addEventListener("DOMContentLoaded", async () => {
     await fetchWebsiteData();
 
-
-    // Create an bserver to watch for URL changes to the document
+    // Create an observer to watch for URL changes to the document
     // This lets us rerun the price comparison function when the user searches for something else
     const observer = new MutationObserver(async () => {
         currentUrl = window.location.href;

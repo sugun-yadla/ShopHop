@@ -1,0 +1,277 @@
+curl -X GET \
+  -H "Content-type: application/json" \
+  -H "Accept: application/json" \
+  -d '{"code":"4/0AeanS0YHnBxTQ6ukEBVXmjFIsbSTEM2crlvbW4DZIRnjCdd4Kicu-u_sQRTxi_28wsUs8w"}' \
+  "http://127.0.0.1:8000/api/tokens"
+
+
+<html>
+  <body>
+    <script src="https://accounts.google.com/gsi/client" async></script>
+    <div id="g_id_onload"
+        data-client_id="85514107434-joubk73end7djrfopa3b45da3k5mdi2m.apps.googleusercontent.com"
+        data-login_uri="http://localhost:8501/google/"
+        data-auto_prompt="false">
+    </div>
+    <div class="g_id_signin"
+        data-type="standard"
+        data-size="large"
+        data-theme="outline"
+        data-text="sign_in_with"
+        data-shape="rectangular"
+        data-logo_alignment="left">
+    </div>
+  <body>
+</html>
+
+logout.py
+# html('<script>parent.window.location.reload()</script>')
+
+main.py
+# user = auth.login()
+
+# pages = {
+#     f'Welcome, {user["name"].split(" ")[0]}!': [
+#         st.Page('search.py', title='Search', icon=":material/search:"),
+#         st.Page('price_drop_tracker.py', title='Price Drop Tracker', icon=":material/notifications:"),
+#     ],
+#     'Manage your account': [
+#         st.Page('reset_password.py', title='Reset password', icon=':material/lock_reset:'),
+#         st.Page('logout.py', title='Logout', icon=':material/logout:'),
+#         st.Page('page_folder/test.py', title='')
+#     ],
+# }
+
+# pg = st.navigation(pages)
+# pg.run()
+
+utils.py
+# def login(email, password):
+#     # TODO
+#     time.sleep(1)
+#     if email == 'adwaitbhope@gmail.com' and password == 'abc':
+#         return { 'first_name': 'Adwait', 'last_name': 'Bhope', 'email': email, 'password': password }   # Return user object
+
+#     return False
+
+
+# def reset_password(user, old_password, new_password):
+#     # TODO
+#     time.sleep(1.5)
+#     if old_password != user['password']:
+#         return False, 'current password is incorrect'
+
+#     return True, ''
+
+# def search(user, query):
+#     time.sleep(0.5)
+#     return [{
+#             'store': 'Walmart',
+#             'name': 'Potatoes',
+#             'price': 4.99
+#         }, {
+#             'store': 'ALDI',
+#             'name': 'Potatoes',
+#             'price': 3.99
+#         }
+#     ]
+
+
+curl -O https://i5.walmartimages.com/seo/Great-Value-1-Low-Fat-Milk-Gallon_d23cef92-e4a0-44ba-be01-86cfd8ee27c4.33582e8da28b5ab262896579b3a99de4.jpeg \
+  -d "query=odnHeight=580" \
+  -d "query=odnWidth=580" \
+  -d "query=odnHeight=540" \
+  -d "query=odnWidth=540" > file.jpeg
+
+
+search.py
+
+            # col.html(f'''
+            #     <a href="{product["URL"]}">
+            #         <img src="{product["Image"]}" />
+            #         <br>
+            #         {product["Product"]}
+            #         <br>
+            #         $ {product["Price"]:.2f}
+            #     </a>'''
+            # )
+
+utils.py
+    if endpoint.startswith('/api/products'):
+        time.sleep(1)
+        return json.loads('[{"Product": "Whole Milk, 0.5 gal", "Price": 1.69, "Quantity": "0.5 gal", "Category": "milk", "Store": "Aldi", "Image": "https://dm.cms.aldi.cx/is/image/prod1amer/product/jpg/scaleWidth/540/d3bddddd-772b-4764-9e40-0a8fc4f4c03e/Whole%20Milk%200.5%20gal", "URL": "https://new.aldi.us/product/friendly-farms-whole-milk-0000000000001815", "Standardized_Quantity": "64.00 oz"}, {"Product": "1% Milk, 0.5 gal", "Price": 1.79, "Quantity": "0.5 gal", "Category": "milk", "Store": "Aldi", "Image": "https://dm.cms.aldi.cx/is/image/prod1amer/product/jpg/scaleWidth/540/9ff91da1-b141-4b8a-ab18-56f082ebe7f0/1%25%20Milk%200.5%20gal", "URL": "https://new.aldi.us/product/friendly-farms-1-milk-0000000000001399", "Standardized_Quantity": "64.00 oz"}, {"Product": "2% Milk, 0.5 gal", "Price": 1.79, "Quantity": "0.5 gal", "Category": "milk", "Store": "Aldi", "Image": "https://dm.cms.aldi.cx/is/image/prod1amer/product/jpg/scaleWidth/540/a11b249b-241a-4837-a7e5-f7b337966fad/2%25%20Milk%200.5%20gal", "URL": "https://new.aldi.us/product/friendly-farms-2-milk-0000000000001476", "Standardized_Quantity": "64.00 oz"}, {"Product": "Skim Milk, 0.5 gal", "Price": 1.79, "Quantity": "0.5 gal", "Category": "milk", "Store": "Aldi", "Image": "https://dm.cms.aldi.cx/is/image/prod1amer/product/jpg/scaleWidth/540/0f63ad58-f0ad-4053-991d-5cfc1d5789b4/Skim%20Milk%200.5%20gal", "URL": "https://new.aldi.us/product/friendly-farms-skim-milk-0000000000001756", "Standardized_Quantity": "64.00 oz"}, {"Product": "Whole  Milk, 1 gal", "Price": 2.99, "Quantity": "1 gal", "Category": "milk", "Store": "Aldi", "Image": "https://dm.cms.aldi.cx/is/image/prod1amer/product/jpg/scaleWidth/540/f00a0f8d-6ef1-4153-af9b-c727a25e703d/Whole%20%20Milk%201%20gal", "URL": "https://new.aldi.us/product/friendly-farms-whole-milk-0000000000001715", "Standardized_Quantity": "128.00 oz"}, {"Product": "1% Milk, 1 gal", "Price": 2.99, "Quantity": "1 gal", "Category": "milk", "Store": "Aldi", "Image": "https://dm.cms.aldi.cx/is/image/prod1amer/product/jpg/scaleWidth/540/75fe6ce6-ad3f-42de-8522-3e5fc6760f7b/1%25%20Milk%201%20gal", "URL": "https://new.aldi.us/product/friendly-farms-1-milk-0000000000001754", "Standardized_Quantity": "128.00 oz"}, {"Product": "2%   Milk, 1 gal", "Price": 2.99, "Quantity": "1 gal", "Category": "milk", "Store": "Aldi", "Image": "https://dm.cms.aldi.cx/is/image/prod1amer/product/jpg/scaleWidth/540/072d68cc-3240-44b8-9ed9-8241451d6a45/2%25%20%20%20Milk%201%20gal", "URL": "https://new.aldi.us/product/friendly-farms-2-milk-0000000000001479", "Standardized_Quantity": "128.00 oz"}, {"Product": "Organic Whole Milk, 0.5 gal", "Price": 4.19, "Quantity": "64 fl oz", "Category": "milk", "Store": "Aldi", "Image": "https://dm.cms.aldi.cx/is/image/prod1amer/product/jpg/scaleWidth/540/5eaf05cf-6bc7-463e-b18c-e979bcfbc23e/Organic%20Whole%20Milk%200.5%20gal", "URL": "https://new.aldi.us/product/simply-nature-organic-whole-milk-0000000000000481", "Standardized_Quantity": "64.00 oz"}, {"Product": "Organic 2% Milk, 0.5 gal", "Price": 4.19, "Quantity": "64 fl oz", "Category": "milk", "Store": "Aldi", "Image": "https://dm.cms.aldi.cx/is/image/prod1amer/product/jpg/scaleWidth/540/fbf2bca8-bdae-4967-aae2-334cf9e0229a/Organic%202%25%20Milk%200.5%20gal", "URL": "https://new.aldi.us/product/simply-nature-organic-2-milk-0-5-gal-0000000000002752", "Standardized_Quantity": "64.00 oz"}, {"Product": "Organic Whole Omega-3 Milk, 0.5 gal", "Price": 4.65, "Quantity": "64 fl oz", "Category": "milk", "Store": "Aldi", "Image": "https://dm.cms.aldi.cx/is/image/prod1amer/product/jpg/scaleWidth/540/ccfae6e8-cd20-4f86-b295-8397f3743105/Organic%20Whole%20Omega3%20Milk%200.5%20gal", "URL": "https://new.aldi.us/product/simply-nature-organic-whole-omega-3-milk-0-5-gal-0000000000000677", "Standardized_Quantity": "64.00 oz"}, {"Product": "Great Value Milk Whole Vitamin D", "Price": 2.0, "Quantity": "64oz", "Category": "milk", "Store": "Walmart", "Image": "https://i5.walmartimages.com/seo/Great-Value-Milk-Whole-Vitamin-D-Half-Gallon-Plastic-Jug_52ec45c4-586d-42c0-a42c-93218631e277.ec8d19bdf634f97445cbf455eac874a8.jpeg?odnHeight=540&odnWidth=540", "URL": "https://walmart.com//ip/Great-Value-Milk-Whole-Vitamin-D-Half-Gallon-Plastic-Jug/10450118?classType=REGULAR&athbdg=L1600&from=/search", "Standardized_Quantity": "64.00 oz"}, {"Product": "Great Value Milk", "Price": 2.0, "Quantity": "64 fl oz Jug", "Category": "milk", "Store": "Walmart", "Image": "https://i5.walmartimages.com/seo/Great-Value-Milk-2-Reduced-Fat-Half-Gallon-Plastic-Jug_e25e894c-0e5d-4ad8-a821-6026b2675f5d.0cf3f1e9c1342c09faf4004eaf7e5499.jpeg?odnHeight=540&odnWidth=540", "URL": "https://walmart.com//ip/Great-Value-Milk-2-Reduced-Fat-Half-Gallon-Plastic-Jug/10450119?classType=REGULAR&athbdg=L1600&from=/search", "Standardized_Quantity": "64.00 oz"}, {"Product": "Great Value Whole Vitamin D Milk", "Price": 3.32, "Quantity": "128 Fl Oz", "Category": "milk", "Store": "Walmart", "Image": "https://i5.walmartimages.com/seo/Great-Value-Milk-Whole-Vitamin-D-Gallon-Plastic-Jug_6a7b09b4-f51d-4bea-a01c-85767f1b481a.86876244397d83ce6cdedb030abe6e4a.jpeg?odnHeight=540&odnWidth=540", "URL": "https://walmart.com//ip/Great-Value-Milk-Whole-Vitamin-D-Gallon-Plastic-Jug/10450114?classType=REGULAR&athbdg=L1200&from=/search", "Standardized_Quantity": "128.00 oz"}, {"Product": "Great Value Fat-Free Milk Gallon", "Price": 3.32, "Quantity": "128 Fl Oz", "Category": "milk", "Store": "Walmart", "Image": "https://i5.walmartimages.com/seo/Great-Value-Milk-Fat-Free-Gallon-Plastic-Jug_3ffa771a-dd9d-4da4-83a5-d339e7d33765.59307b68956fc822656b0e850cbe7dd0.jpeg?odnHeight=540&odnWidth=540", "URL": "https://walmart.com//ip/Great-Value-Milk-Fat-Free-Gallon-Plastic-Jug/10450117?classType=REGULAR&athbdg=L1600&from=/search", "Standardized_Quantity": "128.00 oz"}, {"Product": "Great Value 1% Low-Fat Milk", "Price": 3.54, "Quantity": "1 Gallon Jug", "Category": "milk", "Store": "Walmart", "Image": "https://i5.walmartimages.com/seo/Great-Value-1-Low-Fat-Milk-Gallon_d23cef92-e4a0-44ba-be01-86cfd8ee27c4.33582e8da28b5ab262896579b3a99de4.jpeg?odnHeight=540&odnWidth=540", "URL": "https://walmart.com//ip/Great-Value-1-Low-Fat-Milk-Gallon/10450116?classType=REGULAR&athbdg=L1600&from=/search", "Standardized_Quantity": "128.00 oz"}, {"Product": "Great Value 1% Low-fat Chocolate Milk Gallon", "Price": 3.54, "Quantity": "128 Fl Oz", "Category": "milk", "Store": "Walmart", "Image": "https://i5.walmartimages.com/seo/Great-Value-Milk-1-Lowfat-Chocolate-Gallon-Plastic-Jug_addfd6e0-ef78-44cc-a103-7fc0552934d6.6e1af96b00d0eff2172e9543b25149b4.jpeg?odnHeight=540&odnWidth=540", "URL": "https://walmart.com//ip/Great-Value-Milk-1-Lowfat-Chocolate-Gallon-Plastic-Jug/17248403?classType=REGULAR&athbdg=L1600&from=/search", "Standardized_Quantity": "128.00 oz"}, {"Product": "fairlife Lactose Free Fat Free Ultra Filtered Milk", "Price": 4.48, "Quantity": "52 fl oz", "Category": "milk", "Store": "Walmart", "Image": "https://i5.walmartimages.com/seo/Fairlife-Fat-Free-Ultra-Filtered-Milk-52-fl-oz_a898259b-52e7-4b83-8187-1990a8c475e3.bb5c7db8dcfa05a92f3eec1b0c0ca067.jpeg?odnHeight=540&odnWidth=540", "URL": "https://walmart.com//ip/Fairlife-Fat-Free-Ultra-Filtered-Milk-52-fl-oz/43984342?classType=REGULAR&from=/search", "Standardized_Quantity": "52.00 oz"}, {"Product": "fairlife Lactose Free 2% Reduced Fat Ultra Filtered Milk", "Price": 4.48, "Quantity": "52 fl oz", "Category": "milk", "Store": "Walmart", "Image": "https://i5.walmartimages.com/seo/fairlife-Lactose-Free-2-Reduced-Fat-Ultra-Filtered-Milk-52-fl-oz_1214c226-0beb-46f8-9615-2b7918a292a6.91d266feb00837403a58b335589db7a1.jpeg?odnHeight=540&odnWidth=540", "URL": "https://walmart.com/ip/fairlife-Lactose-Free-2-Reduced-Fat-Ultra-Filtered-Milk-52-fl-oz/43984343?classType=REGULAR&from=/search", "Standardized_Quantity": "52.00 oz"}]')
+
+
+
+curl 'https://www.traderjoes.com/api/graphql' \
+  -H 'accept: */*' \
+  -H 'accept-language: en-US,en;q=0.9,th;q=0.8' \
+  -H 'content-type: application/json' \
+  -H 'dnt: 1' \
+  -H 'origin: https://www.traderjoes.com' \
+  -H 'priority: u=1, i' \
+  -H 'referer: https://www.traderjoes.com/home/search?q=cream+cheese&global=yes' \
+  -H 'sec-ch-ua: "Google Chrome";v="131", "Chromium";v="131", "Not_A Brand";v="24"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "Linux"' \
+  -H 'sec-fetch-dest: empty' \
+  -H 'sec-fetch-mode: cors' \
+  -H 'sec-fetch-site: same-origin' \
+  -H 'user-agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36' \
+  --data-raw '{"operationName":"SearchProducts","variables":{"storeCode":"512","availability":"1","published":"1","search":"cream cheese","currentPage":1,"pageSize":15},"query":"query SearchProducts($search: String, $pageSize: Int, $currentPage: Int, $storeCode: String = \"512\", $availability: String = \"1\", $published: String = \"1\") {\n  products(\n    search: $search\n    filter: {store_code: {eq: $storeCode}, published: {eq: $published}, availability: {match: $availability}}\n    pageSize: $pageSize\n    currentPage: $currentPage\n  ) {\n    items {\n      category_hierarchy {\n        id\n        url_key\n        description\n        name\n        position\n        level\n        created_at\n        updated_at\n        product_count\n        __typename\n      }\n      item_story_marketing\n      product_label\n      fun_tags\n      primary_image\n      primary_image_meta {\n        url\n        metadata\n        __typename\n      }\n      other_images\n      other_images_meta {\n        url\n        metadata\n        __typename\n      }\n      context_image\n      context_image_meta {\n        url\n        metadata\n        __typename\n      }\n      published\n      sku\n      url_key\n      name\n      item_description\n      item_title\n      item_characteristics\n      item_story_qil\n      use_and_demo\n      sales_size\n      sales_uom_code\n      sales_uom_description\n      country_of_origin\n      availability\n      new_product\n      promotion\n      price_range {\n        minimum_price {\n          final_price {\n            currency\n            value\n            __typename\n          }\n          __typename\n        }\n        __typename\n      }\n      retail_price\n      nutrition {\n        display_sequence\n        panel_id\n        panel_title\n        serving_size\n        calories_per_serving\n        servings_per_container\n        details {\n          display_seq\n          nutritional_item\n          amount\n          percent_dv\n          __typename\n        }\n        __typename\n      }\n      ingredients {\n        display_sequence\n        ingredient\n        __typename\n      }\n      allergens {\n        display_sequence\n        ingredient\n        __typename\n      }\n      created_at\n      first_published_date\n      last_published_date\n      updated_at\n      related_products {\n        sku\n        item_title\n        primary_image\n        primary_image_meta {\n          url\n          metadata\n          __typename\n        }\n        price_range {\n          minimum_price {\n            final_price {\n              currency\n              value\n              __typename\n            }\n            __typename\n          }\n          __typename\n        }\n        retail_price\n        sales_size\n        sales_uom_description\n        category_hierarchy {\n          id\n          name\n          __typename\n        }\n        __typename\n      }\n      __typename\n    }\n    total_count\n    page_info {\n      current_page\n      page_size\n      total_pages\n      __typename\n    }\n    __typename\n  }\n}\n"}'
+
+query SearchProducts($search: String, $pageSize: Int, $currentPage: Int, $availability: String = \"1\", $published: String = \"1\")
+                     
+{
+  products (
+    search: $search    
+    filter: {
+      published: {eq: $published},
+      availability: {match: $availability}
+    }
+    pageSize: $pageSize
+    currentPage: $currentPage
+  )
+{
+items {
+  category_hierarchy {
+    id
+    url_key
+    description
+    name
+    position
+    level
+    created_at
+    updated_at
+    product_count
+    __typename
+  }
+  item_story_marketing
+  product_label
+  fun_tags
+  primary_image
+  primary_image_meta {
+    url
+    metadata
+    __typename
+  }
+  other_images
+  other_images_meta {
+    url
+    metadata
+    __typename
+    }
+  context_image
+  context_image_meta {
+    url
+    metadata
+    __typename
+  }
+  published
+  sku
+  url_key
+  name
+  item_description
+  item_title
+  item_characteristics
+  item_story_qil
+  use_and_demo
+  sales_size
+  sales_uom_code
+  sales_uom_description
+  country_of_origin
+  availability
+  new_product
+  promotion
+  price_range {
+    minimum_price {
+      final_price {
+        currency
+        value
+        __typename
+      }
+      __typename
+    }
+    __typename
+  }
+  retail_price
+  nutrition {
+    display_sequence
+    panel_id
+    panel_title
+    serving_size
+    calories_per_serving
+    servings_per_container
+    details {
+      display_seq
+      nutritional_item
+      amount
+      percent_dv
+      __typename
+    }
+    __typename
+  }
+  ingredients {
+    display_sequence
+    ingredient
+    __typename
+  }
+  allergens {
+    display_sequence
+    ingredient
+    __typename
+  }
+  first_published_date
+  last_published_date
+  updated_at
+  related_products {
+    sku
+    item_title
+    primary_image
+    primary_image_meta {
+      url
+      metadata
+      __typename
+    }
+    price_range {
+      minimum_price {
+        final_price {
+          currency
+          value
+          __typename
+        }
+        __typename
+      }
+      __typename
+    }
+    retail_price
+    sales_size
+    sales_uom_description
+    category_hierarchy {
+      id
+      name
+      __typename
+      }
+      __typename
+    }
+    __typename
+  }
+  total_count
+  page_info {
+    current_page
+    page_size
+    total_pages
+    __typename
+  }
+__typename  }
+}
+
+popup.js
+            altText = `
+                            <a href="${item.URL}">
+                    <h3>${item.Product} (${item.Quantity})</h3>
+                    <p>Price: $ ${item.Price}</p>
+                    <p>Effective: ${item.price_currency} ${item.price_per_unit} per ${item.st_unit}</p>
+                    <img src="${item.Image}" alt="${item.Product}" width="200" />
+                    <img src="${STORE_LOGO_URLS[item['store']]}" height="12"/>
+                </a>`;

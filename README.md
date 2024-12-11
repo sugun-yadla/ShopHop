@@ -85,6 +85,7 @@ python3 manage.py runserver
 ## Chrome Extension
 
 As the Chrome Extension is not published to the Chrome Marketplace, it needs to be added to Chrome be enabling Developer Options.
+It is developed using HTML, CSS and JavaScript and uses JS libraries to communicate with the backend using REST APIs.
 
 1. Go to `chrome://extensions`
 

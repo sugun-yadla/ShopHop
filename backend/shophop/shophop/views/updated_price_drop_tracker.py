@@ -24,11 +24,8 @@ grocery_items = [
     "Butter", "Chocolate Chips", "Salt", "Baking Soda", "Baking Powder"
 ]
 
-# grocery_items = ["Apple"]
+grocery_items = ["Apple"]
 
-# grocery_items = [
-#     "Onion", "Garlic", "Eggs", "Tomato", "Broccoli","Potato", "Apple", "Banana", "Orange"
-# ]
 
 def get_cheapest_from_web_scrape_data(items):
 
