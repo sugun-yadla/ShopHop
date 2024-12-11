@@ -11,7 +11,7 @@ command: `python manage.py test shophop.tests.test_price_comparison`
     &nbsp;Returns a 200 OK status.  
     &nbsp;Response is in the form of a list.  
     &nbsp;Verifies that products from Aldi, Walmart and Target are present.
-    ![Product Screenshot](images/apitesting.png)
+    ![Product Screenshot](images/api-testing.png)
 
 
 2. Handling Non-Existing Product Query:
@@ -21,7 +21,7 @@ command: `python manage.py test shophop.tests.test_price_comparison`
     Checks:  
     &nbsp;Returns a 200 OK status and 'No product found' response body.  
     &nbsp;Ensures the API can handle queries with no results without errors.
-    ![Product Screenshot](images/nodata.png)
+    ![Product Screenshot](images/no-data.png)
 
 3. Multiple Products Query:
 
@@ -84,10 +84,10 @@ When there are no updates (i.e., no price drops or cheaper products found), the 
 ![Product Screenshot](images/empty.png)  
 
 The price comparison for the price drop tracker runs automatically every 3 minutes via a cron job, and logs are generated in the cron_test.log file. It checks for price drops, updates the mailing list, and sends notifications only when a price change is detected. If no price drops are found, no emails are sent.  
-![Product Screenshot](images/logfile.png)  
+![Product Screenshot](images/log-file.png)  
 
 When there is a price drop for items in the price tracking list, the respective users will receive a notification email.  
-![Product Screenshot](images/mail.jpeg)  
+![Product Screenshot](images/email-for-price-tracker.jpeg)  
 
 ## Key test for Recipe Recommendation:  
 [frontend/pages/test/test_recipe_recommender.py](frontend/pages/test/test_recipe_recommender.py)
@@ -245,4 +245,13 @@ All tests -
 ![Product Screenshot](images/pricedroptest.png)  
   
 ## Key test for User Authentication and Authorization:  
-[frontend/test/test_utils.py](frontend/test/test_utils.py)  
+[frontend/test/test_utils.py](frontend/test/test_utils.py)
+
+1. `test_get_new_access_token()`
+2. `test_auto_logout()`
+3. `test_product_comparison()`
+4. `test_get_saved_items()`
+5. `test_add_to_saved_item()`
+6. `test_delete_from_saved_item()`
+
+![frontend-tests](images/frontend-tests.png)
