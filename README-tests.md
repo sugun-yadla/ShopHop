@@ -144,7 +144,81 @@ Provides input with single-character entries and a valid ingredient using valida
 
 Assertions:
 Checks that only valid ingredients remain
-Verifies only 'chicken' is retained
+Ensures that ingredients with just one character are filtered out
+
+### 8. test_numeric_ingredients()
+Filters out numeric-only inputs
+Provides input with numeric strings and a valid ingredient. Prevents irrelevant numeric inputs from being processed
+
+Assertions:
+Ensures numeric-only "ingredients" are filtered out
+
+### 9. test_symbol_ingredients()
+Removes entries that are purely symbols
+Provides input with symbol-only entries and a valid ingredient. Filters out ingredients that are only symbols
+
+Assertions:
+Verifies only 'ingredients' are retained
+
+### 10. test_repeated_ingredients()
+Handles repeated entries of ingredients
+Provides input with repeated ingredients. Ensures duplicate ingredients are removed
+
+Assertions:
+Checks that duplicates have been removed
+Checks correct number and set of unique ingredients
+
+### 11. test_extreme_length()
+Tests very long ingredient inputs
+Creates a really long random ingredient and appends a valid ingredient to the randomly generated ingredient. This prevents any buffer overflow or performance issues from happening.
+
+Assertions:
+Checks that only valid ingredients are retained
+
+### 12. test_malicious_prompt_injection()
+Prevents possible prompt injection attacks
+Provides inputs containing suspicious phrases and tries to inject malicious commands. This adds a security layer against potential AI manipulations via prompts
+
+Assertions:
+Ensures no suspicious inputs pass through
+Removes potentially dangerous input elements
+
+### 13. test_whitespace_variations()
+Handles different whitespace cases
+Ingredients are provided with irregular spacing. It ensures that the input is parsing properly.
+
+Assertions:
+Checks the right extraction of ingredients
+Checks that spacing is handled accordingly
+
+### 14. test_case_sensitivity()
+Test case handling of ingredients
+Provide ingredients in mixed case. It verifies that the input is case-insensitive for comparison but preserves original casing. This ensures input consistency during processing.
+
+Assertions:
+Original casing is maintained
+
+### 15. test_unicode_characters()
+Test non-ASCII character support
+Provide ingredients with unicode and special characters. This enables diverse input support
+
+Assertions:
+All valid ingredients are retained
+
+### 16. test_max_ingredient_limit()
+Test handling for too many ingredients provided
+Generates a huge number of ingredients. It prevents resource exhaustion and maintains performance
+
+Assertions:
+Ensures a decent maximum limit is enforced
+
+### 17. test_empty_or_whitespace()
+Completely empty or whitespace-only inputs
+Provides various empty or whitespace inputs. Allowing it to properly handle any null or empty inputs
+
+Assertions:
+Verifies that no null or empty inputs ingredients are extracted/parsed
+
 
 
 ## Key test for Price Tracking DB:  
