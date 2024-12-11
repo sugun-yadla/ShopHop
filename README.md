@@ -1,14 +1,23 @@
 # ShopHop
 ShopHop is a convenient web application designed to help users find the best deals on groceries. It combines price comparison, notifications, intelligent recipe recommendations and chrome extension to simplify your grocery shopping experience.  
-1. Google Login:  
+
+Video Submission: [https://drive.google.com/file/d/1lzRxBgzZMD0YbC2msIhyY7S3Kgf5tcTM/view?usp=sharing](https://drive.google.com/file/d/1lzRxBgzZMD0YbC2msIhyY7S3Kgf5tcTM/view?usp=sharing)
+
+### Features
+
+1. **Google OAuth 2.0 Login**:  
 A seamless and secure sign-in experience using Google OAuth, ensuring quick access to your personalized shopping experience.  
-2. Grocery Price Comparison:  
+
+2. **Grocery Price Comparison**:  
 Users can search for grocery items, and ShopHop will compare the per-unit prices across three major stores—Aldi, Walmart, and Target. The results are displayed in ascending order, with the lowest price highlighted for easy decision-making.  
-3. Price Tracking and Alerts:  
+
+3. **Price Tracking and Alerts**:
 Add grocery items to your price tracking list, and our daily cron job will monitor price changes for these products. If a price drop is detected, users are promptly notified via email, ensuring they never miss a deal.  
-4. Recipe Recommendations:  
+
+4. **Recipe Recommendations**:
 Mention the ingredients you have, and ShopHop will generate recipe ideas using advanced Large Language Models (LLM). This feature offers creative and personalized cooking suggestions based on the ingredients you specify.  
-5. Chrome Extension:  
+
+5. **Chrome Extension**:  
 Enhance your shopping experience with our Chrome extension! While browsing websites like Target, Walmart, or Aldi, the extension will notify you if the same product is available at a lower price on any of these stores, helping you save effortlessly.
   
 # Installation and Configuration  
@@ -163,13 +172,15 @@ When a price drop is found in ⁠ productData ⁠, it's compared with ⁠ 
   The user's ingredient list is then converted into a structured prompt that is separated by commas, which then guides the AI to generate specific, structured recipe 
   recommendations. The prompt includes clear instructions about the desired output format.
   
-  ### 3. API Communication
-    url = "http://localhost:11434/api/generate"
-    payload = {
-    "model": "mistral",
-    "prompt": prompt,
-    "stream": False
-    }
+### 3. API Communication
+```python
+url = "http://localhost:11434/api/generate"
+payload = {
+  "model": "mistral",
+  "prompt": prompt,
+  "stream": False
+}
+```
 Uses Ollama's local API endpoint and specifies the Mistral model.
 'stream: False' means the entire response is generated at once
  ### 4. Mistral Model Specs
