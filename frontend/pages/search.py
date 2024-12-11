@@ -3,7 +3,7 @@ import utils
 import st_utils
 import streamlit as st
 
-print('Opening search.py')
+# print('Opening search.py')
 
 utils.get_auth_cookies()
 st_utils.show_sidebar()
@@ -11,7 +11,7 @@ st_utils.show_sidebar()
 st.title('Find the best deals! 🔍')
 
 def show_results(products, categorized):
-    st.text('')
+    # st.text('')
 
     filter = st.selectbox(
         "Filter your results",
@@ -67,7 +67,7 @@ def show_results(products, categorized):
 
             c2.image(utils.STORE_LOGO_URLS[product['store']])
             # col.write('Effective price: ' + product['price_per_unit_pretty'])
-            col.write(f"Effective price: {product['price_currency']} {product['price_per_unit']:.2f} per {product['st_unit']}")
+            col.write(f"Effective price: {product['price_currency']} {product['price_per_unit_pretty']} per {product['st_unit']}")
 
         if row == math.floor(len(products) / ITEMS_PER_ROW - 1):
             break

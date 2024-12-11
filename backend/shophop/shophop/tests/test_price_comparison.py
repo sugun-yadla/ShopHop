@@ -65,14 +65,14 @@ class ProductFetchTests(unittest.TestCase):
     
 class StandardizeQuantityTests(unittest.TestCase):
     def setUp(self):
-        self.mock_test_data = pd.DataFrame([{'Product': 'Mavuno Harvest Organic Dried Fruit', 'Price': 3.64, 'Quantity': '2 Ozbag', 'Category': 'banana', 'store': 'Walmart', 'expected': '2.00 oz'}, 
-                                 {'Product': 'Nature All Foods Organic Freeze Dried Raw Banana 2.5 oz - Vegan', 'Price': 7.88, 'Quantity': 'Nature All Foods Organic Freeze Dried Raw Banana 2.5 oz - Vegan', 'Category': 'banana', 'store': 'Walmart', 'expected': '2.50 oz'}, 
-                                 {'Product': 'Silk Dairy Free', 'Price': 3.34, 'Quantity': '4 Pack', 'Category': 'milk', 'store': 'Walmart', 'expected':'4.00 ct'}, 
-                                 {'Product': 'sugar', 'Price': 4.97, 'Quantity': '1.5 lb', 'Category': 'sugar', 'store': 'Walmart', 'expected':'24.00 oz'}, 
-                                 {'Product': 'Salt', 'Price': 4.97, 'Quantity': '1 carton', 'Category': 'salt', 'store': 'Walmart', 'expected':'1.00 ct'},
-                                 {'Product': 'Milk', 'Price': 2.98, 'Quantity': '64 fl oz Half Gallon', 'Category': 'milk', 'store': 'Aldi', 'expected': '64.00 oz'}, 
-                                 {'Product': 'Great Value Whole Vitamin D Milk', 'Price': 3.52, 'Quantity': '2 gallons', 'Category': 'milk', 'store': 'Aldi', 'expected': '256.00 oz'},
-                                 {"Product": "Great Value Milk 1 Lowfat Half Gallon Plastic Jug","Price": 2.12, "Quantity": "Great Value Milk 1 Lowfat Half Gallon Plastic Jug","Category": "milk","store": "Walmart","Standardized_Quantity": None}])
+        self.mock_test_data = pd.DataFrame([{'Product': 'Mavuno Harvest Organic Dried Fruit', 'Price': 3.64, 'Quantity': '2 Ozbag', 'Category': 'banana', 'store': 'Walmart', 'expected': '2.00 oz', 'price_per_unit': 1}, 
+                                 {'Product': 'Nature All Foods Organic Freeze Dried Raw Banana 2.5 oz - Vegan', 'Price': 7.88, 'Quantity': 'Nature All Foods Organic Freeze Dried Raw Banana 2.5 oz - Vegan', 'Category': 'banana', 'store': 'Walmart', 'expected': '2.50 oz', 'price_per_unit': 2}, 
+                                 {'Product': 'Silk Dairy Free', 'Price': 3.34, 'Quantity': '4 Pack', 'Category': 'milk', 'store': 'Walmart', 'expected':'4.00 ct', 'price_per_unit': 3}, 
+                                 {'Product': 'sugar', 'Price': 4.97, 'Quantity': '1.5 lb', 'Category': 'sugar', 'store': 'Walmart', 'expected':'24.00 oz', 'price_per_unit': 4},
+                                 {'Product': 'Salt', 'Price': 4.97, 'Quantity': '1 carton', 'Category': 'salt', 'store': 'Walmart', 'expected':'1.00 ct', 'price_per_unit': 5},
+                                 {'Product': 'Milk', 'Price': 2.98, 'Quantity': '64 fl oz Half Gallon', 'Category': 'milk', 'store': 'Aldi', 'expected': '64.00 oz', 'price_per_unit': 6}, 
+                                 {'Product': 'Great Value Whole Vitamin D Milk', 'Price': 3.52, 'Quantity': '2 gallons', 'Category': 'milk', 'store': 'Aldi', 'expected': '256.00 oz', 'price_per_unit': 7},
+                                 {"Product": "Great Value Milk 1 Lowfat Half Gallon Plastic Jug","Price": 2.12, "Quantity": "Great Value Milk 1 Lowfat Half Gallon Plastic Jug","Category": "milk","store": "Walmart","Standardized_Quantity": None, 'price_per_unit': 8}])
         
     def test_valid_quantities(self):
         
@@ -90,7 +90,7 @@ class StandardizeQuantityTests(unittest.TestCase):
     
     def test_price_comparison(self):
         sorted_data = price_comparison.priceComparison(self.mock_test_data)
-        expected_result = self.mock_test_data.sort_values(by=['store', 'Price'], ascending=[True, True])
+        expected_result = self.mock_test_data.sort_values(by=['store', 'price_per_unit'], ascending=[True, True])
         pd_testing.assert_frame_equal(sorted_data, expected_result)
     
 if __name__ == "__main__":

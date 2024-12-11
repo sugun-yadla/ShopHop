@@ -2,8 +2,6 @@
 # install mistral using "ollama pull mistral"
 
 import requests
-import st_utils
-import streamlit as st
 import string
 
 
@@ -66,10 +64,12 @@ def get_recipe_recommendations(ingredients):
         return response.json()['response']
 
     except requests.RequestException as e:
-        st.error(f"Could not generate recipes. Please check your Ollama server. Error: {e}")
+        # st.error(f"Could not generate recipes. Please check your Ollama server. Error: {e}")
         return "Sorry, recipe generation is currently unavailable. Please try again later."
 
 def main():
+    import streamlit as st
+    import st_utils
     # Set page configuration
     st.set_page_config(page_title="Recipe Recommender", page_icon="🍳")
     st_utils.show_sidebar()

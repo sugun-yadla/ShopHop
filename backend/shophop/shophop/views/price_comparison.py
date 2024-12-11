@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from bs4 import BeautifulSoup
 import requests
@@ -47,8 +48,8 @@ def standardize_quantity(row):
 def get_price_per_unit(row):
     price_per_unit_numeric = float(row['Price']) / row['st_val']
 
-    if price_per_unit_numeric < 1:
-        return pd.Series(["¢", price_per_unit_numeric * 100])
+    # if price_per_unit_numeric < 1:
+    #     return pd.Series(["¢", price_per_unit_numeric * 100])
 
     return pd.Series(["$", price_per_unit_numeric])
 
@@ -314,17 +315,23 @@ def data_cleaning(groceryDatabase):
     cleaned_grocery_db['Standardized_Quantity'] = cleaned_grocery_db.apply(standardize_quantity, axis=1)
     cleaned_grocery_db = cleaned_grocery_db[cleaned_grocery_db['Standardized_Quantity'].notnull()]
 
-    cleaned_grocery_db[['st_val', 'st_unit']] = cleaned_grocery_db['Standardized_Quantity'].apply(split_sq)
-    cleaned_grocery_db[['price_currency', 'price_per_unit']] = cleaned_grocery_db.apply(get_price_per_unit, axis=1)
+    if not cleaned_grocery_db.empty:
+        cleaned_grocery_db[['st_val', 'st_unit']] = cleaned_grocery_db['Standardized_Quantity'].apply(split_sq)
+        cleaned_grocery_db[['price_currency', 'price_per_unit']] = cleaned_grocery_db.apply(get_price_per_unit, axis=1)
 
     if cleaned_grocery_db.empty:
         return JsonResponse({'message': 'No valid data after cleaning.'}, status=200)
 
     get_cheapest_products = priceComparison(cleaned_grocery_db)
 
-    return Response(get_cheapest_products.to_dict(orient='records'), headers={
+    response =  Response(get_cheapest_products.to_dict(orient='records'), headers={
         'Access-Control-Allow-Origin': '*'
     })
+    response.accepted_renderer = JSONRenderer()
+    response.accepted_media_type = "application/json"
+    response.renderer_context = {}
+    response.render()
+    return response
 
 
 def priceComparison(database):
