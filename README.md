@@ -5,11 +5,11 @@ A seamless and secure sign-in experience using Google OAuth, ensuring quick acce
 2. Grocery Price Comparison:  
 Users can search for grocery items, and ShopHop will compare the per-unit prices across three major stores—Aldi, Walmart, and Target. The results are displayed in ascending order, with the lowest price highlighted for easy decision-making.  
 3. Price Tracking and Alerts:  
-Add grocery items to your price tracking list, and our weekly (every Sunday) cron job will monitor price changes for these products. If a price drop is detected, users are promptly notified via email, ensuring they never miss a deal.  
+Add grocery items to your price tracking list, and our daily cron job will monitor price changes for these products. If a price drop is detected, users are promptly notified via email, ensuring they never miss a deal.  
 4. Recipe Recommendations:  
 Mention the ingredients you have, and ShopHop will generate recipe ideas using advanced Large Language Models (LLM). This feature offers creative and personalized cooking suggestions based on the ingredients you specify.  
 5. Chrome Extension:  
-Enhance your shopping experience with our Chrome extension, allowing you to access ShopHop’s features directly while browsing the web. Quickly check prices, track items, and get recipe recommendations without leaving your browser.  
+Enhance your shopping experience with our Chrome extension! While browsing websites like Target, Walmart, or Aldi, the extension will notify you if the same product is available at a lower price on any of these stores, helping you save effortlessly.
   
 # Installation and Configuration  
 ## Frontend
@@ -95,7 +95,7 @@ As the Chrome Extension is not published to the Chrome Marketplace, it needs to 
 
 # Database  
 The application uses two primary PostgreSQL tables to manage and store data:  
-`shophop_user` and `shophop_saveditem`.  
+`shophop_user`, `⁠ productData` and `shophop_saveditem`.  
 These tables are designed to track user information and the products they wish to monitor for price changes.  
 1. `shophop_user`  
 This table stores details about the users of the ShopHop platform. It serves as the foundational dataset for all user-related operations, including authentication, user activity, and user account management.  
@@ -127,7 +127,19 @@ This table stores information about products that users have selected for price 
     This table helps track the products each user is interested in for price monitoring and allows users to see the price history of their saved items.  
 
 * Purpose:  
-    This table plays a crucial role in the weekly price tracking process. When the weekly cron job runs, it checks the prices of all the items saved in the `shophop_saveditem` table. The cron job compares the current price of each product with the saved price. If there is a price drop for any item, the system notifies the respective user about the updated price. This ensures users are always alerted to any changes in the prices of the products they are monitoring.
+    This table plays a crucial role in the weekly price tracking process. When the weekly cron job runs, it checks the prices of all the items saved in the `shophop_saveditem` table. The cron job compares the current price of each product with the saved price. If there is a price drop for any item, the system notifies the respective user about the updated price. This ensures users are always alerted to any changes in the prices of the products they are monitoring.  
+
+3. `⁠shophop_productData`  
+Stores the latest prices for grocery categories.  
+* Usage:  
+    category ⁠: Name of the grocery category (e.g., "Eggs").  
+    price ⁠: Current lowest price for the category.  
+
+* Purpose:  
+    Maintains the cheapest prices from scraping, used to detect price drops.  
+
+*Workflow*:
+When a price drop is found in ⁠ productData ⁠, it's compared with ⁠ SavedItem ⁠ to notify users via Email.  
 
 # AI models
 
